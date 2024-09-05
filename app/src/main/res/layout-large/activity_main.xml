@@ -10,8 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="453dp"
-        android:layout_height="392dp"
+        android:layout_width="819dp"
+        android:layout_height="453dp"
         android:background="@null"
         android:backgroundTint="@null"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
@@ -21,35 +21,37 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="264dp"
-            android:layout_height="243dp"
+            android:layout_width="389dp"
+            android:layout_height="320dp"
             android:layout_marginStart="88dp"
             android:layout_marginTop="95dp"
             android:layout_marginEnd="101dp"
             android:layout_marginBottom="54dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.585"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             tools:srcCompat="@drawable/profile" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="446dp"
-        android:layout_height="603dp"
+        android:layout_width="807dp"
+        android:layout_height="844dp"
         android:background="@null"
         android:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <EditText
             android:id="@+id/username"
-            android:layout_width="271dp"
-            android:layout_height="50dp"
+            android:layout_width="486dp"
+            android:layout_height="82dp"
             android:layout_marginStart="74dp"
             android:layout_marginEnd="101dp"
             android:layout_marginBottom="26dp"
@@ -62,15 +64,15 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.787"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.313" />
+            app:layout_constraintVertical_bias="0.362" />
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="275dp"
-            android:layout_height="50dp"
+            android:layout_width="493dp"
+            android:layout_height="88dp"
             android:layout_marginStart="74dp"
             android:layout_marginTop="26dp"
             android:layout_marginEnd="99dp"
@@ -82,15 +84,15 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.765"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.409" />
+            app:layout_constraintVertical_bias="0.512" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="137dp"
-            android:layout_height="56dp"
+            android:layout_width="188dp"
+            android:layout_height="91dp"
             android:layout_marginStart="161dp"
             android:layout_marginTop="29dp"
             android:layout_marginEnd="195dp"
@@ -101,9 +103,9 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintHorizontal_bias="0.633"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.602" />
+            app:layout_constraintVertical_bias="0.738" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

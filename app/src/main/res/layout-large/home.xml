@@ -11,8 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="415dp"
-        android:layout_height="88dp"
+        android:layout_width="798dp"
+        android:layout_height="108dp"
         android:layout_marginBottom="32dp"
         android:background="@null"
         android:backgroundTint="@null"
@@ -24,88 +24,96 @@
 
         <ImageButton
             android:id="@+id/imageButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_width="98dp"
+            android:layout_height="73dp"
             android:layout_marginTop="19dp"
-            android:layout_marginEnd="332dp"
             android:layout_marginBottom="26dp"
             android:background="@null"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/home"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/imageButton4"
-            android:layout_width="60dp"
-            android:layout_height="51dp"
+            android:layout_width="83dp"
+            android:layout_height="76dp"
             android:background="@null"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.366"
+            app:layout_constraintHorizontal_bias="0.402"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.459"
             app:srcCompat="@drawable/register"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/imageButton5"
-            android:layout_width="59dp"
-            android:layout_height="54dp"
+            android:layout_width="82dp"
+            android:layout_height="77dp"
             android:background="@null"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.637"
+            app:layout_constraintHorizontal_bias="0.669"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.483"
             app:srcCompat="@drawable/userdata"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/imageButton6"
-            android:layout_width="54dp"
-            android:layout_height="45dp"
+            android:layout_width="79dp"
+            android:layout_height="77dp"
             android:background="@null"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.911"
+            app:layout_constraintHorizontal_bias="0.953"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.511"
+            app:layout_constraintVertical_bias="0.516"
             app:srcCompat="@drawable/profileicon"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="124dp"
-        android:layout_height="69dp"
+        android:layout_width="158dp"
+        android:layout_height="108dp"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/profile"
-        tools:layout_editor_absoluteX="658dp"
+        tools:layout_editor_absoluteX="624dp"
         tools:layout_editor_absoluteY="68dp" />
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="419dp"
-        android:layout_height="261dp"
+        android:layout_width="456dp"
+        android:layout_height="285dp"
+
         android:background="@null"
         android:padding="@null"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/image1button"
         tools:ignore="SpeakableTextPresentCheck"
-        tools:layout_editor_absoluteX="194dp"
-        tools:layout_editor_absoluteY="355dp" />
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="315dp" />
 
     <ImageButton
         android:id="@+id/imageButton2"
-        android:layout_width="437dp"
-        android:layout_height="247dp"
+        android:layout_width="455dp"
+        android:layout_height="311dp"
         android:background="@null"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/image2button"
         tools:ignore="SpeakableTextPresentCheck"
-        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteX="164dp"
         tools:layout_editor_absoluteY="689dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

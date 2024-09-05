@@ -3,7 +3,7 @@
     <!-- Background Image -->
     <item>
         <bitmap
-            android:src="@drawable/Rectangle"
+            android:src="@drawable/rectangle"
             />
     </item>
 

@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/register"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/Rectangle"
+    android:background="@drawable/rectangle"
     tools:context=".register">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="411dp"
-        android:layout_height="811dp"
-        android:background="@null"
-        android:backgroundTint="@null"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
+    <ImageView
             android:id="@+id/imageView2"
             android:layout_width="124dp"
             android:layout_height="69dp"
@@ -42,8 +31,8 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.222"
-            app:srcCompat="@drawable/uploadImage" />
+            app:layout_constraintVertical_bias="0.184"
+            app:srcCompat="@drawable/uploadimage" />
 
         <EditText
             android:id="@+id/editTextText"
@@ -56,8 +45,8 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="79dp"
-            tools:layout_editor_absoluteY="298dp" />
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="268dp" />
 
         <EditText
             android:id="@+id/editTextText2"
@@ -71,7 +60,10 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="64dp"
-            tools:layout_editor_absoluteY="477dp" />
+            tools:layout_editor_absoluteY="437dp" />
+
+
+
 
         <EditText
             android:id="@+id/editTextText3"
@@ -85,7 +77,7 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="64dp"
-            tools:layout_editor_absoluteY="419dp" />
+            tools:layout_editor_absoluteY="385dp" />
 
         <EditText
             android:id="@+id/editTextText4"
@@ -99,10 +91,10 @@
             android:textSize="15dp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="171dp"
-            tools:layout_editor_absoluteY="617dp" />
+            tools:layout_editor_absoluteX="176dp"
+            tools:layout_editor_absoluteY="583dp" />
 
-        <EditText
+    <EditText
             android:id="@+id/editTextText5"
             android:layout_width="173dp"
             android:layout_height="40dp"
@@ -114,8 +106,8 @@
             android:textSize="20dp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="115dp"
-            tools:layout_editor_absoluteY="680dp" />
+            tools:layout_editor_absoluteX="119dp"
+            tools:layout_editor_absoluteY="688dp" />
 
         <EditText
             android:id="@+id/editTextDate"
@@ -127,8 +119,8 @@
             android:text="   DATE"
             android:textColor="@color/white"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="123dp"
-            tools:layout_editor_absoluteY="354dp" />
+            tools:layout_editor_absoluteX="138dp"
+            tools:layout_editor_absoluteY="326dp" />
 
         <Button
             android:id="@+id/button2"
@@ -137,7 +129,6 @@
             android:text="REGISTER"
             tools:layout_editor_absoluteX="138dp"
             tools:layout_editor_absoluteY="748dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -149,7 +140,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
 
         <ImageButton
@@ -179,7 +171,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.459"
-            app:srcCompat="@drawable/Activity"
+            app:srcCompat="@drawable/activity"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
@@ -209,4 +201,32 @@
             app:srcCompat="@drawable/profileicon"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Spinner
+        android:id="@+id/pack"
+        android:layout_width="101dp"
+        android:layout_height="37dp"
+        android:background="@drawable/text_box"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="583dp"
+        tools:ignore="MissingConstraints" />
+
+    <Spinner
+        android:id="@+id/sex"
+        android:layout_width="101dp"
+        android:layout_height="37dp"
+        android:background="@drawable/text_box"
+        android:spinnerMode="dropdown"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="220dp"
+        tools:layout_editor_absoluteY="385dp" />
+
+    <Spinner
+        android:id="@+id/mop"
+        android:layout_width="169dp"
+        android:layout_height="37dp"
+        android:background="@drawable/text_box"
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="637dp"
+        tools:ignore="MissingConstraints"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

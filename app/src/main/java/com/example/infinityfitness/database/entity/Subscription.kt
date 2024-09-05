@@ -1,4 +1,4 @@
-package com.example.infinityfitness.database
+package com.example.infinityfitness.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey

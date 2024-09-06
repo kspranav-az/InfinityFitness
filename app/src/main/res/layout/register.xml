@@ -34,109 +34,139 @@
             app:layout_constraintVertical_bias="0.184"
             app:srcCompat="@drawable/uploadimage" />
 
-        <EditText
-            android:id="@+id/editTextText"
-            android:layout_width="252dp"
-            android:layout_height="39dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:text="     NAME"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="268dp" />
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="251dp"
+        android:layout_height="50dp"
+        android:background="@drawable/text_box"
+        android:ems="10"
+        android:inputType="text"
+        android:text="     NAME"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.309"
+        tools:ignore="MissingConstraints" />
 
-        <EditText
-            android:id="@+id/editTextText2"
-            android:layout_width="272dp"
-            android:layout_height="127dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:text="     ADDRESS"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="64dp"
-            tools:layout_editor_absoluteY="437dp" />
-
-
-
-
-        <EditText
-            android:id="@+id/editTextText3"
-            android:layout_width="94dp"
-            android:layout_height="40dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:text="     AGE"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="64dp"
-            tools:layout_editor_absoluteY="385dp" />
-
-        <EditText
-            android:id="@+id/editTextText4"
-            android:layout_width="160dp"
-            android:layout_height="43dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:text="      PHONE NUMBER"
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="176dp"
-            tools:layout_editor_absoluteY="583dp" />
 
     <EditText
-            android:id="@+id/editTextText5"
-            android:layout_width="173dp"
-            android:layout_height="40dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:text="        AMOUNT"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="119dp"
-            tools:layout_editor_absoluteY="688dp" />
+        android:id="@+id/editTextText2"
+        android:layout_width="272dp"
+        android:layout_height="127dp"
+        android:background="@drawable/text_box"
+        android:ems="10"
+        android:inputType="text"
+        android:text="     ADDRESS"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.56"
+        tools:ignore="MissingConstraints" />
 
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="145dp"
-            android:layout_height="36dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="date"
-            android:text="   DATE"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="138dp"
-            tools:layout_editor_absoluteY="326dp" />
+    <EditText
+        android:id="@+id/editTextText3"
+        android:layout_width="94dp"
+        android:layout_height="40dp"
+        android:background="@drawable/text_box"
+        android:ems="10"
+        android:inputType="text"
+        android:text="     AGE"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.201"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44"
+        tools:ignore="MissingConstraints" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="128dp"
-            android:layout_height="48dp"
-            android:text="REGISTER"
-            tools:layout_editor_absoluteX="138dp"
-            tools:layout_editor_absoluteY="748dp" />
+    <EditText
+        android:id="@+id/editTextText4"
+        android:layout_width="160dp"
+        android:layout_height="43dp"
+        android:background="@drawable/text_box"
+        android:ems="10"
+        android:inputType="text"
+        android:text="      PHONE NUMBER"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.721"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.676"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editTextText5"
+        android:layout_width="173dp"
+        android:layout_height="40dp"
+        android:background="@drawable/text_box"
+        android:ems="10"
+        android:inputType="text"
+        android:text="        AMOUNT"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.791"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="145dp"
+        android:layout_height="36dp"
+        android:background="@drawable/text_box"
+        android:ems="10"
+        android:inputType="date"
+        android:text="   DATE"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="128dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="138dp"
+        android:layout_marginEnd="145dp"
+        android:text="REGISTER"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.872" />
 
     <Spinner
         android:id="@+id/pack"
         android:layout_width="101dp"
         android:layout_height="37dp"
         android:background="@drawable/text_box"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="583dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.183"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.671"
         tools:ignore="MissingConstraints" />
 
     <Spinner
@@ -145,16 +175,26 @@
         android:layout_height="37dp"
         android:background="@drawable/text_box"
         android:spinnerMode="dropdown"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="220dp"
-        tools:layout_editor_absoluteY="385dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.758"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.442"
+        tools:ignore="MissingConstraints" />
 
     <Spinner
         android:id="@+id/mop"
         android:layout_width="169dp"
         android:layout_height="37dp"
+        android:layout_marginStart="119dp"
+        android:layout_marginEnd="123dp"
         android:background="@drawable/text_box"
-        tools:layout_editor_absoluteX="119dp"
-        tools:layout_editor_absoluteY="637dp"
-        tools:ignore="MissingConstraints"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.733"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

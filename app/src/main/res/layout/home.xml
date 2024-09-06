@@ -64,7 +64,6 @@
             android:id="@+id/btm"
             android:layout_width="416dp"
             android:layout_height="78dp"
-            android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

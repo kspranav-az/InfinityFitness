@@ -13,32 +13,52 @@
         android:id="@+id/imageView2"
         android:layout_width="158dp"
         android:layout_height="108dp"
+        android:layout_marginStart="624dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="1104dp"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile"
-        tools:layout_editor_absoluteX="624dp"
-        tools:layout_editor_absoluteY="68dp" />
+        tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="456dp"
         android:layout_height="285dp"
 
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="315dp"
+        android:layout_marginEnd="181dp"
+        android:layout_marginBottom="89dp"
         android:background="@null"
         android:padding="@null"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/image1button"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="315dp" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="455dp"
         android:layout_height="311dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="181dp"
+        android:layout_marginBottom="280dp"
         android:background="@null"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton"
         app:srcCompat="@drawable/image2button"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:layout_editor_absoluteX="164dp"
-        tools:layout_editor_absoluteY="689dp" />
+        tools:ignore="SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

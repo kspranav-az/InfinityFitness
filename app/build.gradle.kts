@@ -32,8 +32,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    kotlin {
+        jvmToolchain(8) // Ensure KSP and Kotlin use the same JVM version
     }
 }
 
@@ -43,18 +51,18 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:1.2.0-alpha04")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.activity:activity-ktx:1.9.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     //room dependencies
-    val room_version = "2.5.2"
+    val room_version = "2.6.1"
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 
     // view model dependencies
     val viewmodelversion = "2.6.1"

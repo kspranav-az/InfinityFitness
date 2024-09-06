@@ -1,13 +1,17 @@
 package com.example.infinityfitness.database
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.room.TypeConverter
 import com.example.infinityfitness.enums.PaymentMethod
 import com.example.infinityfitness.enums.SEX
+import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.util.*
 
 class Converters {
 
+    // Date converters
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
         return value?.let { Date(it) }
@@ -18,6 +22,7 @@ class Converters {
         return date?.time
     }
 
+    // Enum converters for SEX
     @TypeConverter
     fun fromSEX(value: SEX): String {
         return value.name
@@ -28,6 +33,7 @@ class Converters {
         return SEX.valueOf(value)
     }
 
+    // Enum converters for PaymentMethod
     @TypeConverter
     fun fromPaymentMethod(value: PaymentMethod): String {
         return value.name
@@ -38,6 +44,23 @@ class Converters {
         return PaymentMethod.valueOf(value)
     }
 
+    // Bitmap converters
+    @TypeConverter
+    fun fromBitmap(bitmap: Bitmap?): ByteArray? {
+        if (bitmap == null) return null
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        return outputStream.toByteArray()
+    }
+
+    @TypeConverter
+    fun toBitmap(byteArray: ByteArray?): Bitmap? {
+        return byteArray?.let {
+            BitmapFactory.decodeByteArray(it, 0, it.size)
+        }
+    }
+
+    // Password hashing
     fun hashPassword(password: String): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val hashBytes = digest.digest(password.toByteArray())

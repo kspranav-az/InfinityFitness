@@ -1,11 +1,13 @@
 package com.example.infinityfitness
 
 import android.os.Bundle
+import android.content.Intent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.infinityfitness.databinding.HomeBinding
 import com.example.infinityfitness.fragments.HomeFragement
 import com.example.infinityfitness.fragments.RegisterFragment
 import com.example.infinityfitness.fragments.UserDataFragment
@@ -14,10 +16,32 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @Suppress("DEPRECATION")
 class home : AppCompatActivity() {
+    private lateinit var binding: HomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.home)
+        binding = HomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.imageButton.setOnClickListener{
+            startActivity(
+                Intent(
+                    this,
+                    register::class.java
+                )
+            )
+        }
+
+        binding.imageButton2.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    Userdata::class.java
+                )
+            )
+        }
 
         // Setting edge-to-edge insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home)) { v, insets ->

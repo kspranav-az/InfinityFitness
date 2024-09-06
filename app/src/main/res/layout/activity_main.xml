@@ -77,7 +77,7 @@
             android:layout_marginEnd="99dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:text="    PASSWORD"
             android:textColor="@color/white"
             android:textStyle="bold"

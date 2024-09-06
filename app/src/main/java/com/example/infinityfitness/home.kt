@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.infinityfitness.fragments.HomeFragement
 import com.example.infinityfitness.fragments.RegisterFragment
+import com.example.infinityfitness.fragments.UserDataFragment
 import com.example.infinityfitness.fragments.profileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -29,6 +30,7 @@ class home : AppCompatActivity() {
         val firstFragment = HomeFragement()
         val secondFragment = profileFragment()
         val thirdFragment = RegisterFragment()
+        val fourthFragment = UserDataFragment()
 
         setCurrentFragement(firstFragment)
 
@@ -48,6 +50,10 @@ class home : AppCompatActivity() {
                 }
                 R.id.navRegister -> {
                     setCurrentFragement(thirdFragment)
+                    true
+                }
+                R.id.navData ->{
+                    setCurrentFragement(fourthFragment)
                     true
                 }
                 else -> false

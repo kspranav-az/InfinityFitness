@@ -13,10 +13,6 @@ import androidx.room.Ignore
     ]
 )
 data class Pack(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "packId")
-    var packId: Int = 0,
-
     @ColumnInfo(name = "type")
     var type: String = "",
 
@@ -24,8 +20,12 @@ data class Pack(
     var duration: Int = 0,  // Duration in days
 
     @ColumnInfo(name = "cost")
-    var cost: Double = 0.0
+    var cost: Double = 0.0,
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "packId")
+    var packId: Int = 0,
 ) {
     @Ignore
-    constructor() : this(0, "", 0, 0.0)
+    constructor() : this( "", 0, 0.0,0)
 }

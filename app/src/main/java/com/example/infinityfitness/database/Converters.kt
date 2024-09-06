@@ -3,6 +3,7 @@ package com.example.infinityfitness.database
 import androidx.room.TypeConverter
 import com.example.infinityfitness.enums.PaymentMethod
 import com.example.infinityfitness.enums.SEX
+import java.security.MessageDigest
 import java.util.*
 
 class Converters {
@@ -18,12 +19,12 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromGender(value: SEX): String {
+    fun fromSEX(value: SEX): String {
         return value.name
     }
 
     @TypeConverter
-    fun toGender(value: String): SEX {
+    fun toSEX(value: String): SEX {
         return SEX.valueOf(value)
     }
 
@@ -35,5 +36,18 @@ class Converters {
     @TypeConverter
     fun toPaymentMethod(value: String): PaymentMethod {
         return PaymentMethod.valueOf(value)
+    }
+
+    fun hashPassword(password: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val hashBytes = digest.digest(password.toByteArray())
+        return hashBytes.joinToString("") {
+            "%02x".format(it)  // Convert each byte to a hex string
+        }
+    }
+
+    // Function to compare plain password with the hashed password
+    fun isPasswordValid(plainPassword: String, hashedPassword: String): Boolean {
+        return hashPassword(plainPassword) == hashedPassword
     }
 }

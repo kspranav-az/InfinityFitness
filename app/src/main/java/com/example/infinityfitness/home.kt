@@ -14,7 +14,7 @@ import com.example.infinityfitness.fragments.UserDataFragment
 import com.example.infinityfitness.fragments.profileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-@Suppress("DEPRECATION")
+
 class home : AppCompatActivity() {
     private lateinit var binding: HomeBinding
 
@@ -58,28 +58,28 @@ class home : AppCompatActivity() {
 
         setCurrentFragement(firstFragment)
 
-        // Initialize BottomNavigationView
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.btm)
-
-        // Set the OnNavigationItemSelectedListener
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        binding.btm?.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navHome -> {
                     setCurrentFragement(firstFragment)
                     true
                 }
+
                 R.id.navProfile -> {
                     setCurrentFragement(secondFragment)
                     true
                 }
+
                 R.id.navRegister -> {
                     setCurrentFragement(thirdFragment)
                     true
                 }
+
                 R.id.navData ->{
                     setCurrentFragement(fourthFragment)
                     true
                 }
+
                 else -> false
             }
         }

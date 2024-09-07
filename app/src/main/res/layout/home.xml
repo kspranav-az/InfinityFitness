@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.302"
             app:srcCompat="@drawable/image1button"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.756"
             app:srcCompat="@drawable/image2button"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -58,7 +58,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.039"
-            app:srcCompat="@drawable/profile" />
+            app:srcCompat="@drawable/profile"
+            tools:ignore="ContentDescription" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/btm"

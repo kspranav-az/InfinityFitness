@@ -4,7 +4,6 @@
     android:id="@+id/userdatafrag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rectangle"
-    tools:context=".Userdata">
+    android:background="@drawable/rectangle">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

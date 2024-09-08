@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/rectangle"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Userdata">
+    android:layout_height="match_parent">
 
     <SearchView
         android:id="@+id/searchView"

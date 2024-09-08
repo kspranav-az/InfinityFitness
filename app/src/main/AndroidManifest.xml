@@ -13,15 +13,6 @@
         android:theme="@style/Theme.InfinityFitness"
         tools:targetApi="31">
         <activity
-            android:name=".Userdata"
-            android:exported="false" />
-        <activity
-            android:name=".register"
-            android:exported="false" />
-        <activity
-            android:name=".profile"
-            android:exported="false" />
-        <activity
             android:name=".home"
             android:exported="false" />
         <activity

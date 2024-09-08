@@ -25,24 +25,6 @@ class home : AppCompatActivity() {
         binding = HomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.imageButton.setOnClickListener{
-            startActivity(
-                Intent(
-                    this,
-                    register::class.java
-                )
-            )
-        }
-
-        binding.imageButton2.setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    Userdata::class.java
-                )
-            )
-        }
-
         // Setting edge-to-edge insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -83,6 +65,8 @@ class home : AppCompatActivity() {
                 else -> false
             }
         }
+
+
     }
 
     private fun setCurrentFragement(fragment: Fragment) =

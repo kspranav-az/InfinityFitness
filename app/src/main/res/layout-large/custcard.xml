@@ -24,56 +24,56 @@
 
         <TextView
             android:id="@+id/customerName"
-            android:layout_width="122dp"
-            android:layout_height="20dp"
+            android:layout_width="273dp"
+            android:layout_height="36dp"
             android:text="CUSTOMER NAME"
+            android:textSize="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.65"
+            app:layout_constraintHorizontal_bias="0.605"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintVertical_bias="0.203" />
 
         <TextView
             android:id="@+id/customerId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="76dp"
+            android:layout_height="44dp"
             android:inputType="number"
             android:text="000"
+            android:textSize="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.348"
+            app:layout_constraintHorizontal_bias="0.215"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.209"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintVertical_bias="0.197" />
 
         <TextView
             android:id="@+id/due"
-            android:layout_width="109dp"
-            android:layout_height="22dp"
+            android:layout_width="139dp"
+            android:layout_height="39dp"
             android:inputType="date"
             android:text="00.00.0000"
+            android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.62"
+            app:layout_constraintHorizontal_bias="0.478"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintVertical_bias="0.803" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
-            android:layout_width="64dp"
-            android:layout_height="60dp"
+            android:id="@+id/imageButton3"
+            android:layout_width="58dp"
+            android:layout_height="51dp"
             android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.952"
+            app:layout_constraintHorizontal_bias="0.927"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.51"
-            app:srcCompat="@android:drawable/ic_menu_edit"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:srcCompat="@android:drawable/ic_menu_edit" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

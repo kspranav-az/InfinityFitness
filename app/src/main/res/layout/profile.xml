@@ -8,18 +8,6 @@
     android:background="@drawable/logoutpage">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="408dp"
-        android:layout_height="884dp"
-        android:background="@null"
-        android:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <ImageButton
             android:id="@+id/imageButton8"
             android:layout_width="wrap_content"
@@ -31,6 +19,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.194"
             app:srcCompat="@drawable/logoutbutton" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

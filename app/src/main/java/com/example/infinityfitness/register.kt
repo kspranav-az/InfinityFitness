@@ -18,6 +18,16 @@ class register : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val spinner2: Spinner = findViewById(R.id.pack)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.PACKAGE,
+            android.R.layout.simple_spinner_item
+        ).also{adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner2.adapter = adapter
+        }
+
         val spinner: Spinner = findViewById(R.id.sex)
         ArrayAdapter.createFromResource(
             this,

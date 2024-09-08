@@ -63,8 +63,8 @@
 
         <EditText
             android:id="@+id/editTextText3"
-            android:layout_width="99dp"
-            android:layout_height="55dp"
+            android:layout_width="139dp"
+            android:layout_height="63dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="text"
@@ -72,8 +72,8 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="-2dp"
-            tools:layout_editor_absoluteY="411dp" />
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="403dp" />
 
         <EditText
             android:id="@+id/editTextText4"
@@ -104,8 +104,8 @@
             android:textSize="20dp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="152dp"
-            tools:layout_editor_absoluteY="856dp" />
+            tools:layout_editor_absoluteX="154dp"
+            tools:layout_editor_absoluteY="869dp" />
 
         <EditText
             android:id="@+id/editTextDate"
@@ -117,8 +117,55 @@
             android:text="   DATE"
             android:textColor="@color/white"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="169dp"
+            tools:layout_editor_absoluteX="146dp"
             tools:layout_editor_absoluteY="336dp" />
+
+        <Spinner
+            android:id="@+id/sex"
+            android:layout_width="194dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="149dp"
+            android:layout_marginTop="400dp"
+            android:layout_marginEnd="57dp"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/text_box"
+            android:spinnerMode="dropdown"
+            app:layout_constraintBottom_toTopOf="@+id/editTextText2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editTextText3"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <Spinner
+            android:id="@+id/pack"
+            android:layout_width="216dp"
+            android:layout_height="84dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="46dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/text_box"
+            app:layout_constraintBottom_toTopOf="@+id/mop"
+            app:layout_constraintEnd_toStartOf="@+id/editTextText4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextText2"
+            tools:ignore="MissingConstraints" />
+
+        <Spinner
+            android:id="@+id/mop"
+            android:layout_width="279dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginEnd="160dp"
+            android:layout_marginBottom="13dp"
+            android:background="@drawable/text_box"
+            app:layout_constraintBottom_toTopOf="@+id/editTextText5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -137,4 +184,5 @@
         android:text="REGISTER"
         tools:layout_editor_absoluteX="264dp"
         tools:layout_editor_absoluteY="1092dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

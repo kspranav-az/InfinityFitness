@@ -9,8 +9,9 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="408dp"
-        android:layout_height="95dp"
+        android:layout_width="286dp"
+        android:layout_height="36dp"
+        android:background="@drawable/text_box"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +21,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="409dp"
         android:layout_height="816dp"
+        android:padding="10dp"
+        tools:listitem="@layout/custcard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

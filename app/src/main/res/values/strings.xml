@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">InfinityFitness</string>
     <string-array name="SEX">
+        <item>SEX</item>
         <item>MALE</item>
         <item>FEMALE</item>
     </string-array>
     <string-array name="PACKAGE">
+        <item>PACKAGE</item>
         <item>1 DAY</item>
         <item>1 MONTH</item>
         <item>2 MONTH</item>
@@ -14,6 +16,7 @@
         <item>1 YEAR</item>
     </string-array>
     <string-array name="MODE_OF_PAYMENT">
+        <item>MODE OF PAYMENT</item>
         <item>ONLINE</item>
         <item>CASH</item>
         <item>CARD</item>

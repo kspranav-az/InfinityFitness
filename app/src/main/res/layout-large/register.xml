@@ -116,8 +116,12 @@
             android:text="   DATE"
             android:textColor="@color/white"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="146dp"
-            tools:layout_editor_absoluteY="336dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.382"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.385" />
 
         <Spinner
             android:id="@+id/sex"
@@ -174,16 +178,23 @@
         android:id="@+id/imageView2"
         android:layout_width="124dp"
         android:layout_height="69dp"
-        app:srcCompat="@drawable/profile"
-        tools:layout_editor_absoluteX="622dp"
-        tools:layout_editor_absoluteY="44dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03"
+        app:srcCompat="@drawable/profile" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="249dp"
         android:layout_height="80dp"
         android:text="REGISTER"
-        tools:layout_editor_absoluteX="264dp"
-        tools:layout_editor_absoluteY="1092dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.93" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

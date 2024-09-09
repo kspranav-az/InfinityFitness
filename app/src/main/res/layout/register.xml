@@ -152,7 +152,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button2"
-        android:background="@drawable/greenButton"
+        android:background="@drawable/greenbutton"
         android:textColor="@color/white"
         android:layout_width="128dp"
         android:layout_height="48dp"

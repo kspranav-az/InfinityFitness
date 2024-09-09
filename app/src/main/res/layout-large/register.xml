@@ -191,8 +191,10 @@
         app:layout_constraintVertical_bias="0.03"
         app:srcCompat="@drawable/profile" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button2"
+        android:background="@drawable/greenbutton"
+        android:textColor="@color/white"
         android:layout_width="249dp"
         android:layout_height="80dp"
         android:text="REGISTER"

@@ -133,8 +133,8 @@
 
     <EditText
         android:id="@+id/editTextDate"
-        android:layout_width="125dp"
-        android:layout_height="44dp"
+        android:layout_width="135dp"
+        android:layout_height="43dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:inputType="date"
@@ -145,12 +145,15 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintVertical_bias="0.382" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button2"
+        android:background="@drawable/greenButton"
+        android:textColor="@color/white"
         android:layout_width="128dp"
         android:layout_height="48dp"
         android:layout_marginStart="138dp"

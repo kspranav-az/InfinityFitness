@@ -206,7 +206,7 @@
             tools:ignore="MissingConstraints" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:background="@drawable/redButton"
+            android:background="@drawable/redbutton"
             android:textColor="@color/white"
             android:id="@+id/cancel2"
             android:layout_width="249dp"
@@ -221,7 +221,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save"
-            android:background="@drawable/greenButton"
+            android:background="@drawable/greenbutton"
             android:textColor="@color/white"
             android:layout_width="249dp"
             android:layout_height="80dp"

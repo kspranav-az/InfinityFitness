@@ -165,7 +165,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save"
-            android:background="@drawable/greenButton"
+            android:background="@drawable/greenbutton"
             android:layout_width="128dp"
             android:layout_height="48dp"
             android:layout_marginStart="40dp"
@@ -181,7 +181,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel2"
-            android:background="@drawable/redButton"
+            android:background="@drawable/redbutton"
             android:layout_width="128dp"
             android:textColor="@color/white"
             android:layout_height="48dp"

@@ -11,7 +11,7 @@
         android:background="@drawable/text_box">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/CustImg"
             android:layout_width="86dp"
             android:layout_height="75dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +62,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/Open"
             android:layout_width="64dp"
             android:layout_height="60dp"
             android:background="@null"
@@ -72,7 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.51"
-            app:srcCompat="@android:drawable/ic_menu_edit"
+            app:srcCompat="@android:drawable/ic_dialog_info"
             tools:ignore="SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

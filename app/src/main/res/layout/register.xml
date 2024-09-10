@@ -21,7 +21,7 @@
             app:srcCompat="@drawable/profile" />
 
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/img"
         android:layout_width="126dp"
         android:layout_height="111dp"
         android:background="@null"
@@ -35,7 +35,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/name"
         android:layout_width="251dp"
         android:layout_height="50dp"
         android:background="@drawable/text_box"
@@ -56,7 +56,7 @@
 
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/add"
         android:layout_width="272dp"
         android:layout_height="127dp"
         android:background="@drawable/text_box"
@@ -76,7 +76,7 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/editTextText3"
+        android:id="@+id/age"
         android:layout_width="94dp"
         android:layout_height="40dp"
         android:background="@drawable/text_box"
@@ -96,7 +96,7 @@
         tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/editTextText4"
+        android:id="@+id/phno"
         android:layout_width="160dp"
         android:layout_height="43dp"
         android:background="@drawable/text_box"
@@ -117,7 +117,7 @@
         tools:ignore="MissingConstraints,TextSizeCheck,TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/editTextText5"
+        android:id="@+id/amt"
         android:layout_width="160dp"
         android:layout_height="41dp"
         android:background="@drawable/text_box"
@@ -138,7 +138,7 @@
         tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/date"
         android:layout_width="135dp"
         android:layout_height="43dp"
         android:background="@drawable/text_box"

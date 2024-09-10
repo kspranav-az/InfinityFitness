@@ -35,7 +35,7 @@
 
 
         <ImageView
-            android:id="@+id/Custimage"
+            android:id="@+id/vimg"
             android:layout_width="126dp"
             android:layout_height="111dp"
             android:background="@null"
@@ -50,7 +50,7 @@
 
 
         <TextView
-            android:id="@+id/editTextText"
+            android:id="@+id/vname"
             android:layout_width="459dp"
             android:layout_height="61dp"
             android:layout_marginStart="120dp"
@@ -71,7 +71,7 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/editTextText2"
+            android:id="@+id/vadd"
             android:layout_width="510dp"
             android:layout_height="190dp"
             android:layout_marginStart="120dp"
@@ -93,7 +93,7 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/editTextText3"
+            android:id="@+id/vage"
             android:layout_width="139dp"
             android:layout_height="63dp"
             android:background="@drawable/text_box"
@@ -113,7 +113,7 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/editTextText4"
+            android:id="@+id/vphno"
             android:layout_width="202dp"
             android:layout_height="67dp"
             android:background="@drawable/text_box"
@@ -132,7 +132,7 @@
             tools:ignore="MissingConstraints,TextSizeCheck" />
 
         <TextView
-            android:id="@+id/editTextText5"
+            android:id="@+id/vamt"
             android:layout_width="210dp"
             android:layout_height="64dp"
             android:layout_marginStart="293dp"
@@ -154,7 +154,7 @@
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/editTextDate"
+            android:id="@+id/vdate"
             android:layout_width="210dp"
             android:layout_height="54dp"
             android:background="@drawable/text_box"
@@ -174,7 +174,7 @@
             app:layout_constraintVertical_bias="0.3" />
 
         <TextView
-            android:id="@+id/sex"
+            android:id="@+id/vsex"
             android:layout_width="194dp"
             android:layout_height="63dp"
             android:background="@drawable/text_box"
@@ -192,7 +192,7 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/pack"
+            android:id="@+id/vpack"
             android:layout_width="211dp"
             android:layout_height="68dp"
             android:background="@drawable/text_box"
@@ -210,7 +210,7 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/mop"
+            android:id="@+id/vmop"
             android:layout_width="279dp"
             android:layout_height="57dp"
             android:layout_marginTop="23dp"

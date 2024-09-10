@@ -69,7 +69,7 @@ class home : AppCompatActivity() {
 
     }
 
-    private fun setCurrentFragement(fragment: Fragment) =
+        fun setCurrentFragement(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             commit()

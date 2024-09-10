@@ -32,7 +32,7 @@
 
 
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/edimg"
             android:layout_width="126dp"
             android:layout_height="111dp"
             android:background="@null"
@@ -47,14 +47,15 @@
 
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/edname"
             android:layout_width="251dp"
             android:layout_height="50dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="text"
             android:padding="10dp"
-            android:text="NAME"
+            android:hint="NAME"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,14 +67,15 @@
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/edadd"
             android:layout_width="272dp"
             android:layout_height="127dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="text"
             android:padding="10dp"
-            android:text="ADDRESS"
+            android:hint="ADDRESS"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,14 +86,15 @@
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/edage"
             android:layout_width="94dp"
             android:layout_height="40dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="text"
             android:padding="10dp"
-            android:text="AGE"
+            android:hint="AGE"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -103,14 +106,15 @@
             tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/editTextText4"
+            android:id="@+id/edphno"
             android:layout_width="160dp"
             android:layout_height="43dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="text"
             android:padding="10dp"
-            android:text="PHONE NUMBER"
+            android:hint="PHONE NUMBER"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:textSize="15dp"
             android:textStyle="bold"
@@ -123,14 +127,15 @@
             tools:ignore="MissingConstraints,TouchTargetSizeCheck,TextSizeCheck" />
 
         <EditText
-            android:id="@+id/editTextText5"
+            android:id="@+id/edamnt"
             android:layout_width="160dp"
             android:layout_height="41dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="text"
             android:padding="10dp"
-            android:text="AMOUNT"
+            android:hint="AMOUNT"
+            android:textColorHint="@color/white"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20dp"
@@ -144,7 +149,7 @@
             tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/editTextDate"
+            android:id="@+id/eddate"
             android:layout_width="135dp"
             android:layout_height="43dp"
             android:background="@drawable/text_box"

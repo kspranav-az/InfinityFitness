@@ -9,7 +9,7 @@
 
 
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/img"
         android:layout_width="126dp"
         android:layout_height="111dp"
         android:background="@null"
@@ -23,15 +23,16 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/name"
         android:layout_width="500dp"
         android:layout_height="73dp"
         android:layout_marginStart="120dp"
         android:layout_marginEnd="180dp"
         android:background="@drawable/text_box"
         android:ems="10"
-        android:inputType="text"
-        android:text="     NAME"
+        android:hint="NAME"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,15 +43,15 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/add"
         android:layout_width="510dp"
         android:layout_height="190dp"
         android:layout_marginStart="120dp"
         android:layout_marginEnd="170dp"
         android:background="@drawable/text_box"
         android:ems="10"
-        android:inputType="text"
-        android:text="     ADDRESS"
+        android:hint="ADDRESS"
+        android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,13 +64,15 @@
 
 
     <EditText
-        android:id="@+id/editTextText3"
+        android:id="@+id/age"
         android:layout_width="139dp"
         android:layout_height="63dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:inputType="text"
-        android:text="     AGE"
+        android:hint="AGE"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,13 +84,14 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/editTextText4"
+        android:id="@+id/phno"
         android:layout_width="202dp"
         android:layout_height="67dp"
         android:background="@drawable/text_box"
         android:ems="10"
-        android:inputType="text"
-        android:text="PHONE NUMBER"
+        android:hint="PHONE NUMBER"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="15dp"
@@ -101,17 +105,17 @@
         tools:ignore="MissingConstraints,TextSizeCheck" />
 
     <EditText
-        android:id="@+id/editTextText5"
+        android:id="@+id/amt"
         android:layout_width="210dp"
         android:layout_height="64dp"
         android:layout_marginStart="264dp"
         android:layout_marginEnd="326dp"
         android:background="@drawable/text_box"
         android:ems="10"
-        android:inputType="text"
-        android:text="AMOUNT"
+        android:padding="10dp"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:hint="Amount"
+        android:textColorHint="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -123,13 +127,15 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/date"
         android:layout_width="210dp"
         android:layout_height="54dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:inputType="date"
-        android:text="   DATE"
+        android:hint="DATE"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -192,7 +198,7 @@
         app:srcCompat="@drawable/profile" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button2"
+        android:id="@+id/regbtn"
         android:background="@drawable/greenbutton"
         android:textColor="@color/white"
         android:layout_width="249dp"

@@ -1,18 +1,19 @@
 package com.example.infinityfitness.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.infinityfitness.R
 import com.example.infinityfitness.Adpater.CustomerCard
 import com.example.infinityfitness.Adpater.CustomerCardAdapter
+import com.example.infinityfitness.Adpater.OnCustomerButtonClickListener
 import android.widget.SearchView
+import com.example.infinityfitness.CustData
 
-class UserDataFragment : Fragment(R.layout.userdata) {
+class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListener {
 
     private lateinit var adapter: CustomerCardAdapter
     private lateinit var recyclerView: RecyclerView
@@ -21,23 +22,19 @@ class UserDataFragment : Fragment(R.layout.userdata) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize RecyclerView and Adapter
         recyclerView = view.findViewById(R.id.recyclerView)
         searchView = view.findViewById(R.id.searchView)
 
-
-        //make changes here and add the dao pranav fucker
         val customerList = listOf(
             CustomerCard("John Doe", "001", "12.12.2024"),
             CustomerCard("Jane Smith", "002", "15.10.2024"),
             CustomerCard("Michael Johnson", "003", "01.09.2024")
         )
 
-        adapter = CustomerCardAdapter(customerList)
+        adapter = CustomerCardAdapter(customerList, this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        // Set up SearchView listener
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -48,5 +45,15 @@ class UserDataFragment : Fragment(R.layout.userdata) {
                 return true
             }
         })
+    }
+
+    override fun onButtonClick(customer: CustomerCard) {
+        // Start CustDataActivity with the clicked customer data
+        val intent = Intent(requireContext(), CustData::class.java).apply {
+            putExtra("customerName", customer.customerName)
+            putExtra("customerId", customer.customerId)
+            putExtra("dueDate", customer.dueDate)
+        }
+        startActivity(intent)
     }
 }

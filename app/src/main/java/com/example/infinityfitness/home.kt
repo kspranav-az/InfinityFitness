@@ -1,7 +1,6 @@
 package com.example.infinityfitness
 
 import android.os.Bundle
-import android.content.Intent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,7 +11,6 @@ import com.example.infinityfitness.fragments.HomeFragement
 import com.example.infinityfitness.fragments.RegisterFragment
 import com.example.infinityfitness.fragments.UserDataFragment
 import com.example.infinityfitness.fragments.profileFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class home : AppCompatActivity() {
@@ -25,14 +23,12 @@ class home : AppCompatActivity() {
         binding = HomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setting edge-to-edge insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize fragments
         val firstFragment = HomeFragement()
         val secondFragment = profileFragment()
         val thirdFragment = RegisterFragment()

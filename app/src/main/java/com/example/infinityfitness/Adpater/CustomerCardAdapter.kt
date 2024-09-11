@@ -3,6 +3,7 @@ package com.example.infinityfitness.Adpater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -17,8 +18,15 @@ data class CustomerCard(
     val imageResourceId: Int = 0
 )
 
-class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
-    RecyclerView.Adapter<CustomerCardAdapter.CustomerCardViewHolder>(), Filterable {
+// Define a click listener interface for the button
+interface OnCustomerButtonClickListener {
+    fun onButtonClick(customer: CustomerCard)
+}
+
+class CustomerCardAdapter(
+    private val customerList: List<CustomerCard>,
+    private val listener: OnCustomerButtonClickListener
+) : RecyclerView.Adapter<CustomerCardAdapter.CustomerCardViewHolder>(), Filterable {
 
     private var filteredCustomerList = customerList.toMutableList()
 
@@ -37,18 +45,22 @@ class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
 
         if (customer.imageResourceId != 0) {
             holder.imageView.setImageResource(customer.imageResourceId)
-        } else {
-            // Optionally set a default image
+        }
+
+        // Set the click listener for the button
+        holder.openButton.setOnClickListener {
+            listener.onButtonClick(customer)
         }
     }
 
     override fun getItemCount(): Int = filteredCustomerList.size
 
     class CustomerCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageView3)
+        val imageView: ImageView = itemView.findViewById(R.id.CustImg)
         val customerNameTextView: TextView = itemView.findViewById(R.id.customerName)
         val customerIdTextView: TextView = itemView.findViewById(R.id.customerId)
         val dueTextView: TextView = itemView.findViewById(R.id.due)
+        val openButton: ImageButton = itemView.findViewById(R.id.Open)
     }
 
     override fun getFilter(): Filter {

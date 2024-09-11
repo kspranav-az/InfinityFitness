@@ -47,7 +47,8 @@
             app:layout_constraintHorizontal_bias="0.215"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.197" />
+            app:layout_constraintVertical_bias="0.197"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/due"
@@ -61,7 +62,8 @@
             app:layout_constraintHorizontal_bias="0.478"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.803" />
+            app:layout_constraintVertical_bias="0.803"
+            tools:ignore="TextSizeCheck,TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/Open"
@@ -73,7 +75,8 @@
             app:layout_constraintHorizontal_bias="0.927"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="android:drawable/ic_dialog_infot" />
+            app:srcCompat="@android:drawable/ic_dialog_info"
+            tools:ignore="SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

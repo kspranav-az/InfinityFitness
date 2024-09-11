@@ -16,28 +16,24 @@ import java.util.*
 
 class RegisterFragment : Fragment(R.layout.register) {
 
-    // Declare your EditText for date selection
     private lateinit var dateEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.register, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Handle edge-to-edge and window insets
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize Spinners and Adapters
         val spinner2: Spinner = view.findViewById(R.id.pack)
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -68,27 +64,22 @@ class RegisterFragment : Fragment(R.layout.register) {
             spinner1.adapter = adapter
         }
 
-        // Initialize the EditText for the date picker
-        dateEditText = view.findViewById(R.id.editTextDate)
+        dateEditText = view.findViewById(R.id.date)
 
-        // Set an onClickListener to show the DatePickerDialog when clicked
         dateEditText.setOnClickListener {
             showDatePickerDialog()
         }
     }
 
     private fun showDatePickerDialog() {
-        // Get the current date
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Create and show the DatePickerDialog
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDay ->
-                // Format the date and set it to the EditText
                 val formattedDate = "${selectedDay}-${selectedMonth + 1}-${selectedYear}"
                 dateEditText.setText(formattedDate)
             },

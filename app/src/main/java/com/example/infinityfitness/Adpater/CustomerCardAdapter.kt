@@ -1,5 +1,6 @@
 package com.example.infinityfitness.Adpater
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ data class CustomerCard(
     val customerName: String,
     val customerId: String,
     val dueDate: String,
-    val imageResourceId: Int = 0
+    val imageResourceId: Bitmap
 )
 
 class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
@@ -35,8 +36,8 @@ class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
         holder.customerIdTextView.text = customer.customerId
         holder.dueTextView.text = customer.dueDate
 
-        if (customer.imageResourceId != 0) {
-            holder.imageView.setImageResource(customer.imageResourceId)
+        if (customer.imageResourceId != null) {
+            holder.imageView.setImageBitmap(customer.imageResourceId)
         } else {
             // Optionally set a default image
         }
@@ -45,7 +46,7 @@ class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
     override fun getItemCount(): Int = filteredCustomerList.size
 
     class CustomerCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageView3)
+        val imageView: ImageView = itemView.findViewById(R.id.CustImg)
         val customerNameTextView: TextView = itemView.findViewById(R.id.customerName)
         val customerIdTextView: TextView = itemView.findViewById(R.id.customerId)
         val dueTextView: TextView = itemView.findViewById(R.id.due)

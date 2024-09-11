@@ -24,7 +24,7 @@ data class Pack(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "packId")
-    var packId: Int = 0,
+    var packId: Long = 0,
 ) {
     @Ignore
     constructor() : this( "", 0, 0.0,0)

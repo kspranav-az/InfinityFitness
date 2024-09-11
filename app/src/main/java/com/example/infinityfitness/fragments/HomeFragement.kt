@@ -20,8 +20,7 @@ class HomeFragement() : Fragment(R.layout.home), Parcelable {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = HomeBinding.inflate(layoutInflater)
-        val firstFragment = HomeFragement()
-        val secondFragment = profileFragment()
+
         val thirdFragment = RegisterFragment()
         val fourthFragment = UserDataFragment()
 

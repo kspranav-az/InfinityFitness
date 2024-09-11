@@ -9,6 +9,9 @@ interface PackDao {
     @Query("SELECT * FROM Pack WHERE packId = :packId")
     suspend fun getPackById(packId: Int): Pack?
 
+    @Query("SELECT * FROM Pack WHERE type = :type LIMIT 1")
+    suspend fun getPackByType(type: String) : Pack?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPack(pack: Pack)
 
@@ -20,4 +23,5 @@ interface PackDao {
 
     @Query("SELECT * FROM Pack")
     suspend fun getAllPacks(): List<Pack>
+
 }

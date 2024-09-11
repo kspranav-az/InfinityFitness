@@ -18,7 +18,7 @@
     </string-array>
     <string-array name="MODE_OF_PAYMENT">
         <item>MODE OF PAYMENT</item>
-        <item>ONLINE</item>
+        <item>UPI</item>
         <item>CASH</item>
         <item>CARD</item>
     </string-array>

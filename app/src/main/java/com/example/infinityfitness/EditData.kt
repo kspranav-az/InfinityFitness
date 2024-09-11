@@ -23,7 +23,7 @@ class EditData : AppCompatActivity() {
         }
 
         // Get the EditText for the date input
-        val dateEdt: EditText = findViewById(R.id.editTextDate)
+        val dateEdt: EditText = findViewById(R.id.eddate)
 
         // Set click listener for the EditText
         dateEdt.setOnClickListener {

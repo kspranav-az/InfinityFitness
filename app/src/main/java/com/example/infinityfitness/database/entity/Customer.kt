@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Ignore
 import com.example.infinityfitness.enums.SEX
+import java.util.Date
 
 @Entity(
     indices = [
@@ -13,15 +14,15 @@ import com.example.infinityfitness.enums.SEX
     ]
 )
 data class Customer(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "billNo")
-    var billNo: Int = 100,
 
     @ColumnInfo(name = "name")
     var name: String = "",
 
     @ColumnInfo(name = "gender")
     var gender: SEX = SEX.MALE,
+
+    @ColumnInfo(name = "age")
+    var age: Int = 0,
 
     @ColumnInfo(name = "address")
     var address: String? = null,
@@ -30,13 +31,23 @@ data class Customer(
     var phoneNumber: String? = null,
 
     @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB)
-    var image: ByteArray? = null,
+    var image: Bitmap? = null,
+
+    @ColumnInfo(name = "lastPack")
+    var lastPack: String? = null,
+
+    @ColumnInfo(name = "activeTill")
+    var activeTill: Date = Date(),
 
     @ColumnInfo(name = "isActive")
-    var isActive: Boolean = true
+    var isActive: Boolean = true,
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "billNo")
+    var billNo: Long = 100
 ) {
     @Ignore
-    constructor() : this(100, "", SEX.MALE, null, null, null, true)
+    constructor() : this( "", SEX.MALE, 0,null, null, null,"" , Date() ,true , 100)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -51,7 +62,7 @@ data class Customer(
         if (phoneNumber != other.phoneNumber) return false
         if (image != null) {
             if (other.image == null) return false
-            if (!image.contentEquals(other.image)) return false
+            if (image != other.image) return false
         } else if (other.image != null) return false
         if (isActive != other.isActive) return false
 
@@ -59,12 +70,12 @@ data class Customer(
     }
 
     override fun hashCode(): Int {
-        var result = billNo
+        var result =  billNo.toInt()
         result = 31 * result + name.hashCode()
         result = 31 * result + gender.hashCode()
         result = 31 * result + (address?.hashCode() ?: 0)
         result = 31 * result + (phoneNumber?.hashCode() ?: 0)
-        result = 31 * result + (image?.contentHashCode() ?: 0)
+        result = 31 * result + (image?.hashCode() ?: 0)
         result = 31 * result + isActive.hashCode()
         return result
     }

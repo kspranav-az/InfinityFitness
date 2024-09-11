@@ -30,15 +30,12 @@ import java.util.Date
     ]
 )
 data class Subscription(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "subscriptionId")
-    var subscriptionId: Int = 0,
 
     @ColumnInfo(name = "customerId")
-    var customerId: Int = 0,
+    var customerId: Long = 0,
 
     @ColumnInfo(name = "packId")
-    var packId: Int? = null,
+    var packId: Long? = null,
 
     @ColumnInfo(name = "startDate")
     var startDate: Date = Date(),
@@ -50,9 +47,13 @@ data class Subscription(
     var finalPrice: Double = 0.0,
 
     @ColumnInfo(name = "paymentMethod")
-    var paymentMethod: PaymentMethod = PaymentMethod.CASH
+    var paymentMethod: PaymentMethod = PaymentMethod.CASH,
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "subscriptionId")
+    var subscriptionId: Long = 0
 ) {
     @Ignore
-    constructor() : this(0, 0, null, Date(), Date(), 0.0, PaymentMethod.CASH)
+    constructor() : this( 0, null, Date(), Date(), 0.0, PaymentMethod.CASH, 0)
 }
 

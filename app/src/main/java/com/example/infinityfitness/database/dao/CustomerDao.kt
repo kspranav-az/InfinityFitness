@@ -9,7 +9,7 @@ interface CustomerDao {
     suspend fun getCustomerByBillNo(billNo: Int): Customer?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCustomer(customer: Customer)
+    suspend fun insertCustomer(customer: Customer) : Long
 
     @Update
     suspend fun updateCustomer(customer: Customer)
@@ -20,6 +20,22 @@ interface CustomerDao {
     @Query("SELECT * FROM Customer")
     suspend fun getAllCustomers(): List<Customer>
 
-    @Query("SELECT * FROM Customer WHERE isActive = 1")
+    @Query("SELECT * FROM Customer WHERE isActive = 1 ORDER BY activeTill ASC")
     suspend fun getActiveCustomers(): List<Customer>
+
+    @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
+            "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
+            " THEN billNo = :numericValue ELSE 0 END) OR " +
+            "phoneNumber LIKE '%' || :string || '%')) " +
+            "ORDER BY phoneNumber, name ASC LIMIT :limit OFFSET :offset")
+    suspend fun getActiveCustomersPaged(
+        string: String, isNumeric: Int, numericValue: Int,
+        limit: Int, offset: Int): List<Customer>
+
+
+    @Query(
+        "SELECT * FROM Customer WHERE isActive = 1 AND name LIKE  '%'|| :string || '%' or" +
+            " billNo = '%'|| :string || '%' OR phoneNumber LIKE '%'|| :string || '%' ORDER" +
+            " BY phoneNumber , name ")
+    suspend fun queryCustomers(string: String) : List<Customer>
 }

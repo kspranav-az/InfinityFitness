@@ -162,7 +162,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button2"
+        android:id="@+id/regbtn"
         android:background="@drawable/greenbutton"
         android:textColor="@color/white"
         android:layout_width="128dp"

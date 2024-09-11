@@ -38,6 +38,9 @@ import com.example.infinityfitness.enums.SEX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class RegisterFragment : Fragment(R.layout.register) {
 
@@ -75,7 +78,6 @@ class RegisterFragment : Fragment(R.layout.register) {
 
         // Handle button click
         binding.regbtn.setOnClickListener {
-
             val name = binding.name.text.toString()
             val address = binding.add.text.toString()
             val age = binding.age.text.toString().toIntOrNull() ?: 0
@@ -88,8 +90,9 @@ class RegisterFragment : Fragment(R.layout.register) {
 
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
-
+                    val calendar = Calendar.getInstance()
                     val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    val currentDate = dateformat.format(calendar.time)
                     val getPack = database.packDao().getPackByType(selectedPack)
                     val enddate = dateformat.parse(endDate)
                     val customer = Customer(
@@ -106,7 +109,6 @@ class RegisterFragment : Fragment(R.layout.register) {
 
                     val custId = database.customerDao().insertCustomer(customer)
 
-
                     val subscription = Subscription(
                         customerId = custId,
                         packId = getPack?.packId,
@@ -121,21 +123,16 @@ class RegisterFragment : Fragment(R.layout.register) {
                         Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    // ... (error handling)
                     Log.e("Register","$e")
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@RegisterFragment.requireContext() , "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-
         }
 
-
-
-
         // Initialize Spinners and Adapters
-        val spinner2: Spinner = view.findViewById(R.id.pack)
+        val spinner2: Spinner = binding.pack
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.PACKAGE,
@@ -145,20 +142,53 @@ class RegisterFragment : Fragment(R.layout.register) {
             spinner2.adapter = adapter
         }
 
+        val currentDate = LocalDate.now()
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItem = parent?.getItemAtPosition(position) as? String
-                if (selectedItem != null) {
-                    Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                // Get the selected item
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                val dateEditText : EditText = binding.date
+                val amountEditText : EditText  = binding.amt
+                // Update EditText fields based on the selection
+                when (selectedItem) {
+                    "1 DAY" -> {
+                        dateEditText.setText(currentDate.plus(1, ChronoUnit.DAYS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        amountEditText.setText("200")
+                    }
+                    "1 MONTH" -> {
+                        dateEditText.setText(currentDate.plus(1, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        amountEditText.setText("1000")
+                    }
+                    "3 MONTH" -> {
+                        dateEditText.setText(currentDate.plus(3, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        amountEditText.setText("2000")
+                    }
+                    "4 MONTH" -> {
+                        dateEditText.setText(currentDate.plus(4, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        amountEditText.setText("3000")
+                    }
+                    "6 MONTH" -> {
+                        dateEditText.setText(currentDate.plus(6, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        amountEditText.setText("4000")
+                    }
+                    "1 Year" ->{
+                        dateEditText.setText(currentDate.plus(1, ChronoUnit.YEARS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        amountEditText.setText("8000")
+                    }
+                    else -> {
+                        // Handle default or other cases
+                        dateEditText.setText("DATE")
+                        amountEditText.setText("")
+                    }
                 }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                // Handle if nothing is selected, if necessary
             }
         }
 
-        val spinner: Spinner = view.findViewById(R.id.sex)
+        val spinner: Spinner = binding.sex
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.SEX,
@@ -168,7 +198,7 @@ class RegisterFragment : Fragment(R.layout.register) {
             spinner.adapter = adapter
         }
 
-        val spinner1: Spinner = view.findViewById(R.id.mop)
+        val spinner1: Spinner = binding.mop
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.MODE_OF_PAYMENT,
@@ -179,13 +209,14 @@ class RegisterFragment : Fragment(R.layout.register) {
         }
 
         // Initialize the EditText for the date picker
-        dateEditText = view.findViewById(R.id.date)
+        dateEditText = binding.date
 
         // Set an onClickListener to show the DatePickerDialog when clicked
         dateEditText.setOnClickListener {
             showDatePickerDialog()
         }
     }
+
 
     private fun showDatePickerDialog() {
         // Get the current date
@@ -283,8 +314,9 @@ class RegisterFragment : Fragment(R.layout.register) {
     }
 
 private fun calculateEndDate(pack: String, startDate: String): String {
-    // Implement your logic to calculate end date
-    return startDate // Placeholder
+
+    return startDate
+
 }
 
 

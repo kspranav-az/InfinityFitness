@@ -25,6 +25,8 @@ class CustData : AppCompatActivity() {
     private lateinit var vsex: TextView
     private lateinit var vmop: TextView
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -51,6 +53,8 @@ class CustData : AppCompatActivity() {
         vsex = findViewById(R.id.vsex)
         vmop = findViewById(R.id.vmop)
 
+
+
         // Set listeners for buttons
         extendButton.setOnClickListener {
             startActivity(
@@ -74,7 +78,6 @@ class CustData : AppCompatActivity() {
     }
 
     private fun populateViews() {
-        // Example data to populate the views
         vname.text = "John Doe"
         vadd.text = "123 Main Street, Springfield"
         vage.text = "28"
@@ -84,8 +87,6 @@ class CustData : AppCompatActivity() {
         vpack.text = "Premium Package"
         vsex.text = "Male"
         vmop.text = "Credit Card"
-
-        // Set image for ImageView
         vimg.setImageResource(R.drawable.uploadimage) // Replace with your actual image resource
     }
 }

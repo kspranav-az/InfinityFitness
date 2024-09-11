@@ -17,7 +17,6 @@ import com.example.infinityfitness.database.GymDatabase
 import com.example.infinityfitness.database.entity.Customer
 import kotlinx.coroutines.launch
 import com.example.infinityfitness.Adpater.OnCustomerButtonClickListener
-import android.widget.SearchView
 import com.example.infinityfitness.CustData
 
 class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListener {
@@ -38,12 +37,17 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
 
         recyclerView = view.findViewById(R.id.recyclerView)
         searchView = view.findViewById(R.id.searchView)
-        adapter = CustomerCardAdapter(customerList)
         database = GymDatabase.getDatabase(this.requireContext())
-
+        adapter = CustomerCardAdapter(customerList, this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
+        // Set up search and infinite scrolling
+        setUpSearchView()
+        setUpRecyclerViewScrollListener()
+
+        // Initially load the first page
+        loadCustomers()
 
 
         // Set up search and infinite scrolling

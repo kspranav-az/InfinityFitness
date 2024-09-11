@@ -1,6 +1,7 @@
 package com.example.infinityfitness.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
@@ -15,8 +16,11 @@ import com.example.infinityfitness.database.GymDatabase
 
 import com.example.infinityfitness.database.entity.Customer
 import kotlinx.coroutines.launch
+import com.example.infinityfitness.Adpater.OnCustomerButtonClickListener
+import android.widget.SearchView
+import com.example.infinityfitness.CustData
 
-class UserDataFragment : Fragment(R.layout.userdata) {
+class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListener {
 
     private lateinit var adapter: CustomerCardAdapter
     private lateinit var recyclerView: RecyclerView
@@ -32,7 +36,6 @@ class UserDataFragment : Fragment(R.layout.userdata) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize RecyclerView and Adapter
         recyclerView = view.findViewById(R.id.recyclerView)
         searchView = view.findViewById(R.id.searchView)
         adapter = CustomerCardAdapter(customerList)
@@ -120,5 +123,16 @@ class UserDataFragment : Fragment(R.layout.userdata) {
             isLoading = false
             currentPage++
         }
+    }
+
+
+    override fun onButtonClick(customer: CustomerCard) {
+        // Start CustDataActivity with the clicked customer data
+        val intent = Intent(requireContext(), CustData::class.java).apply {
+            putExtra("customerName", customer.customerName)
+            putExtra("customerId", customer.customerId)
+            putExtra("dueDate", customer.dueDate)
+        }
+        startActivity(intent)
     }
 }

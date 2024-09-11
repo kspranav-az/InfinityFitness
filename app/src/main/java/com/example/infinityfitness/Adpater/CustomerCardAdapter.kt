@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +19,15 @@ data class CustomerCard(
     val imageResourceId: Bitmap
 )
 
-class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
-    RecyclerView.Adapter<CustomerCardAdapter.CustomerCardViewHolder>(), Filterable {
+// Define a click listener interface for the button
+interface OnCustomerButtonClickListener {
+    fun onButtonClick(customer: CustomerCard)
+}
+
+class CustomerCardAdapter(
+    private val customerList: List<CustomerCard>,
+    private val listener: OnCustomerButtonClickListener
+) : RecyclerView.Adapter<CustomerCardAdapter.CustomerCardViewHolder>(), Filterable {
 
     private var filteredCustomerList = customerList.toMutableList()
 
@@ -36,6 +44,13 @@ class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
         holder.customerIdTextView.text = customer.customerId
         holder.dueTextView.text = customer.dueDate
 
+        if (customer.imageResourceId != 0) {
+            holder.imageView.setImageResource(customer.imageResourceId)
+        }
+
+        // Set the click listener for the button
+        holder.openButton.setOnClickListener {
+            listener.onButtonClick(customer)
         if (customer.imageResourceId != null) {
             holder.imageView.setImageBitmap(customer.imageResourceId)
         } else {
@@ -50,6 +65,7 @@ class CustomerCardAdapter(private val customerList: List<CustomerCard>) :
         val customerNameTextView: TextView = itemView.findViewById(R.id.customerName)
         val customerIdTextView: TextView = itemView.findViewById(R.id.customerId)
         val dueTextView: TextView = itemView.findViewById(R.id.due)
+        val openButton: ImageButton = itemView.findViewById(R.id.Open)
     }
 
     override fun getFilter(): Filter {

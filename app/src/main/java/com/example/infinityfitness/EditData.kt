@@ -1,13 +1,18 @@
 package com.example.infinityfitness
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.EditText
 
 class EditData : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,29 +20,72 @@ class EditData : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.edit_data)
 
-        // Apply edge-to-edge mode for system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editData)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Get the EditText for the date input
-        val dateEdt: EditText = findViewById(R.id.eddate)
+        val save : Button = findViewById(R.id.save)
+        val cancel: Button  = findViewById(R.id.cancel2)
+        save.setOnClickListener{
+            startActivity(
+                Intent(
+                    this,
+                    home::class.java
+                )
+            )
+        }
+        cancel.setOnClickListener{
+            startActivity(
+                Intent(
+                    this,
+                    home::class.java
+                )
+            )
+        }
 
-        // Set click listener for the EditText
+
+        val spinner2: Spinner = findViewById(R.id.pack)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.PACKAGE,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner2.adapter = adapter
+        }
+
+        val spinner: Spinner = findViewById(R.id.sex)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.SEX,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        val spinner1: Spinner = findViewById(R.id.mop)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.MODE_OF_PAYMENT,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner1.adapter = adapter
+        }
+
+        val dateEdt: EditText = findViewById(R.id.eddate)
         dateEdt.setOnClickListener {
-            // Get the instance of Calendar
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
             val month = c.get(Calendar.MONTH)
             val day = c.get(Calendar.DAY_OF_MONTH)
 
-            // Create a DatePickerDialog
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-                    // Set date to the EditText in the format "day-month-year"
                     val formattedDate = "$selectedDayOfMonth-${selectedMonth + 1}-$selectedYear"
                     dateEdt.setText(formattedDate)
                 },
@@ -45,7 +93,6 @@ class EditData : AppCompatActivity() {
                 month,
                 day
             )
-            // Show the DatePickerDialog
             datePickerDialog.show()
         }
     }

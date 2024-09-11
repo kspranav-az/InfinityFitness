@@ -14,7 +14,7 @@
         android:layout_height="170dp"
         android:background="@null"
         app:srcCompat="@drawable/logoutbutton"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
         tools:layout_editor_absoluteX="222dp"
-        tools:layout_editor_absoluteY="234dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="234dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

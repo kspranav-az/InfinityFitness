@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.view.View
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import com.example.infinityfitness.R
-import com.example.infinityfitness.databinding.HomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragement() : Fragment(R.layout.home), Parcelable {
@@ -19,13 +17,9 @@ class HomeFragement() : Fragment(R.layout.home), Parcelable {
 
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = HomeBinding.inflate(layoutInflater)
-
         val thirdFragment = RegisterFragment()
         val fourthFragment = UserDataFragment()
 
-        val regbtn: View = view.findViewById(R.id.navRegister)
-        val userbtn: View = view.findViewById(R.id.navData)
         val bottom :BottomNavigationView = view.findViewById(R.id.btm)
 
         val imgbtn: View = view.findViewById(R.id.imageButton)
@@ -33,13 +27,12 @@ class HomeFragement() : Fragment(R.layout.home), Parcelable {
 
         imgbtn.setOnClickListener {
             setCurrentFragement(thirdFragment)
-            bottom.selectedItemId = R.id.navRegister // Select the corresponding item in BottomNavigationView
+            bottom.selectedItemId = R.id.navRegister
         }
 
-        // Set click listener for the second image button
         imgbtn2.setOnClickListener {
             setCurrentFragement(fourthFragment)
-            bottom.selectedItemId = R.id.navData // Select the corresponding item in BottomNavigationView
+            bottom.selectedItemId = R.id.navData
         }
 
 

@@ -44,53 +44,51 @@ class CustomerCardAdapter(
         holder.customerIdTextView.text = customer.customerId
         holder.dueTextView.text = customer.dueDate
 
-        if (customer.imageResourceId != 0) {
-            holder.imageView.setImageResource(customer.imageResourceId)
-        }
+        holder.imageView.setImageBitmap(customer.imageResourceId)
 
         // Set the click listener for the button
         holder.openButton.setOnClickListener {
             listener.onButtonClick(customer)
-        if (customer.imageResourceId != null) {
             holder.imageView.setImageBitmap(customer.imageResourceId)
-        } else {
-            // Optionally set a default image
         }
     }
 
-    override fun getItemCount(): Int = filteredCustomerList.size
+        override fun getItemCount(): Int = filteredCustomerList.size
 
-    class CustomerCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.CustImg)
-        val customerNameTextView: TextView = itemView.findViewById(R.id.customerName)
-        val customerIdTextView: TextView = itemView.findViewById(R.id.customerId)
-        val dueTextView: TextView = itemView.findViewById(R.id.due)
-        val openButton: ImageButton = itemView.findViewById(R.id.Open)
-    }
+        class CustomerCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val imageView: ImageView = itemView.findViewById(R.id.CustImg)
+            val customerNameTextView: TextView = itemView.findViewById(R.id.customerName)
+            val customerIdTextView: TextView = itemView.findViewById(R.id.customerId)
+            val dueTextView: TextView = itemView.findViewById(R.id.due)
+            val openButton: ImageButton = itemView.findViewById(R.id.Open)
+        }
 
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val query = constraint?.toString()?.trim()?.lowercase()
+        override fun getFilter(): Filter {
+            return object : Filter() {
+                override fun performFiltering(constraint: CharSequence?): FilterResults {
+                    val query = constraint?.toString()?.trim()?.lowercase()
 
-                val filteredList = if (query.isNullOrEmpty()) {
-                    customerList
-                } else {
-                    customerList.filter {
-                        it.customerName.lowercase().contains(query) || it.customerId.contains(query)
+                    val filteredList = if (query.isNullOrEmpty()) {
+                        customerList
+                    } else {
+                        customerList.filter {
+                            it.customerName.lowercase().contains(query) || it.customerId.contains(
+                                query
+                            )
+                        }
                     }
+
+                    val results = FilterResults()
+                    results.values = filteredList
+                    return results
                 }
 
-                val results = FilterResults()
-                results.values = filteredList
-                return results
-            }
-
-            @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredCustomerList = results?.values as MutableList<CustomerCard>
-                notifyDataSetChanged()
+                @Suppress("UNCHECKED_CAST")
+                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                    filteredCustomerList = results?.values as MutableList<CustomerCard>
+                    notifyDataSetChanged()
+                }
             }
         }
-    }
 }
+

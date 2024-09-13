@@ -79,7 +79,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         // Handle button click
         binding.regbtn.setOnClickListener {
             val name = binding.name.text.toString()
-            val address = binding.add.text.toString()
+            val address = binding.add?.text.toString()
             val age = binding.age.text.toString().toIntOrNull() ?: 0
             val phoneNumber = binding.phno.text.toString()
             val amount = binding.amt.text.toString().toDoubleOrNull() ?: 0.0

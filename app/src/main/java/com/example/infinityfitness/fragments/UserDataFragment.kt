@@ -77,55 +77,77 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
     private fun setUpRecyclerViewScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if (!isLoading) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val visibleItemCount = layoutManager.childCount
+                    val totalItemCount = layoutManager.itemCount
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-                if (!isLoading && firstVisibleItemPosition + visibleItemCount >= totalItemCount && totalItemCount >= pageSize) {
-                    loadCustomers() // Load more customers when the user scrolls down
+                    if (firstVisibleItemPosition + visibleItemCount >= totalItemCount && totalItemCount >= pageSize) {
+                        loadCustomers() // Only load more customers when at the end
+                    }
                 }
             }
         })
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
     private fun loadCustomers() {
         isLoading = true
 
-        // Fetch customers from the Room database (DAO call)
         lifecycleScope.launch {
-            val customerDao = database.customerDao()
+            try {
+                val customerDao = database.customerDao()
 
-            // Check if search query is numeric (for billNo search)
-            val isNumeric = searchQuery.toIntOrNull() != null
-            val numericValue = searchQuery.toIntOrNull() ?: 0
+                // Check if search query is numeric (for billNo search)
+                val isNumeric = searchQuery.toIntOrNull() != null
+                val numericValue = searchQuery.toIntOrNull() ?: 0
 
-            // Fetch paginated and filtered customers
-            val newCustomers = customerDao.getActiveCustomersPaged(
-                searchQuery,
-                if (isNumeric) 1 else 0,
-                numericValue,
-                pageSize,
-                currentPage * pageSize
-            )
-
-            // Map to CustomerCard and add to list
-            val newCustomerCards = newCustomers.map { customer : Customer ->
-                CustomerCard(
-                    customerName = customer.name,
-                    customerId = customer.billNo.toString(),
-                    dueDate = customer.activeTill.toString(),
-                    imageResourceId = customer.image!!
+                // Fetch paginated and filtered customers
+                val newCustomers = customerDao.getActiveCustomersPaged(
+                    searchQuery,
+                    if (isNumeric) 1 else 0,
+                    numericValue,
+                    pageSize,
+                    currentPage * pageSize
                 )
-            }
 
-            customerList.clear()
-            customerList.addAll(newCustomerCards)
-            adapter.notifyDataSetChanged()
-            isLoading = false
-            currentPage++
+                // Check if newCustomers is empty, which would mean no more data to load
+                if (newCustomers.isNotEmpty()) {
+                    val newCustomerCards = newCustomers.map { customer ->
+                        CustomerCard(
+                            customerName = customer.name,
+                            customerId = customer.billNo.toString(),
+                            dueDate = customer.activeTill.toString(),
+                            imageResourceId = customer.image!!
+                        )
+                    }
+
+                    // Append new customers to the list (do not clear the list)
+                    customerList.addAll(newCustomerCards)
+
+                    // Notify the adapter of changes
+                    if (currentPage == 0) {
+                        // First page, set adapter
+                        adapter = CustomerCardAdapter(customerList, this@UserDataFragment)
+                        recyclerView.adapter = adapter
+                    } else {
+                        // Subsequent pages, just notify the adapter
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    // Increment the page number for the next fetch
+                    currentPage++
+                } else {
+                    // No more data to load
+                    isLoading = false
+                }
+            } catch (e: Exception) {
+                e.printStackTrace() // Log any errors
+                isLoading = false
+            }
         }
     }
 

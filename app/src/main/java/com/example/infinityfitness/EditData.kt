@@ -137,23 +137,23 @@ class EditData : AppCompatActivity() {
 
                 // Update EditText fields based on the selection
                 when (selectedItem) {
-                    "1 DAY" -> {
+                    "1 Day" -> {
                         dateEditText.setText(currentDate.plus(1, ChronoUnit.DAYS).format(formatter))
                         amountEditText.setText("200")
                     }
-                    "1 MONTH" -> {
+                    "1 Month" -> {
                         dateEditText.setText(currentDate.plus(1, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("1000")
                     }
-                    "3 MONTH" -> {
+                    "3 Month" -> {
                         dateEditText.setText(currentDate.plus(3, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("2000")
                     }
-                    "4 MONTH" -> {
+                    "4 Month" -> {
                         dateEditText.setText(currentDate.plus(4, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("3000")
                     }
-                    "6 MONTH" -> {
+                    "6 Month" -> {
                         dateEditText.setText(currentDate.plus(6, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("4000")
                     }

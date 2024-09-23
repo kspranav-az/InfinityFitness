@@ -7,23 +7,6 @@
     android:background="@drawable/rectangle"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar1"
-        android:layout_width="835dp"
-        android:layout_height="95dp"
-        android:layout_marginBottom="1152dp"
-        android:background="@drawable/text_box"
-        android:minHeight="?attr/actionBarSize"
-        android:padding="10dp"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="795dp"
@@ -31,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar1">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <ImageButton
@@ -56,11 +39,11 @@
             android:layout_marginEnd="180dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:inputType="text"
             android:hint="NAME"
+            android:inputType="text"
             android:padding="10dp"
-            android:textColorHint="@color/white"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -119,11 +102,11 @@
             android:layout_height="63dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:inputType="text"
             android:hint="AGE"
+            android:inputType="text"
             android:padding="10dp"
-            android:textColorHint="@color/white"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,11 +122,11 @@
             android:layout_height="67dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:inputType="text"
             android:hint="PHONE NUMBER"
-            android:textColorHint="@color/white"
+            android:inputType="text"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -155,39 +138,15 @@
             tools:ignore="MissingConstraints,TextSizeCheck" />
 
         <EditText
-            android:id="@+id/edamt"
-            android:layout_width="210dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="264dp"
-            android:layout_marginEnd="326dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="AMOUNT"
-            android:textColorHint="@color/white"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.823"
-            tools:ignore="MissingConstraints" />
-
-        <EditText
             android:id="@+id/eddate"
             android:layout_width="210dp"
             android:layout_height="54dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:inputType="date"
             android:hint="DATE"
-            android:textColorHint="@color/white"
+            android:inputType="date"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -230,19 +189,19 @@
             android:background="@drawable/text_box"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.447"
+            app:layout_constraintHorizontal_bias="0.468"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.749"
+            app:layout_constraintVertical_bias="0.789"
             tools:ignore="MissingConstraints" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:background="@drawable/redbutton"
-            android:textColor="@color/white"
             android:id="@+id/cancel2"
             android:layout_width="249dp"
             android:layout_height="80dp"
+            android:background="@drawable/redbutton"
             android:text="CANCEL"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.754"
@@ -252,11 +211,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save"
-            android:background="@drawable/greenbutton"
-            android:textColor="@color/white"
             android:layout_width="249dp"
             android:layout_height="80dp"
+            android:background="@drawable/greenbutton"
             android:text="SAVE"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.164"
@@ -265,17 +224,5 @@
             app:layout_constraintVertical_bias="0.933" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="124dp"
-        android:layout_height="69dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.973"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar1"
-        app:layout_constraintVertical_bias="0.166"
-        app:srcCompat="@drawable/profile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

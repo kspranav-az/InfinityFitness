@@ -8,23 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".CustData">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="835dp"
-        android:layout_height="95dp"
-        android:layout_marginBottom="1152dp"
-        android:background="@drawable/text_box"
-        android:minHeight="?attr/actionBarSize"
-        android:padding="10dp"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
         android:layout_width="795dp"
@@ -32,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <ImageView
@@ -78,12 +61,12 @@
             android:layout_marginEnd="170dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:textSize="30dp"
-            android:text="STREET NAME"
             android:inputType="text"
             android:padding="10dp"
+            android:text="STREET NAME"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:textSize="30dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -101,12 +84,12 @@
             android:layout_marginEnd="170dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:text="ADDRESS"
             android:inputType="text"
             android:padding="10dp"
-            android:textSize="30dp"
+            android:text="ADDRESS"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:textSize="30dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +145,7 @@
             android:layout_marginStart="293dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="292dp"
-            android:layout_marginBottom="188dp"
+            android:layout_marginBottom="164dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:padding="10dp"
@@ -173,6 +156,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mop"
             tools:ignore="MissingConstraints" />
@@ -230,7 +214,7 @@
             app:layout_constraintHorizontal_bias="0.21"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.66"
+            app:layout_constraintVertical_bias="0.67"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -249,6 +233,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vphno"
+            app:layout_constraintVertical_bias="1.0"
             tools:ignore="MissingConstraints" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -260,37 +245,25 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.183"
+            app:layout_constraintHorizontal_bias="0.188"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.917" />
+            app:layout_constraintVertical_bias="0.965" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel"
             android:layout_width="249dp"
             android:layout_height="80dp"
             android:background="@drawable/redbutton"
-            android:textColor="@color/white"
             android:text="CANCEL"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.789"
+            app:layout_constraintHorizontal_bias="0.787"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.918" />
+            app:layout_constraintVertical_bias="0.965" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="111dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.928"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/profile" />
 </androidx.constraintlayout.widget.ConstraintLayout>

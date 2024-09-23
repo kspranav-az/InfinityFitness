@@ -8,28 +8,13 @@
     android:background="@drawable/rectangle"
     tools:context=".CustData">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="439dp"
-        android:layout_height="76dp"
-        android:layout_marginBottom="841dp"
-        android:background="@drawable/text_box"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="412dp"
         android:layout_height="811dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <ImageView
@@ -68,8 +53,8 @@
             android:layout_height="52dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:text="STREET NAME"
             android:padding="10dp"
+            android:text="STREET NAME"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textStyle="bold"
@@ -139,26 +124,6 @@
             tools:ignore="MissingConstraints,TextSizeCheck" />
 
         <TextView
-            android:id="@+id/vamt"
-            android:layout_width="160dp"
-            android:layout_height="41dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:padding="10dp"
-            android:text="AMOUNT"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.823"
-            tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
-
-        <TextView
             android:id="@+id/vdate"
             android:layout_width="135dp"
             android:layout_height="43dp"
@@ -184,42 +149,42 @@
             android:layout_height="48dp"
             android:layout_marginStart="64dp"
             android:layout_marginEnd="220dp"
-            android:text="EXTEND"
             android:background="@drawable/greenbutton"
+            android:text="EXTEND"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.917" />
+            app:layout_constraintVertical_bias="0.994" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel"
             android:layout_width="128dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="29dp"
             android:layout_marginEnd="72dp"
-            android:layout_marginBottom="60dp"
+            android:background="@drawable/redbutton"
             android:text="CANCEL"
             android:textColor="@color/white"
-            android:background="@drawable/redbutton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/extend"
-            app:layout_constraintTop_toBottomOf="@+id/vamt" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.993" />
 
         <TextView
             android:id="@+id/vpack"
             android:layout_width="101dp"
             android:layout_height="37dp"
             android:background="@drawable/text_box"
+            android:padding="10dp"
             android:text="PACKAGE"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.202"
@@ -251,32 +216,20 @@
             android:layout_height="37dp"
             android:layout_marginStart="119dp"
             android:layout_marginEnd="123dp"
+            android:background="@drawable/text_box"
+            android:padding="10dp"
             android:text="MODE OF PAYMENT"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:background="@drawable/text_box"
-            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.757"
+            app:layout_constraintVertical_bias="0.804"
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="114dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/profile" />
 </androidx.constraintlayout.widget.ConstraintLayout>

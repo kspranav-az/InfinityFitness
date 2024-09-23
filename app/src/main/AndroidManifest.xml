@@ -22,9 +22,6 @@
             android:name=".EditData"
             android:exported="false" />
         <activity
-            android:name=".EditCustData"
-            android:exported="false" />
-        <activity
             android:name=".CustData"
             android:exported="false" />
         <activity

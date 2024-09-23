@@ -2,13 +2,24 @@ package com.example.infinityfitness
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import com.example.infinityfitness.EditData
+import com.example.infinityfitness.R
+import com.example.infinityfitness.database.GymDatabase
+import com.example.infinityfitness.database.entity.Customer
+import com.example.infinityfitness.home
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 class CustData : AppCompatActivity() {
     // Declare all the views
@@ -25,12 +36,14 @@ class CustData : AppCompatActivity() {
     private lateinit var vsex: TextView
     private lateinit var vmop: TextView
 
-
+    private lateinit var database: GymDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.cust_data)
+
+        database = GymDatabase.getDatabase(this) // Get the database instance
 
         // Apply window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.custData)) { v, insets ->
@@ -38,6 +51,8 @@ class CustData : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val customerId = intent.getStringExtra("customerId")?.toIntOrNull()
 
         // Initialize all the views using findViewById
         extendButton = findViewById(R.id.extend)
@@ -47,46 +62,53 @@ class CustData : AppCompatActivity() {
         vadd = findViewById(R.id.vadd)
         vage = findViewById(R.id.vage)
         vphno = findViewById(R.id.vphno)
-        vamt = findViewById(R.id.vamt)
         vdate = findViewById(R.id.vdate)
         vpack = findViewById(R.id.vpack)
         vsex = findViewById(R.id.vsex)
         vmop = findViewById(R.id.vmop)
 
-
-
         // Set listeners for buttons
         extendButton.setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    EditData::class.java
-                )
-            )
+            startActivity(Intent(this, EditData::class.java))
         }
 
         cancelButton.setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    home::class.java
-                )
-            )
+            startActivity(Intent(this, home::class.java))
         }
 
-        populateViews()
+        // Populate views with data
+        if (customerId != null) {
+            populateViews(customerId)
+        } else {
+            Toast.makeText(this, "Customer ID is missing", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun populateViews() {
-        vname.text = "John Doe"
-        vadd.text = "123 Main Street, Springfield"
-        vage.text = "28"
-        vphno.text = "+1234567890"
-        vamt.text = "$100.00"
-        vdate.text = "2024-09-11"
-        vpack.text = "Premium Package"
-        vsex.text = "Male"
-        vmop.text = "Credit Card"
-        vimg.setImageResource(R.drawable.uploadimage) // Replace with your actual image resource
+    private fun populateViews(customerId: Int) {
+        // Launch a coroutine to fetch data from the database in the background
+        CoroutineScope(Dispatchers.IO).launch {
+            val customer = getCustomerByBillNo(customerId) // Fetch customer data from database
+
+            withContext(Dispatchers.Main) {
+                if (customer != null) {
+                    // Populate the views with customer data
+                    vname.text = customer.name
+                    vadd.text = customer.address
+                    vage.text = customer.age.toString()
+                    vphno.text = customer.phoneNumber
+                    vdate.text = customer.activeTill.toString()
+                    vpack.text = customer.lastPack
+                    vsex.text = customer.gender.toString()
+                    vimg.setImageBitmap(customer.image)
+                } else {
+                    Toast.makeText(this@CustData, "Customer not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    // Function to retrieve customer by bill number from the database
+    private suspend fun getCustomerByBillNo(customerId: Int): Customer? {
+        return database.customerDao().getCustomerByBillNo(customerId) // Adjust this line to call the DAO method
     }
 }

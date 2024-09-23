@@ -26,10 +26,11 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
     private lateinit var searchView: SearchView
     private lateinit var database: GymDatabase
 
+
     private var customerList = mutableListOf<CustomerCard>()
     private var isLoading = false
     private var currentPage = 0
-    private val pageSize = 8 // Limit for pagination
+    private val pageSize = 8
     private var searchQuery: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

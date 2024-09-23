@@ -43,8 +43,8 @@ class CustomerCardAdapter(
         holder.customerNameTextView.text = customer.customerName
         holder.customerIdTextView.text = customer.customerId
         holder.dueTextView.text = customer.dueDate
-
         holder.imageView.setImageBitmap(customer.imageResourceId)
+
 
         // Set the click listener for the button
         holder.openButton.setOnClickListener {

@@ -38,4 +38,5 @@ interface CustomerDao {
             " billNo = '%'|| :string || '%' OR phoneNumber LIKE '%'|| :string || '%' ORDER" +
             " BY phoneNumber , name ")
     suspend fun queryCustomers(string: String) : List<Customer>
+
 }

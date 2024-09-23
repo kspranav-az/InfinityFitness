@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.infinityfitness.EditData
@@ -70,6 +71,7 @@ class CustData : AppCompatActivity() {
         // Set listeners for buttons
         extendButton.setOnClickListener {
             val intent = Intent(this, EditData::class.java)
+            intent.putExtra("customerId", customerId)
             intent.putExtra("name", vname.text.toString())
             intent.putExtra("address", vadd.text.toString())
             intent.putExtra("age", vage.text.toString())
@@ -78,6 +80,7 @@ class CustData : AppCompatActivity() {
             intent.putExtra("package", vpack.text.toString())
             intent.putExtra("gender", vsex.text.toString())
             intent.putExtra("mop", vmop.text.toString())
+            intent.putExtra("image",vimg.drawable.toBitmap())
             // Assuming you're passing an image path or other identification for image
             // intent.putExtra("image", "your_image_reference")
             startActivity(intent)

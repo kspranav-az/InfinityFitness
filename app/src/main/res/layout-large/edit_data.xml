@@ -156,7 +156,7 @@
             app:layout_constraintVertical_bias="0.327" />
 
         <Spinner
-            android:id="@+id/sex"
+            android:id="@+id/edsex"
             android:layout_width="194dp"
             android:layout_height="63dp"
             android:background="@drawable/text_box"
@@ -170,7 +170,7 @@
             tools:ignore="MissingConstraints" />
 
         <Spinner
-            android:id="@+id/pack"
+            android:id="@+id/edpack"
             android:layout_width="211dp"
             android:layout_height="68dp"
             android:background="@drawable/text_box"
@@ -183,7 +183,7 @@
             tools:ignore="MissingConstraints" />
 
         <Spinner
-            android:id="@+id/mop"
+            android:id="@+id/edmop"
             android:layout_width="279dp"
             android:layout_height="57dp"
             android:background="@drawable/text_box"

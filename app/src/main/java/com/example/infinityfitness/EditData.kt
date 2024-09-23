@@ -32,26 +32,24 @@ class EditData : AppCompatActivity() {
             insets
         }
 
-        val save : Button = findViewById(R.id.save)
-        val cancel: Button  = findViewById(R.id.cancel2)
-        save.setOnClickListener{
-            startActivity(
-                Intent(
-                    this,
-                    home::class.java
-                )
-            )
-        }
-        cancel.setOnClickListener{
-            startActivity(
-                Intent(
-                    this,
-                    home::class.java
-                )
-            )
-        }
+        // Get data from the intent
+        val name = intent.getStringExtra("name")
+        val address = intent.getStringExtra("address")
+        val age = intent.getStringExtra("age")
+        val phoneNumber = intent.getStringExtra("phoneNumber")
+        val activeTill = intent.getStringExtra("activeTill")
+        val packageType = intent.getStringExtra("package")
+        val gender = intent.getStringExtra("gender")
+        val mop = intent.getStringExtra("mop")
 
+        // Set initial data in the EditText and Spinners
+        findViewById<EditText>(R.id.edname).setText(name)
+        findViewById<EditText>(R.id.edadd).setText(address)
+        findViewById<EditText>(R.id.edage).setText(age)
+        findViewById<EditText>(R.id.edphno).setText(phoneNumber)
+        findViewById<EditText>(R.id.eddate).setText(activeTill)
 
+        // Populate Spinner for Package
         val spinner2: Spinner = findViewById(R.id.pack)
         ArrayAdapter.createFromResource(
             this,
@@ -62,43 +60,105 @@ class EditData : AppCompatActivity() {
             spinner2.adapter = adapter
         }
 
-        val currentDate = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy") // Specify the format you want
-        val formattedDate = currentDate.format(formatter)
+        // Set initial selection for Package Spinner based on the intent data
+        val packageIndex = resources.getStringArray(R.array.PACKAGE).indexOf(packageType)
+        if (packageIndex >= 0) {
+            spinner2.setSelection(packageIndex)
+        }
 
-        println("Current Date: $formattedDate")
+        // Populate Spinner for Gender
+        val spinner: Spinner = findViewById(R.id.sex)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.SEX,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        // Set initial selection for Gender Spinner
+        val genderIndex = resources.getStringArray(R.array.SEX).indexOf(gender)
+        if (genderIndex >= 0) {
+            spinner.setSelection(genderIndex)
+        }
+
+        // Populate Spinner for Mode of Payment
+        val spinner1: Spinner = findViewById(R.id.mop)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.MODE_OF_PAYMENT,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner1.adapter = adapter
+        }
+
+        // Set initial selection for MOP Spinner
+        val mopIndex = resources.getStringArray(R.array.MODE_OF_PAYMENT).indexOf(mop)
+        if (mopIndex >= 0) {
+            spinner1.setSelection(mopIndex)
+        }
+
+        // Save and Cancel buttons
+        val save: Button = findViewById(R.id.save)
+        val cancel: Button = findViewById(R.id.cancel2)
+
+        save.setOnClickListener {
+            // Save logic here (if needed)
+            startActivity(
+                Intent(
+                    this,
+                    home::class.java
+                )
+            )
+        }
+
+        cancel.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    home::class.java
+                )
+            )
+        }
+
+        // Date selection logic for package
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val formattedDate = currentDate.format(formatter)
 
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                // Get the selected item
-                val dateEditText : EditText = view!!.findViewById(R.id.date)
-                val amountEditText : EditText  = view.findViewById(R.id.amt)
+                // Use findViewById() to access the EditText from the activity layout, not the spinner row.
+                val dateEditText: EditText = findViewById(R.id.eddate)  // Correct ID of your date EditText
+                val amountEditText: EditText = findViewById(R.id.amt)   // Correct ID of your amount EditText
                 val selectedItem = parent.getItemAtPosition(position).toString()
 
                 // Update EditText fields based on the selection
                 when (selectedItem) {
                     "1 DAY" -> {
-                        dateEditText.setText(currentDate.plus(1, ChronoUnit.DAYS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        dateEditText.setText(currentDate.plus(1, ChronoUnit.DAYS).format(formatter))
                         amountEditText.setText("200")
                     }
                     "1 MONTH" -> {
-                        dateEditText.setText(currentDate.plus(1, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        dateEditText.setText(currentDate.plus(1, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("1000")
                     }
                     "3 MONTH" -> {
-                        dateEditText.setText(currentDate.plus(3, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        dateEditText.setText(currentDate.plus(3, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("2000")
                     }
                     "4 MONTH" -> {
-                        dateEditText.setText(currentDate.plus(4, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        dateEditText.setText(currentDate.plus(4, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("3000")
                     }
                     "6 MONTH" -> {
-                        dateEditText.setText(currentDate.plus(6, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                        dateEditText.setText(currentDate.plus(6, ChronoUnit.MONTHS).format(formatter))
                         amountEditText.setText("4000")
                     }
-                    "1 Year" ->{
-                        dateEditText.setText(currentDate.plus(1, ChronoUnit.YEARS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                    "1 Year" -> {
+                        dateEditText.setText(currentDate.plus(1, ChronoUnit.YEARS).format(formatter))
                         amountEditText.setText("8000")
                     }
                     else -> {
@@ -110,33 +170,13 @@ class EditData : AppCompatActivity() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                // Handle nothing selected case if needed
             }
-        }
 
 
+    }
 
-
-        val spinner: Spinner = findViewById(R.id.sex)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.SEX,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-
-        val spinner1: Spinner = findViewById(R.id.mop)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.MODE_OF_PAYMENT,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner1.adapter = adapter
-        }
-
+        // Set up DatePickerDialog for manual date selection
         val dateEdt: EditText = findViewById(R.id.eddate)
         dateEdt.setOnClickListener {
             val c = Calendar.getInstance()

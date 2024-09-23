@@ -69,8 +69,20 @@ class CustData : AppCompatActivity() {
 
         // Set listeners for buttons
         extendButton.setOnClickListener {
-            startActivity(Intent(this, EditData::class.java))
+            val intent = Intent(this, EditData::class.java)
+            intent.putExtra("name", vname.text.toString())
+            intent.putExtra("address", vadd.text.toString())
+            intent.putExtra("age", vage.text.toString())
+            intent.putExtra("phoneNumber", vphno.text.toString())
+            intent.putExtra("activeTill", vdate.text.toString())
+            intent.putExtra("package", vpack.text.toString())
+            intent.putExtra("gender", vsex.text.toString())
+            intent.putExtra("mop", vmop.text.toString())
+            // Assuming you're passing an image path or other identification for image
+            // intent.putExtra("image", "your_image_reference")
+            startActivity(intent)
         }
+
 
         cancelButton.setOnClickListener {
             startActivity(Intent(this, home::class.java))

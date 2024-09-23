@@ -8,12 +8,12 @@
     </string-array>
     <string-array name="PACKAGE">
         <item>PACKAGE</item>
-        <item>1 DAY</item>
-        <item>1 MONTH</item>
-        <item>3 MONTH</item>
-        <item>4 MONTH</item>
-        <item>6 MONTH</item>
-        <item>1 YEAR</item>
+        <item>1 Day</item>
+        <item>1 Month</item>
+        <item>3 Month</item>
+        <item>4 Month</item>
+        <item>6 Month</item>
+        <item>1 Year</item>
     </string-array>
     <string-array name="MODE_OF_PAYMENT">
         <item>MODE OF PAYMENT</item>

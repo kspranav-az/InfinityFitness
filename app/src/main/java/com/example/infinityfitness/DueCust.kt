@@ -2,6 +2,7 @@ package com.example.infinityfitness
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -66,19 +67,20 @@ class DueCust : AppCompatActivity() {
             try {
                 val customerDao = database.customerDao()
 
-                // Calculate the due date as 2 days later using ChronoUnit
-                val dueDate = LocalDate.now().plus(2, ChronoUnit.DAYS)
-                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy") // Format to match database
 
+                val dueDate = Calendar.getInstance()
+                dueDate.add(Calendar.DAY_OF_YEAR, 3)
                 // Fetch customers whose due date is 2 days later
-                val dueCustomers = customerDao.getDueCustomers(formatter.toString())
+                val dueCustomers = customerDao.getDueCustomers(dueDate.time)
+
+                println(dueCustomers.orEmpty().toString())
 
                 // Map due customers to customer cards
                 val dueCustomerCards = dueCustomers?.map { customer ->
                     CustomerCard(
                         customerName = customer.name,
                         customerId = customer.billNo.toString(),
-                        dueDate = customer.activeTill.toString(),
+                        dueDate = customer.activeTill.date.toString(),
                         imageResourceId = customer.image!! // Use a default image if null
                     )
                 }

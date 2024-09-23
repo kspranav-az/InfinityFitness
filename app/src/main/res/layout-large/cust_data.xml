@@ -138,28 +138,7 @@
             app:layout_constraintVertical_bias="0.67"
             tools:ignore="MissingConstraints,TextSizeCheck" />
 
-        <TextView
-            android:id="@+id/vamt"
-            android:layout_width="210dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="293dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="292dp"
-            android:layout_marginBottom="164dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:padding="10dp"
-            android:text="AMOUNT"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="32dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mop"
-            tools:ignore="MissingConstraints" />
+
 
         <EditText
             android:id="@+id/vdate"

@@ -1,8 +1,8 @@
 package com.example.infinityfitness.fragments
 
-import android.app.DatePickerDialog
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -28,8 +28,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.room.withTransaction
 import com.example.infinityfitness.R
-import java.util.*
 import com.example.infinityfitness.database.GymDatabase
 import com.example.infinityfitness.database.entity.Customer
 import com.example.infinityfitness.database.entity.Subscription
@@ -42,6 +42,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.*
 
 class RegisterFragment : Fragment(R.layout.register) {
 
@@ -94,32 +95,36 @@ class RegisterFragment : Fragment(R.layout.register) {
                     val calendar = Calendar.getInstance()
                     val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                     val currentDate = dateformat.format(calendar.time)
-                    val getPack = database.packDao().getPackByType(selectedPack)
-                    val enddate = dateformat.parse(endDate)
-                    val customer = Customer(
-                        name = name,
-                        gender = gender,
-                        age = age,
-                        address = address,
-                        phoneNumber = phoneNumber,
-                        isActive = true,
-                        image = selectedImage,
-                        lastPack = selectedPack,
-                        activeTill = enddate,
-                    )
 
-                    val custId = database.customerDao().insertCustomer(customer)
+                    database.withTransaction {
+                        val getPack = database.packDao().getPackByType(selectedPack)
+                        val enddate = dateformat.parse(endDate)
+                        val customer = Customer(
+                            name = name,
+                            gender = gender,
+                            age = age,
+                            address = address,
+                            phoneNumber = phoneNumber,
+                            isActive = true,
+                            image = selectedImage,
+                            lastPack = selectedPack,
+                            activeTill = enddate,
+                        )
 
-                    val subscription = Subscription(
-                        customerId = custId,
-                        packId = getPack?.packId,
-                        startDate = Calendar.getInstance().time,
-                        endDate = enddate,
-                        finalPrice = amount,
-                        paymentMethod = paymentMethod
-                    )
+                        val custId = database.customerDao().insertCustomer(customer)
 
-                    database.subscriptionDao().insertSubscription(subscription)
+                        val subscription = Subscription(
+                            customerId = custId,
+                            packId = getPack?.packId,
+                            startDate = Calendar.getInstance().time,
+                            endDate = enddate,
+                            finalPrice = amount,
+                            paymentMethod = paymentMethod
+                        )
+
+                        database.subscriptionDao().insertSubscription(subscription)
+                    }
+
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
 
@@ -128,6 +133,7 @@ class RegisterFragment : Fragment(R.layout.register) {
                     Log.e("Register","$e")
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@RegisterFragment.requireContext() , "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
+                        setCurrentFragement(HomeFragement())
                     }
                 }
             }
@@ -153,23 +159,23 @@ class RegisterFragment : Fragment(R.layout.register) {
                 val amountEditText : EditText  = binding.amt
                 // Update EditText fields based on the selection
                 when (selectedItem) {
-                    "1 DAY" -> {
+                    "1 Day" -> {
                         dateEditText.setText(currentDate.plus(1, ChronoUnit.DAYS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                         amountEditText.setText("200")
                     }
-                    "1 MONTH" -> {
+                    "1 Month" -> {
                         dateEditText.setText(currentDate.plus(1, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                         amountEditText.setText("1000")
                     }
-                    "3 MONTH" -> {
+                    "3 Month" -> {
                         dateEditText.setText(currentDate.plus(3, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                         amountEditText.setText("2000")
                     }
-                    "4 MONTH" -> {
+                    "4 Month" -> {
                         dateEditText.setText(currentDate.plus(4, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                         amountEditText.setText("3000")
                     }
-                    "6 MONTH" -> {
+                    "6 Month" -> {
                         dateEditText.setText(currentDate.plus(6, ChronoUnit.MONTHS).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                         amountEditText.setText("4000")
                     }
@@ -262,12 +268,15 @@ class RegisterFragment : Fragment(R.layout.register) {
                             this.requireContext().contentResolver,
                             imageUri
                         )
+                    selectedImage = reduceImageResolution(selectedImage)
                 } else { // Image from camera
                     val imageBitmap = data.extras?.get("data") as Bitmap?
                     if (imageBitmap != null) {
                         binding.img.setImageBitmap(imageBitmap)
                         selectedImage = imageBitmap
                     }
+
+                    selectedImage = reduceImageResolution(selectedImage)
                 }
             }
         }
@@ -287,6 +296,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         }
     }
 
+    
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -299,6 +309,8 @@ class RegisterFragment : Fragment(R.layout.register) {
             }
         }
     }
+
+
 
     private fun chooseImageSource() {
         val galleryIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -321,16 +333,27 @@ private fun calculateEndDate(pack: String, startDate: String): String {
 
 }
 
+    // Function to reduce image resolution
+    private fun reduceImageResolution(originalBitmap: Bitmap): Bitmap {
+        // Define the new width and height (reduce by 50%, for example)
+        val targetWidth = 300
+        val targetHeight = 400
 
+        // Create a new scaled bitmap with reduced resolution
+        return Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true)
+    }
 
-    private fun sendWhatsAppMessage(phoneNumber: String, message: String) {
+    private fun setCurrentFragement(fragment: Fragment) =
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, fragment)
+            commit()
+        }
+
+    fun sendWhatsAppMessage(phoneNumber: String, message: String) {
         val formattedMessage = Uri.encode(message)
         val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
-
-
-
 
 }

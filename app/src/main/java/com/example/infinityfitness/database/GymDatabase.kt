@@ -73,12 +73,12 @@ abstract class GymDatabase : RoomDatabase() {
 
             // Add six predefined Packs
             val packs = listOf(
-                Pack(packId = 1, duration = 30, cost = 500.0, type = "1 Month"),
+                Pack(packId = 1, duration = 30, cost = 1000.0, type = "1 Month"),
                 Pack(packId = 2, duration = 90, cost = 2000.0 , type = "3 Month"),
-                Pack(packId = 3, duration = 180, cost = 2500.0 , type = "6 Months" ),
-                Pack(packId = 4, duration = 365, cost = 4800.0 , type = "1 Year"),
-                Pack(packId = 5, duration = 7, cost = 200.0 , type = "1 Week"),
-                Pack(packId = 6, duration = 15, cost = 350.0, type = "2 Week")
+                Pack(packId = 3, duration = 180, cost = 4000.0 , type = "6 Months" ),
+                Pack(packId = 4, duration = 365, cost = 8000.0 , type = "1 Year"),
+                Pack(packId = 5, duration = 7, cost = 3000.0 , type = "4 Months"),
+                Pack(packId = 6, duration = 15, cost = 200.0, type = "1 Day")
             )
             packs.forEach { pack ->
                 packDao.insertPack(pack)

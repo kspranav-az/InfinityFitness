@@ -10,8 +10,8 @@ interface CustomerDao {
     @Query("SELECT * FROM Customer WHERE billNo = :billNo")
     suspend fun getCustomerByBillNo(billNo: Int): Customer?
 
-    @Query("SELECT * FROM Customer WHERE activeTill = :dueDate")
-    suspend fun getDueCustomers(dueDate: String):List<Customer>?
+    @Query("SELECT * FROM Customer WHERE activeTill <= :dueDate")
+    suspend fun getDueCustomers(dueDate: Date):List<Customer>?
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -33,7 +33,7 @@ interface CustomerDao {
             "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
             " THEN billNo = :numericValue ELSE 0 END) OR " +
             "phoneNumber LIKE '%' || :string || '%')) " +
-            "ORDER BY phoneNumber, name ASC LIMIT :limit OFFSET :offset")
+            "ORDER BY billNo , phoneNumber, name ASC LIMIT :limit OFFSET :offset")
     suspend fun getActiveCustomersPaged(
         string: String, isNumeric: Int, numericValue: Int,
         limit: Int, offset: Int): List<Customer>

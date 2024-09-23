@@ -44,7 +44,7 @@ data class Customer(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "billNo")
-    var billNo: Long = 100
+    var billNo: Long = 0
 ) {
     @Ignore
     constructor() : this( "", SEX.MALE, 0,null, null, null,"" , Date() ,true , 100)

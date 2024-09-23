@@ -10,13 +10,31 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dueView"
-        android:layout_width="786dp"
-        android:layout_height="1258dp"
+        android:layout_width="798dp"
+        android:layout_height="1139dp"
+        android:background="@null"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/custcard" />
+
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="77dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="688dp"
+        android:layout_marginBottom="23dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/dueView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_dialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,9 +10,10 @@
 
     <ImageButton
         android:id="@+id/lgout"
-        android:layout_width="356dp"
-        android:layout_height="170dp"
+        android:layout_width="338dp"
+        android:layout_height="120dp"
         android:background="@null"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,14 +24,16 @@
 
     <ImageButton
         android:id="@+id/due"
-        android:layout_width="356dp"
-        android:layout_height="170dp"
+        android:layout_width="345dp"
+        android:layout_height="111dp"
         android:background="@null"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.229"
+        app:layout_constraintVertical_bias="0.238"
         app:srcCompat="@drawable/logoutbutton"
         tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

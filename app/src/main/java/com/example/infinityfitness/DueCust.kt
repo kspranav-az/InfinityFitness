@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -43,6 +45,12 @@ class DueCust : AppCompatActivity() {
                 // No action required, you can leave it empty or log if needed
             }
         })
+
+        var btn : ImageButton = findViewById(R.id.back)
+
+        btn.setOnClickListener {
+            startActivity(Intent(this,home::class.java))
+        }
 
         recyclerView.adapter = adapter
         database = GymDatabase.getDatabase(this)

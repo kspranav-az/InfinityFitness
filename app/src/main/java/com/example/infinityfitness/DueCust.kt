@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -17,13 +18,15 @@ import com.example.infinityfitness.Adpater.CustomerCardAdapter
 import com.example.infinityfitness.Adpater.OnCustomerButtonClickListener
 import com.example.infinityfitness.R
 import com.example.infinityfitness.database.GymDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 
-class DueCust : AppCompatActivity() {
+class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CustomerCardAdapter
@@ -38,14 +41,10 @@ class DueCust : AppCompatActivity() {
         setContentView(R.layout.cust_due)
 
         recyclerView = findViewById(R.id.dueView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this@DueCust)
 
         // Create an adapter with an empty listener as no click handling is needed
-        adapter = CustomerCardAdapter(customerList, object : OnCustomerButtonClickListener {
-            override fun onButtonClick(customer: CustomerCard) {
-                // No action required, you can leave it empty or log if needed
-            }
-        })
+        adapter = CustomerCardAdapter(customerList, this@DueCust )
 
         var btn : ImageButton = findViewById(R.id.back)
 
@@ -85,14 +84,19 @@ class DueCust : AppCompatActivity() {
                     )
                 }
 
+                println(dueCustomerCards.orEmpty().toString())
+
                 // Clear the existing list and add new due customers
                 customerList.clear() // Clear existing list for fresh data
                 if (dueCustomerCards != null) {
                     customerList.addAll(dueCustomerCards)
                 }
 
+                println(customerList.orEmpty().toString())
+
                 // Notify the adapter of changes
                 adapter.notifyDataSetChanged()
+
 
             } catch (e: Exception) {
                 e.printStackTrace() // Log any errors
@@ -107,6 +111,10 @@ class DueCust : AppCompatActivity() {
         val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
+    }
+
+    override fun onButtonClick(customer: CustomerCard) {
+        TODO("Not yet implemented")
     }
 
 }

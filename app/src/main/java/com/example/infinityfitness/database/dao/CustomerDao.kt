@@ -1,12 +1,18 @@
 package com.example.infinityfitness.database.dao
 import androidx.room.*
+import com.example.infinityfitness.DueCust
 import com.example.infinityfitness.database.entity.Customer
+import java.util.Date
 
 @Dao
 interface CustomerDao {
 
     @Query("SELECT * FROM Customer WHERE billNo = :billNo")
     suspend fun getCustomerByBillNo(billNo: Int): Customer?
+
+    @Query("SELECT * FROM Customer WHERE activeTill = :dueDate")
+    suspend fun getDueCustomers(dueDate: String):List<Customer>?
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCustomer(customer: Customer) : Long

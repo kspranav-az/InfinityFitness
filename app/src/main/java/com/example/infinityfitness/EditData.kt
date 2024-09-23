@@ -132,7 +132,7 @@ class EditData : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Use findViewById() to access the EditText from the activity layout, not the spinner row.
                 val dateEditText: EditText = findViewById(R.id.eddate)  // Correct ID of your date EditText
-                val amountEditText: EditText = findViewById(R.id.amt)   // Correct ID of your amount EditText
+                val amountEditText: EditText = findViewById(R.id.edamnt)   // Correct ID of your amount EditText
                 val selectedItem = parent.getItemAtPosition(position).toString()
 
                 // Update EditText fields based on the selection

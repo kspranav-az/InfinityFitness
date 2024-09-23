@@ -13,8 +13,24 @@
         android:layout_width="356dp"
         android:layout_height="170dp"
         android:background="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.097"
         app:srcCompat="@drawable/logoutbutton"
-        tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
-        tools:layout_editor_absoluteX="222dp"
-        tools:layout_editor_absoluteY="234dp" />
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/due"
+        android:layout_width="356dp"
+        android:layout_height="170dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.229"
+        app:srcCompat="@drawable/logoutbutton"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

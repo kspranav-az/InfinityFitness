@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -121,6 +122,7 @@ class RegisterFragment : Fragment(R.layout.register) {
                     database.subscriptionDao().insertSubscription(subscription)
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
+
                     }
                 } catch (e: Exception) {
                     Log.e("Register","$e")
@@ -318,6 +320,16 @@ private fun calculateEndDate(pack: String, startDate: String): String {
     return startDate
 
 }
+
+
+
+    private fun sendWhatsAppMessage(phoneNumber: String, message: String) {
+        val formattedMessage = Uri.encode(message)
+        val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
+    }
+
 
 
 

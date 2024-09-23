@@ -1,6 +1,8 @@
 package com.example.infinityfitness
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -89,4 +91,12 @@ class DueCust : AppCompatActivity() {
             }
         }
     }
+
+    private fun sendWhatsAppMessage(phoneNumber: String, message: String) {
+        val formattedMessage = Uri.encode(message)
+        val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
+    }
+
 }

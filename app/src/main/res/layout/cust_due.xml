@@ -5,6 +5,7 @@
     android:id="@+id/custDue"
     android:background="@drawable/rectangle"
     android:layout_width="match_parent"
+    android:scaleType="fitXY"
     android:layout_height="match_parent"
     tools:context=".DueCust">
 

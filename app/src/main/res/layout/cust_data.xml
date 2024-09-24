@@ -5,6 +5,7 @@
     android:id="@+id/custData"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scaleType="fitXY"
     android:background="@drawable/rectangle"
     tools:context=".CustData">
 

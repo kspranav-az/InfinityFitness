@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/rectangle"
     android:layout_width="match_parent"
-    android:scrollbars="horizontal"
+    android:scrollbars="vertical"
+    android:fitsSystemWindows="true"
     android:scaleType="fitXY"
     android:layout_height="match_parent">
 
@@ -14,21 +15,25 @@
         android:layout_width="286dp"
         android:layout_height="36dp"
         android:background="@drawable/text_box"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.093" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="816dp"
+        android:layout_width="400dp"
+        android:layout_height="699dp"
         android:padding="10dp"
-        tools:listitem="@layout/custcard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/custcard" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

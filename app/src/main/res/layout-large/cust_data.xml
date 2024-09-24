@@ -5,6 +5,7 @@
     android:id="@+id/custData"
     android:layout_width="match_parent"
     android:background="@drawable/rectangle"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     tools:context=".CustData">
 

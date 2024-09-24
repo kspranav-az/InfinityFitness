@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/userdatafrag"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-
+    android:scrollbars="vertical"
     android:scaleType="fitXY"
     android:background="@drawable/rectangle">
 

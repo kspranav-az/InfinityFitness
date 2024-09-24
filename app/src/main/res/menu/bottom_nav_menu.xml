@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navHome"
-        android:title="Home"
+        android:scaleType="fitXY"
+        tools:ignore="MenuTitle"
         android:icon="@drawable/unactivehome"/>
     <item
         android:id="@+id/navRegister"
-        android:title="Register"
+        android:scaleType="fitXY"
+        tools:ignore="MenuTitle"
         android:icon="@drawable/register"/>
     <item
         android:id="@+id/navData"
-        android:title="Data"
-        android:icon="@drawable/userdata"/>
+        android:scaleType="fitXY"
+        android:icon="@drawable/userdata"
+        tools:ignore="MenuTitle" />
     <item
         android:id="@+id/navProfile"
-        android:title="Profile"
+        tools:ignore="MenuTitle"
+        android:scaleType="fitXY"
         android:icon="@drawable/profileicon"/>
 
 </menu>

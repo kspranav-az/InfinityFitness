@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scaleType="fitXY"
+    android:fitsSystemWindows="true"
     android:background="@drawable/rectangle">
 
 
@@ -154,9 +155,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.791"
+        app:layout_constraintVertical_bias="0.806"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <EditText
@@ -201,8 +203,8 @@
 
     <Spinner
         android:id="@+id/pack"
-        android:layout_width="101dp"
-        android:layout_height="37dp"
+        android:layout_width="105dp"
+        android:layout_height="48dp"
         android:background="@drawable/text_box"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -215,8 +217,8 @@
 
     <Spinner
         android:id="@+id/sex"
-        android:layout_width="101dp"
-        android:layout_height="37dp"
+        android:layout_width="102dp"
+        android:layout_height="42dp"
         android:background="@drawable/text_box"
         android:padding="10dp"
         android:spinnerMode="dropdown"
@@ -231,7 +233,7 @@
     <Spinner
         android:id="@+id/mop"
         android:layout_width="169dp"
-        android:layout_height="37dp"
+        android:layout_height="47dp"
         android:layout_marginStart="119dp"
         android:layout_marginEnd="123dp"
         android:background="@drawable/text_box"
@@ -241,6 +243,6 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.733"
+        app:layout_constraintVertical_bias="0.742"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,102 +26,111 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 
-class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
-
+class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{private lateinit var adapter: CustomerCardAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: CustomerCardAdapter
     private lateinit var database: GymDatabase
-    private val customerList = mutableListOf<CustomerCard>()
 
+    private var customerList = mutableListOf<CustomerCard>()
     private var isLoading = false
+    private var currentPage = 0
+    private val pageSize = 8
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.cust_due)
 
         recyclerView = findViewById(R.id.dueView)
-        recyclerView.layoutManager = LinearLayoutManager(this@DueCust)
-
-        // Create an adapter with an empty listener as no click handling is needed
-        adapter = CustomerCardAdapter(customerList, this@DueCust )
-
-        var btn : ImageButton = findViewById(R.id.back)
-
-        btn.setOnClickListener {
-            startActivity(Intent(this,home::class.java))
-        }
-
-        recyclerView.adapter = adapter
         database = GymDatabase.getDatabase(this)
+        adapter = CustomerCardAdapter(customerList, this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
 
-        loadDueCustomers()
+        // Set up infinite scrolling
+        setUpRecyclerViewScrollListener()
+
+        // Initially load the first page
+        loadCustomers()
+    }
+
+    private fun setUpRecyclerViewScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (!isLoading) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val visibleItemCount = layoutManager.childCount
+                    val totalItemCount = layoutManager.itemCount
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                    if (firstVisibleItemPosition + visibleItemCount >= totalItemCount && totalItemCount >= pageSize) {
+                        loadCustomers() // Only load more customers when at the end
+                    }
+                }
+            }
+        })
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun loadDueCustomers() {
+    private fun loadCustomers() {
         isLoading = true
 
         lifecycleScope.launch {
             try {
                 val customerDao = database.customerDao()
 
+                // Fetch paginated customers (no search query)
+                val newCustomers = customerDao.getActiveCustomersPaged(
+                    "",
+                    0,
+                    0,
+                    pageSize,
+                    currentPage * pageSize
+                )
 
-                val dueDate = Calendar.getInstance()
-                dueDate.add(Calendar.DAY_OF_YEAR, 3)
-                // Fetch customers whose due date is 2 days later
-                val dueCustomers = customerDao.getDueCustomers(dueDate.time)
+                // Check if newCustomers is empty, which would mean no more data to load
+                if (newCustomers.isNotEmpty()) {
+                    val newCustomerCards = newCustomers.map { customer ->
+                        CustomerCard(
+                            customerName = customer.name,
+                            customerId = customer.billNo.toString(),
+                            dueDate = customer.activeTill.toString(),
+                            imageResourceId = customer.image!!
+                        )
+                    }
 
-                println(dueCustomers.orEmpty().toString())
+                    // Append new customers to the list (do not clear the list)
+                    customerList.addAll(newCustomerCards)
 
-                // Map due customers to customer cards
-                val dueCustomerCards = dueCustomers?.map { customer ->
-                    CustomerCard(
-                        customerName = customer.name,
-                        customerId = customer.billNo.toString(),
-                        dueDate = customer.activeTill.date.toString(),
-                        imageResourceId = customer.image!! // Use a default image if null
-                    )
+                    // Notify the adapter of changes
+                    if (currentPage == 0) {
+                        // First page, set adapter
+                        adapter = CustomerCardAdapter(customerList, this@DueCust)
+                        recyclerView.adapter = adapter
+                    } else {
+                        // Subsequent pages, just notify the adapter
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    // Increment the page number for the next fetch
+                    currentPage++
+                } else {
+                    // No more data to load
+                    isLoading = false
                 }
-
-                println(dueCustomerCards.orEmpty().toString())
-
-                // Clear the existing list and add new due customers
-                customerList.clear() // Clear existing list for fresh data
-                if (dueCustomerCards != null) {
-                    customerList.addAll(dueCustomerCards)
-                }
-
-                println(customerList.orEmpty().toString())
-
-                // Notify the adapter of changes
-                adapter.notifyDataSetChanged()
-
-
             } catch (e: Exception) {
                 e.printStackTrace() // Log any errors
-            } finally {
                 isLoading = false
             }
         }
     }
 
-    private fun sendWhatsAppMessage(phoneNumber: String, message: String) {
-        val formattedMessage = Uri.encode(message)
-        val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
-        val intent = Intent(Intent.ACTION_VIEW, uri)
+    override fun onButtonClick(customer: CustomerCard) {
+        // Start CustDataActivity with the clicked customer data
+        val intent = Intent(this, CustData::class.java).apply {
+            putExtra("customerName", customer.customerName)
+            putExtra("customerId", customer.customerId.toLongOrNull())
+            putExtra("dueDate", customer.dueDate)
+        }
         startActivity(intent)
     }
-
-    override fun onButtonClick(customer: CustomerCard) {
-        val customerDao = database.customerDao()
-        lifecycleScope.launch {
-            val cus = customerDao.getCustomerByBillNo(customer.customerId.toLong())
-            if (cus != null) {
-                cus.phoneNumber?.let { sendWhatsAppMessage(it,"you have your due on ${cus.activeTill}") }
-            }
-
-        }
-    }
-
 }

@@ -94,8 +94,15 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
 
                 println(customerList.orEmpty().toString())
 
-                // Notify the adapter of changes
-                adapter.notifyDataSetChanged()
+
+
+                withContext(Dispatchers.Main) {
+                    adapter = CustomerCardAdapter(customerList, this@DueCust )
+                    recyclerView.adapter = adapter
+                    // Notify the adapter of changes
+                    adapter.notifyDataSetChanged()
+
+                }
 
 
             } catch (e: Exception) {
@@ -123,5 +130,7 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
 
         }
     }
+
+
 
 }

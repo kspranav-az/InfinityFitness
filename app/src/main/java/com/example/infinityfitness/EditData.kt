@@ -166,7 +166,8 @@ class EditData : AppCompatActivity() {
                             isActive = true,
                             image =  customer!!.image,
                             lastPack = selectedPack,
-                            activeTill = enddate
+                            activeTill = enddate,
+                            billNo = customerId
                         )
 
                         println(customer)

@@ -163,7 +163,7 @@
             android:ems="10"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:inputType="none"
+            android:inputType="date"
             android:padding="10dp"
             android:text="DATE"
             android:textAlignment="center"
@@ -210,7 +210,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <Spinner
-            android:id="@+id/pack"
+            android:id="@+id/edpack"
             android:layout_width="101dp"
             android:layout_height="37dp"
             android:background="@drawable/text_box"
@@ -224,7 +224,7 @@
             tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
         <Spinner
-            android:id="@+id/sex"
+            android:id="@+id/edsex"
             android:layout_width="101dp"
             android:layout_height="37dp"
             android:background="@drawable/text_box"
@@ -239,7 +239,7 @@
             tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
         <Spinner
-            android:id="@+id/mop"
+            android:id="@+id/edmop"
             android:layout_width="169dp"
             android:layout_height="37dp"
             android:layout_marginStart="119dp"

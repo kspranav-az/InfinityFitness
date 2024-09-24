@@ -1,12 +1,16 @@
 package com.example.infinityfitness
 
+import android.annotation.SuppressLint
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
+import com.example.infinityfitness.databinding.EditDataBinding
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,17 +18,40 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.drawToBitmap
+import androidx.lifecycle.lifecycleScope
+import androidx.room.withTransaction
+import com.example.infinityfitness.database.GymDatabase
+import com.example.infinityfitness.database.entity.Customer
+import com.example.infinityfitness.database.entity.Subscription
+import com.example.infinityfitness.enums.PaymentMethod
+import com.example.infinityfitness.enums.SEX
+import com.example.infinityfitness.fragments.HomeFragement
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.temporal.ChronoUnit
+import java.util.Locale
 
 class EditData : AppCompatActivity() {
+    private lateinit var database: GymDatabase
+    private lateinit var binding: EditDataBinding
+    private  var customer: Customer? = null
+
+    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.edit_data)
+        database = GymDatabase.getDatabase(this@EditData)
+        binding = EditDataBinding.inflate(layoutInflater)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editData)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -32,25 +59,16 @@ class EditData : AppCompatActivity() {
             insets
         }
 
-        // Get data from the intent
-        val name = intent.getStringExtra("name")
-        val address = intent.getStringExtra("address")
-        val age = intent.getStringExtra("age")
-        val phoneNumber = intent.getStringExtra("phoneNumber")
-        val activeTill = intent.getStringExtra("activeTill")
-        val packageType = intent.getStringExtra("package")
-        val gender = intent.getStringExtra("gender")
-        val mop = intent.getStringExtra("mop")
 
-        // Set initial data in the EditText and Spinners
-        findViewById<EditText>(R.id.edname).setText(name)
-        findViewById<EditText>(R.id.edadd).setText(address)
-        findViewById<EditText>(R.id.edage).setText(age)
-        findViewById<EditText>(R.id.edphno).setText(phoneNumber)
-        findViewById<EditText>(R.id.eddate).setText(activeTill)
+
+        val customerId = intent.getLongExtra("customerId",0)
+
+        var  job  : Job = CoroutineScope(Dispatchers.IO).launch {
+            customer = customerId?.let { getCustomerByBillNo(it) }!!
+        }
 
         // Populate Spinner for Package
-        val spinner2: Spinner = findViewById(R.id.pack)
+        val spinner2: Spinner = findViewById(R.id.edpack)
         ArrayAdapter.createFromResource(
             this,
             R.array.PACKAGE,
@@ -60,14 +78,10 @@ class EditData : AppCompatActivity() {
             spinner2.adapter = adapter
         }
 
-        // Set initial selection for Package Spinner based on the intent data
-        val packageIndex = resources.getStringArray(R.array.PACKAGE).indexOf(packageType)
-        if (packageIndex >= 0) {
-            spinner2.setSelection(packageIndex)
-        }
+
 
         // Populate Spinner for Gender
-        val spinner: Spinner = findViewById(R.id.sex)
+        val spinner: Spinner = findViewById(R.id.edsex)
         ArrayAdapter.createFromResource(
             this,
             R.array.SEX,
@@ -77,14 +91,9 @@ class EditData : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        // Set initial selection for Gender Spinner
-        val genderIndex = resources.getStringArray(R.array.SEX).indexOf(gender)
-        if (genderIndex >= 0) {
-            spinner.setSelection(genderIndex)
-        }
 
         // Populate Spinner for Mode of Payment
-        val spinner1: Spinner = findViewById(R.id.mop)
+        val spinner1: Spinner = findViewById(R.id.edmop)
         ArrayAdapter.createFromResource(
             this,
             R.array.MODE_OF_PAYMENT,
@@ -94,10 +103,34 @@ class EditData : AppCompatActivity() {
             spinner1.adapter = adapter
         }
 
-        // Set initial selection for MOP Spinner
-        val mopIndex = resources.getStringArray(R.array.MODE_OF_PAYMENT).indexOf(mop)
-        if (mopIndex >= 0) {
-            spinner1.setSelection(mopIndex)
+
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            job.join()
+            // Populate views with data
+            withContext(Dispatchers.Main) {
+                // Set initial data in the EditText and Spinners
+                findViewById<EditText>(R.id.edname).setText(customer!!.name)
+                findViewById<EditText>(R.id.edadd).setText(customer!!.address)
+                findViewById<EditText>(R.id.edage).setText(customer?.age.toString())
+                findViewById<EditText>(R.id.edphno).setText(customer!!.phoneNumber)
+                findViewById<ImageButton>(R.id.edimg).setImageBitmap(customer!!.image)
+
+                // Set initial selection for Package Spinner based on the intent data
+                val packageIndex = resources.getStringArray(R.array.PACKAGE).indexOf(customer!!.lastPack)
+                if (packageIndex >= 0) {
+                    spinner2.setSelection(packageIndex)
+                }
+
+                println(customer!!.gender.toString())
+                // Set initial selection for Gender Spinner
+                val genderIndex = resources.getStringArray(R.array.SEX).indexOf(customer!!.gender.toString())
+                if (genderIndex >= 0) {
+                    spinner.setSelection(genderIndex)
+                }
+
+
+            }
         }
 
         // Save and Cancel buttons
@@ -105,7 +138,70 @@ class EditData : AppCompatActivity() {
         val cancel: Button = findViewById(R.id.cancel2)
 
         save.setOnClickListener {
-            // Save logic here (if needed)
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+
+                    val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    val name = findViewById<EditText>(R.id.edname).text.toString()
+                    val address = findViewById<EditText>(R.id.edadd).text.toString()
+                    val age = findViewById<EditText>(R.id.edage).text.toString().toIntOrNull() ?: 0
+                    val phoneNumber = findViewById<EditText>(R.id.edphno).text.toString()
+                    val amount = findViewById<EditText>(R.id.edamnt).text.toString().toDoubleOrNull() ?: 0.0
+                    val endDate = findViewById<EditText>(R.id.eddate).text.toString()
+                    val gender = findViewById<Spinner>(R.id.edsex).selectedItem.toString()
+                    val selectedPack = findViewById<Spinner>(R.id.edpack).selectedItem.toString()
+                    val paymentMethod = findViewById<Spinner>(R.id.edmop).selectedItem.toString()
+                    println(endDate)
+                    database.withTransaction {
+                        val getPack = database.packDao().getPackByType(selectedPack)
+                        val enddate = dateformat.parse(endDate)
+
+                        val customer = Customer(
+                            name = name,
+                            gender = SEX.valueOf(gender),
+                            age = age,
+                            address = address,
+                            phoneNumber = phoneNumber,
+                            isActive = true,
+                            image =  customer!!.image,
+                            lastPack = selectedPack,
+                            activeTill = enddate
+                        )
+
+                        println(customer)
+                        database.customerDao().updateCustomer(customer)
+                        customer.billNo  = intent.getLongExtra("customerId", 0)
+
+
+
+                        val subscription = Subscription(
+                            customerId = customer.billNo,
+                            packId = getPack?.packId,
+                            startDate = java.util.Calendar.getInstance().time,
+                            endDate = enddate,
+                            finalPrice = amount,
+                            paymentMethod = PaymentMethod.valueOf(paymentMethod)
+                        )
+
+                        database.subscriptionDao().insertSubscription(subscription)
+                    }
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@EditData, "Customer updated successfully", Toast.LENGTH_SHORT).show()
+
+                    }
+                } catch (e: Exception) {
+                    Log.e("Register","$e")
+                    throw e
+//                    withContext(Dispatchers.Main) {
+//                        Toast.makeText(this@EditData , "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
+//                        //setCurrentFragement(HomeFragement())
+//                    }
+                }
+            }
+
+
             startActivity(
                 Intent(
                     this,
@@ -196,5 +292,10 @@ class EditData : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+    }
+
+    // Function to retrieve customer by bill number from the database
+    private suspend fun getCustomerByBillNo(customerId: Long): Customer? {
+        return database.customerDao().getCustomerByBillNo(customerId) // Adjust this line to call the DAO method
     }
 }

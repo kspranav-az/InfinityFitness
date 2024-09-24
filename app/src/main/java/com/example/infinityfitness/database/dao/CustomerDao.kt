@@ -8,7 +8,7 @@ import java.util.Date
 interface CustomerDao {
 
     @Query("SELECT * FROM Customer WHERE billNo = :billNo")
-    suspend fun getCustomerByBillNo(billNo: Int): Customer?
+    suspend fun getCustomerByBillNo(billNo: Long): Customer?
 
     @Query("SELECT * FROM Customer WHERE activeTill <= :dueDate")
     suspend fun getDueCustomers(dueDate: Date):List<Customer>?

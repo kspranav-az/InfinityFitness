@@ -8,8 +8,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.infinityfitness.EditData
 import com.example.infinityfitness.R
 import com.example.infinityfitness.database.GymDatabase
@@ -17,6 +19,7 @@ import com.example.infinityfitness.database.entity.Customer
 import com.example.infinityfitness.home
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -35,6 +38,7 @@ class CustData : AppCompatActivity() {
     private lateinit var vpack: TextView
     private lateinit var vsex: TextView
     private lateinit var vmop: TextView
+    private lateinit var customer: Customer
 
     private lateinit var database: GymDatabase
 
@@ -45,6 +49,8 @@ class CustData : AppCompatActivity() {
 
         database = GymDatabase.getDatabase(this) // Get the database instance
 
+
+
         // Apply window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.custData)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -52,7 +58,10 @@ class CustData : AppCompatActivity() {
             insets
         }
 
-        val customerId = intent.getStringExtra("customerId")?.toIntOrNull()
+        val customerId : Long? = intent.getLongExtra("customerId",0)
+        var  job  : Job = CoroutineScope(Dispatchers.IO).launch {
+            customer = customerId?.let { getCustomerByBillNo(it) }!!
+        }
 
         // Initialize all the views using findViewById
         extendButton = findViewById(R.id.extend)
@@ -69,18 +78,25 @@ class CustData : AppCompatActivity() {
 
         // Set listeners for buttons
         extendButton.setOnClickListener {
+            if (customerId != null) {
             val intent = Intent(this, EditData::class.java)
-            intent.putExtra("name", vname.text.toString())
-            intent.putExtra("address", vadd.text.toString())
-            intent.putExtra("age", vage.text.toString())
-            intent.putExtra("phoneNumber", vphno.text.toString())
-            intent.putExtra("activeTill", vdate.text.toString())
-            intent.putExtra("package", vpack.text.toString())
-            intent.putExtra("gender", vsex.text.toString())
-            intent.putExtra("mop", vmop.text.toString())
+            intent.putExtra("customerId", customerId)
+//            intent.putExtra("name", customer.name)
+//            intent.putExtra("address", customer.address)
+//            intent.putExtra("age", customer.age)
+//            intent.putExtra("phoneNumber", customer.phoneNumber)
+//            intent.putExtra("activeTill", customer.activeTill)
+//            intent.putExtra("package", customer.lastPack )
+//            intent.putExtra("gender", customer.gender.toString() )
+//            intent.putExtra("mop", customer.paymentMethod.toString() )
+//            intent.putExtra("image",vimg.drawable.toBitmap())
             // Assuming you're passing an image path or other identification for image
             // intent.putExtra("image", "your_image_reference")
             startActivity(intent)
+
+            } else {
+                Toast.makeText(this@CustData, "Customer ID is missing", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -88,15 +104,21 @@ class CustData : AppCompatActivity() {
             startActivity(Intent(this, home::class.java))
         }
 
-        // Populate views with data
-        if (customerId != null) {
-            populateViews(customerId)
-        } else {
-            Toast.makeText(this, "Customer ID is missing", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch(Dispatchers.IO) {
+            job.join()
+            // Populate views with data
+            if (customerId != null) {
+                populateViews(customerId)
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@CustData, "Customer ID is missing", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+
     }
 
-    private fun populateViews(customerId: Int) {
+    private fun populateViews(customerId: Long) {
         // Launch a coroutine to fetch data from the database in the background
         CoroutineScope(Dispatchers.IO).launch {
             val customer = getCustomerByBillNo(customerId) // Fetch customer data from database
@@ -120,7 +142,7 @@ class CustData : AppCompatActivity() {
     }
 
     // Function to retrieve customer by bill number from the database
-    private suspend fun getCustomerByBillNo(customerId: Int): Customer? {
+    private suspend fun getCustomerByBillNo(customerId: Long): Customer? {
         return database.customerDao().getCustomerByBillNo(customerId) // Adjust this line to call the DAO method
     }
 }

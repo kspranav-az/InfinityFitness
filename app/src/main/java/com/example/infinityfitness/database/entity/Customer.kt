@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Ignore
+import com.example.infinityfitness.enums.PaymentMethod
 import com.example.infinityfitness.enums.SEX
 import java.util.Date
 
@@ -47,7 +48,7 @@ data class Customer(
     var billNo: Long = 0
 ) {
     @Ignore
-    constructor() : this( "", SEX.MALE, 0,null, null, null,"" , Date() ,true , 100)
+    constructor() : this( "", SEX.MALE, 0,null, null, null,"" , Date() ,true ,100)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

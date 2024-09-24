@@ -10,6 +10,7 @@
 
     <ImageView
             android:id="@+id/imageView2"
+            android:scaleType="fitXY"
             android:layout_width="124dp"
             android:layout_height="69dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -22,6 +23,7 @@
 
     <ImageButton
         android:id="@+id/img"
+        android:scaleType="fitXY"
         android:layout_width="126dp"
         android:layout_height="111dp"
         android:background="@null"

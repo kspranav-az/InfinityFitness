@@ -21,6 +21,7 @@
             android:id="@+id/edimg"
             android:layout_width="126dp"
             android:layout_height="111dp"
+            android:scaleType="fitXY"
             android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

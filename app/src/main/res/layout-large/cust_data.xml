@@ -21,6 +21,8 @@
         <ImageView
             android:id="@+id/vimg"
             android:layout_width="126dp"
+
+            android:scaleType="fitXY"
             android:layout_height="111dp"
             android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,8 +36,8 @@
 
         <TextView
             android:id="@+id/vname"
-            android:layout_width="451dp"
-            android:layout_height="52dp"
+            android:layout_width="445dp"
+            android:layout_height="50dp"
             android:layout_marginStart="120dp"
             android:layout_marginEnd="180dp"
             android:background="@drawable/text_box"
@@ -50,36 +52,13 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.218"
-            tools:ignore="MissingConstraints" />
-
-        <EditText
-            android:id="@+id/vstreet"
-            android:layout_width="518dp"
-            android:layout_height="66dp"
-            android:layout_marginStart="120dp"
-            android:layout_marginEnd="170dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:inputType="text"
-            android:padding="10dp"
-            android:text="STREET NAME"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.571"
+            app:layout_constraintVertical_bias="0.22"
             tools:ignore="MissingConstraints" />
 
         <EditText
             android:id="@+id/vadd"
-            android:layout_width="517dp"
-            android:layout_height="75dp"
+            android:layout_width="526dp"
+            android:layout_height="171dp"
             android:layout_marginStart="120dp"
             android:layout_marginEnd="170dp"
             android:background="@drawable/text_box"
@@ -93,10 +72,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintHorizontal_bias="0.238"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.485"
+            app:layout_constraintVertical_bias="0.518"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -113,10 +92,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.237"
+            app:layout_constraintHorizontal_bias="0.175"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.385"
+            app:layout_constraintVertical_bias="0.384"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -172,7 +151,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.715"
+            app:layout_constraintHorizontal_bias="0.765"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.384"

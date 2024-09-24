@@ -13,6 +13,7 @@
         android:layout_width="399dp"
         android:layout_height="778dp"
         android:padding="10dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"

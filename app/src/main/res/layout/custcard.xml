@@ -13,6 +13,7 @@
         <ImageView
             android:id="@+id/CustImg"
             android:layout_width="86dp"
+            android:scaleType="fitXY"
             android:layout_height="75dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

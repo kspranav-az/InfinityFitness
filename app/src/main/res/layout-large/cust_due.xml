@@ -11,6 +11,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dueView"
         android:layout_width="798dp"
+
+        android:scaleType="fitXY"
         android:layout_height="1139dp"
         android:background="@null"
         android:padding="10dp"

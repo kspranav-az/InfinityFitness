@@ -116,7 +116,7 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
     override fun onButtonClick(customer: CustomerCard) {
         val customerDao = database.customerDao()
         lifecycleScope.launch {
-            val cus = customerDao.getCustomerByBillNo(customer.customerId.toInt())
+            val cus = customerDao.getCustomerByBillNo(customer.customerId.toLong())
             if (cus != null) {
                 cus.phoneNumber?.let { sendWhatsAppMessage(it,"you have your due on ${cus.activeTill}") }
             }

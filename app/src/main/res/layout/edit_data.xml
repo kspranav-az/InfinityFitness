@@ -163,7 +163,7 @@
             android:ems="10"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:inputType="none"
+            android:inputType="date"
             android:padding="10dp"
             android:text="DATE"
             android:textAlignment="center"

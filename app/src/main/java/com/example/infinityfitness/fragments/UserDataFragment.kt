@@ -157,7 +157,7 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
         // Start CustDataActivity with the clicked customer data
         val intent = Intent(requireContext(), CustData::class.java).apply {
             putExtra("customerName", customer.customerName)
-            putExtra("customerId", customer.customerId)
+            putExtra("customerId", customer.customerId.toLongOrNull())
             putExtra("dueDate", customer.dueDate)
         }
         startActivity(intent)

@@ -138,77 +138,101 @@ class EditData : AppCompatActivity() {
         val cancel: Button = findViewById(R.id.cancel2)
 
         save.setOnClickListener {
+            if (findViewById<EditText>(R.id.edname).text.toString() == "") {
+                Toast.makeText(this,"Enter a valid name", Toast.LENGTH_SHORT).show()
+            } else if (findViewById<EditText>(R.id.edadd).text.toString() == "") {
+                Toast.makeText(this, "Enter a valid address", Toast.LENGTH_SHORT).show()
+            } else if ((findViewById<EditText>(R.id.edage).text.toString().toIntOrNull() ?: 0) <= 0) {
+                Toast.makeText(this, "Enter a valid age", Toast.LENGTH_SHORT).show()
+            } else if (findViewById<EditText>(R.id.edphno).text.toString() == "" || findViewById<EditText>(R.id.edphno).text.toString().length < 10) {
+                Toast.makeText(this, "Enter a valid phone number", Toast.LENGTH_SHORT).show()
+            } else if (findViewById<Spinner>(R.id.edsex).selectedItem.toString() == "SEX") {
+                Toast.makeText(this, "Please select a gender", Toast.LENGTH_SHORT).show()
+            } else if (findViewById<Spinner>(R.id.edpack).selectedItem.toString() == "PACK") {
+                Toast.makeText(this, "Please select a pack", Toast.LENGTH_SHORT).show()
+            } else if (findViewById<Spinner>(R.id.edmop).selectedItem.toString() == "MODE OF PAYMENT") {
+                Toast.makeText(this, "Please select a mode of payment", Toast.LENGTH_SHORT).show()
+            } else if ((findViewById<EditText>(R.id.edamnt).text.toString().toDoubleOrNull() ?: 0.0) <= 0) {
+                Toast.makeText(this, "Enter a valid amount", Toast.LENGTH_SHORT).show()
+            }else {
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                try {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
 
-                    val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    val name = findViewById<EditText>(R.id.edname).text.toString()
-                    val address = findViewById<EditText>(R.id.edadd).text.toString()
-                    val age = findViewById<EditText>(R.id.edage).text.toString().toIntOrNull() ?: 0
-                    val phoneNumber = findViewById<EditText>(R.id.edphno).text.toString()
-                    val amount = findViewById<EditText>(R.id.edamnt).text.toString().toDoubleOrNull() ?: 0.0
-                    val endDate = findViewById<EditText>(R.id.eddate).text.toString()
-                    val gender = findViewById<Spinner>(R.id.edsex).selectedItem.toString()
-                    val selectedPack = findViewById<Spinner>(R.id.edpack).selectedItem.toString()
-                    val paymentMethod = findViewById<Spinner>(R.id.edmop).selectedItem.toString()
-                    println(endDate)
-                    database.withTransaction {
-                        val getPack = database.packDao().getPackByType(selectedPack)
-                        val enddate = dateformat.parse(endDate)
+                        val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                        val name = findViewById<EditText>(R.id.edname).text.toString()
+                        val address = findViewById<EditText>(R.id.edadd).text.toString()
+                        val age =
+                            findViewById<EditText>(R.id.edage).text.toString().toIntOrNull() ?: 0
+                        val phoneNumber = findViewById<EditText>(R.id.edphno).text.toString()
+                        val amount =
+                            findViewById<EditText>(R.id.edamnt).text.toString().toDoubleOrNull()
+                                ?: 0.0
+                        val endDate = findViewById<EditText>(R.id.eddate).text.toString()
+                        val gender = findViewById<Spinner>(R.id.edsex).selectedItem.toString()
+                        val selectedPack =
+                            findViewById<Spinner>(R.id.edpack).selectedItem.toString()
+                        val paymentMethod =
+                            findViewById<Spinner>(R.id.edmop).selectedItem.toString()
+                        println(endDate)
+                        database.withTransaction {
+                            val getPack = database.packDao().getPackByType(selectedPack)
+                            val enddate = dateformat.parse(endDate)
 
-                        val customer = Customer(
-                            name = name,
-                            gender = SEX.valueOf(gender),
-                            age = age,
-                            address = address,
-                            phoneNumber = phoneNumber,
-                            isActive = true,
-                            image =  customer!!.image,
-                            lastPack = selectedPack,
-                            activeTill = enddate,
-                            billNo = customerId
-                        )
+                            val customer = Customer(
+                                name = name,
+                                gender = SEX.valueOf(gender),
+                                age = age,
+                                address = address,
+                                phoneNumber = phoneNumber,
+                                isActive = true,
+                                image = customer!!.image,
+                                lastPack = selectedPack,
+                                activeTill = enddate,
+                                billNo = customerId
+                            )
 
-                        println(customer)
-                        database.customerDao().updateCustomer(customer)
-                        customer.billNo  = intent.getLongExtra("customerId", 0)
+                            println(customer)
+                            database.customerDao().updateCustomer(customer)
+                            customer.billNo = intent.getLongExtra("customerId", 0)
 
 
+                            val subscription = Subscription(
+                                customerId = customer.billNo,
+                                packId = getPack?.packId,
+                                startDate = java.util.Calendar.getInstance().time,
+                                endDate = enddate,
+                                finalPrice = amount,
+                                paymentMethod = PaymentMethod.valueOf(paymentMethod)
+                            )
 
-                        val subscription = Subscription(
-                            customerId = customer.billNo,
-                            packId = getPack?.packId,
-                            startDate = java.util.Calendar.getInstance().time,
-                            endDate = enddate,
-                            finalPrice = amount,
-                            paymentMethod = PaymentMethod.valueOf(paymentMethod)
-                        )
+                            database.subscriptionDao().insertSubscription(subscription)
+                        }
 
-                        database.subscriptionDao().insertSubscription(subscription)
-                    }
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@EditData,
+                                "Customer updated successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@EditData, "Customer updated successfully", Toast.LENGTH_SHORT).show()
-
-                    }
-                } catch (e: Exception) {
-                    Log.e("Register","$e")
-                    throw e
+                        }
+                    } catch (e: Exception) {
+                        Log.e("Register", "$e")
+                        throw e
 //                    withContext(Dispatchers.Main) {
 //                        Toast.makeText(this@EditData , "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
 //                        //setCurrentFragement(HomeFragement())
 //                    }
+                    }
                 }
-            }
-
-
-            startActivity(
-                Intent(
-                    this,
-                    home::class.java
+                startActivity(
+                    Intent(
+                        this,
+                        home::class.java
+                    )
                 )
-            )
+            }
         }
 
         cancel.setOnClickListener {

@@ -1,6 +1,7 @@
 package com.example.infinityfitness.fragments
 
 import android.Manifest
+import android.Manifest.*
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -51,6 +52,7 @@ class RegisterFragment : Fragment(R.layout.register) {
     private lateinit var binding: RegisterBinding
     private lateinit var database: GymDatabase
     private lateinit var selectedImage : Bitmap
+    private var imgselected : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,60 +82,82 @@ class RegisterFragment : Fragment(R.layout.register) {
 
         // Handle button click
         binding.regbtn.setOnClickListener {
-            val name = binding.name.text.toString()
-            val address = binding.add?.text.toString()
-            val age = binding.age.text.toString().toIntOrNull() ?: 0
-            val phoneNumber = binding.phno.text.toString()
-            val amount = binding.amt.text.toString().toDoubleOrNull() ?: 0.0
-            val endDate = binding.date.text.toString()
-            val gender = SEX.valueOf(binding.sex.selectedItem.toString())
-            val selectedPack = binding.pack.selectedItem.toString()
-            val paymentMethod = PaymentMethod.valueOf(binding.mop.selectedItem.toString())
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                try {
-                    val calendar = Calendar.getInstance()
-                    val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    val currentDate = dateformat.format(calendar.time)
+            if (binding.name.text.toString() == "") {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Enter a valid name", Toast.LENGTH_SHORT).show()
+            } else if (binding.add?.text.toString() == "") {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Enter a valid address", Toast.LENGTH_SHORT).show()
+            } else if ((binding.age.text.toString().toIntOrNull() ?: 0) <= 0) {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Enter a valid age", Toast.LENGTH_SHORT).show()
+            } else if (binding.phno.text.toString() == "" || binding.phno.text.toString().length < 10) {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Enter a valid phone number", Toast.LENGTH_SHORT).show()
+            } else if (binding.sex.selectedItem.toString() == "SEX") {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Please select a gender", Toast.LENGTH_SHORT).show()
+            } else if (binding.pack.selectedItem.toString() == "PACK") {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Please select a pack", Toast.LENGTH_SHORT).show()
+            } else if (binding.mop.selectedItem.toString() == "MODE OF PAYMENT") {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Please select a mode of payment", Toast.LENGTH_SHORT).show()
+            } else if ((binding.amt.text.toString().toDoubleOrNull() ?: 0.0) <= 0) {
+                Toast.makeText(this@RegisterFragment.requireContext(), "Enter a valid amount", Toast.LENGTH_SHORT).show()
+            } else if (!imgselected){
+                Toast.makeText(this@RegisterFragment.requireContext(), "Select an image", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val name = binding.name.text.toString()
+                val address = binding.add?.text.toString()
+                val age = binding.age.text.toString().toIntOrNull() ?: 0
+                val phoneNumber = binding.phno.text.toString()
+                val amount = binding.amt.text.toString().toDoubleOrNull() ?: 0.0
+                val endDate = binding.date.text.toString()
+                val gender = SEX.valueOf(binding.sex.selectedItem.toString())
+                val selectedPack = binding.pack.selectedItem.toString()
+                val paymentMethod = PaymentMethod.valueOf(binding.mop.selectedItem.toString())
 
-                    database.withTransaction {
-                        val getPack = database.packDao().getPackByType(selectedPack)
-                        val enddate = dateformat.parse(endDate)
-                        val customer = Customer(
-                            name = name,
-                            gender = gender,
-                            age = age,
-                            address = address,
-                            phoneNumber = phoneNumber,
-                            isActive = true,
-                            image = selectedImage,
-                            lastPack = selectedPack,
-                            activeTill = enddate,
-                        )
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
+                        val calendar = Calendar.getInstance()
+                        val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                        val currentDate = dateformat.format(calendar.time)
 
-                        val custId = database.customerDao().insertCustomer(customer)
+                        database.withTransaction {
+                            val getPack = database.packDao().getPackByType(selectedPack)
+                            val enddate = dateformat.parse(endDate)
+                            val customer = Customer(
+                                name = name,
+                                gender = gender,
+                                age = age,
+                                address = address,
+                                phoneNumber = phoneNumber,
+                                isActive = true,
+                                image = selectedImage,
+                                lastPack = selectedPack,
+                                activeTill = enddate,
+                            )
 
-                        val subscription = Subscription(
-                            customerId = custId,
-                            packId = getPack?.packId,
-                            startDate = Calendar.getInstance().time,
-                            endDate = enddate,
-                            finalPrice = amount,
-                            paymentMethod = paymentMethod
-                        )
+                            val custId = database.customerDao().insertCustomer(customer)
 
-                        database.subscriptionDao().insertSubscription(subscription)
-                    }
+                            val subscription = Subscription(
+                                customerId = custId,
+                                packId = getPack?.packId,
+                                startDate = Calendar.getInstance().time,
+                                endDate = enddate,
+                                finalPrice = amount,
+                                paymentMethod = paymentMethod
+                            )
 
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
+                            database.subscriptionDao().insertSubscription(subscription)
+                        }
 
-                    }
-                } catch (e: Exception) {
-                    Log.e("Register","$e")
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@RegisterFragment.requireContext() , "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
-                        setCurrentFragement(HomeFragement())
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
+                            setCurrentFragement(HomeFragement())
+                        }
+                    } catch (e: Exception) {
+                        Log.e("Register","$e")
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@RegisterFragment.requireContext() , "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
+                            setCurrentFragement(HomeFragement())
+                        }
                     }
                 }
             }
@@ -251,9 +275,12 @@ class RegisterFragment : Fragment(R.layout.register) {
 
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 123
-        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-        private const val READ_EXTERNAL_STORAGE_PERMISSION = Manifest.permission.READ_MEDIA_IMAGES
-        private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
+        private  val READ_EXTERNAL_STORAGE_PERMISSION = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission.READ_MEDIA_IMAGES
+        } else {
+            permission.READ_EXTERNAL_STORAGE
+        }
+        private const val CAMERA_PERMISSION = permission.CAMERA
     }
 
     private val getImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -275,42 +302,48 @@ class RegisterFragment : Fragment(R.layout.register) {
                         binding.img.setImageBitmap(imageBitmap)
                         selectedImage = imageBitmap
                     }
-
                     selectedImage = reduceImageResolution(selectedImage)
                 }
+
+                imgselected = true
             }
         }
     }
 
-
-
     // Call this method when you need to choose an image
     private fun pickImage() {
-        if (ContextCompat.checkSelfPermission(this.requireContext(), READ_EXTERNAL_STORAGE_PERMISSION) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(this.requireContext(), CAMERA_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+        // Check for permissions (READ and CAMERA)
+        val permissions = mutableListOf(CAMERA_PERMISSION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(permission.READ_MEDIA_IMAGES)
+        } else {
+            permissions.add(permission.READ_EXTERNAL_STORAGE)
+        }
+
+        val missingPermissions = permissions.filter {
+            ContextCompat.checkSelfPermission(this.requireContext(), it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        if (missingPermissions.isNotEmpty()) {
             Log.d("ImageSelection", "Started activity for permission")
-            ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(READ_EXTERNAL_STORAGE_PERMISSION, CAMERA_PERMISSION), REQUEST_IMAGE_CAPTURE)
+            ActivityCompat.requestPermissions(this.requireActivity(), missingPermissions.toTypedArray(), REQUEST_IMAGE_CAPTURE)
         } else {
             Log.d("ImageSelection", "Started activity for result")
             chooseImageSource()
         }
     }
 
-    
-
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 chooseImageSource()
             } else {
                 // Handle permission denial
+                Log.d("Permissions", "Permission denied")
             }
         }
     }
-
-
 
     private fun chooseImageSource() {
         val galleryIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -318,7 +351,7 @@ class RegisterFragment : Fragment(R.layout.register) {
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
         }
 
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE) // Or MediaStore.ACTION_IMAGE_CAPTURE_SECURE
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         val chooser = Intent.createChooser(galleryIntent, "Select Image").apply {
             putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
@@ -327,7 +360,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         getImage.launch(chooser)
     }
 
-private fun calculateEndDate(pack: String, startDate: String): String {
+    private fun calculateEndDate(pack: String, startDate: String): String {
 
     return startDate
 

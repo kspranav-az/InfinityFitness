@@ -18,6 +18,8 @@ import com.example.infinityfitness.database.entity.Customer
 import kotlinx.coroutines.launch
 import com.example.infinityfitness.Adpater.OnCustomerButtonClickListener
 import com.example.infinityfitness.CustData
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListener {
 
@@ -115,13 +117,14 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                     currentPage * pageSize
                 )
 
+                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 // Check if newCustomers is empty, which would mean no more data to load
                 if (newCustomers.isNotEmpty()) {
                     val newCustomerCards = newCustomers.map { customer ->
                         CustomerCard(
                             customerName = customer.name,
                             customerId = customer.billNo.toString(),
-                            dueDate = customer.activeTill.toString(),
+                            dueDate = LocalDate.parse(customer.activeTill.toString()).format(formatter),
                             imageResourceId = customer.image!!
                         )
                     }
@@ -156,10 +159,9 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
     override fun onButtonClick(customer: CustomerCard) {
         // Start CustDataActivity with the clicked customer data
         val intent = Intent(requireContext(), CustData::class.java).apply {
-            putExtra("customerName", customer.customerName)
             putExtra("customerId", customer.customerId.toLongOrNull())
-            putExtra("dueDate", customer.dueDate)
         }
         startActivity(intent)
     }
+
 }

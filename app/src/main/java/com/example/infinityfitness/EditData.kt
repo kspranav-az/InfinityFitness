@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -322,5 +323,12 @@ class EditData : AppCompatActivity() {
     // Function to retrieve customer by bill number from the database
     private suspend fun getCustomerByBillNo(customerId: Long): Customer? {
         return database.customerDao().getCustomerByBillNo(customerId) // Adjust this line to call the DAO method
+    }
+
+    private fun sendWhatsAppMessage(phoneNumber: String, message: String) {
+        val formattedMessage = Uri.encode(message)
+        val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 }

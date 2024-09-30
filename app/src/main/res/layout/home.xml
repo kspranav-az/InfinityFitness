@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:scaleType="fitXY"
     tools:context=".home">
 
@@ -45,10 +44,10 @@
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.583"
+            app:layout_constraintHorizontal_bias="0.597"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.776"
+            app:layout_constraintVertical_bias="0.756"
             app:srcCompat="@drawable/image2button"
             tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
@@ -68,18 +67,22 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/btm"
-            android:layout_width="412dp"
-            android:layout_height="105dp"
-            android:padding="@null"
+            android:background="@color/white"
+            android:layout_width="418dp"
+            android:layout_height="89dp"
             android:scaleType="fitXY"
-            app:itemIconTint="@color/black"
-            app:labelVisibilityMode="unlabeled"
+            android:padding="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:menu="@menu/bottom_nav_menu" />
+            app:layout_constraintVertical_bias="0.998"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="unlabeled"
+            app:itemIconTint="@color/black"
+        />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,10 @@
 package com.example.infinityfitness
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -76,6 +79,11 @@ class CustData : AppCompatActivity() {
         vsex = findViewById(R.id.vsex)
         vmop = findViewById(R.id.vmop)
 
+
+        vimg.setOnClickListener{
+            showImageInDialog(vimg)
+        }
+
         // Set listeners for buttons
         extendButton.setOnClickListener {
             if (customerId != null) {
@@ -117,6 +125,22 @@ class CustData : AppCompatActivity() {
         }
 
     }
+
+    private fun showImageInDialog(CustImg: ImageView) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_image)  // custom layout for enlarged image
+
+        // Find the ImageView inside the dialog
+        val enlargedImageView = dialog.findViewById<ImageView>(R.id.enlargedImageView)
+
+        // Set the clicked image to the enlarged ImageView
+        enlargedImageView.setImageBitmap(CustImg.drawable.toBitmap())
+
+        // Show the dialog
+        dialog.show()
+    }
+
 
     private fun populateViews(customerId: Long) {
         // Launch a coroutine to fetch data from the database in the background

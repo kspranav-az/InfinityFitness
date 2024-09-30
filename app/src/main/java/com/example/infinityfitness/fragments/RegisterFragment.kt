@@ -4,21 +4,27 @@ import android.Manifest
 import android.Manifest.*
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -65,6 +71,8 @@ class RegisterFragment : Fragment(R.layout.register) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding = RegisterBinding.bind(view)
+
         database = GymDatabase.getDatabase(this.requireContext())
         // Handle edge-to-edge and window insets
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
@@ -73,7 +81,30 @@ class RegisterFragment : Fragment(R.layout.register) {
             insets
         }
 
-        binding = RegisterBinding.bind(view)
+
+
+//        binding.name.addTextChangedListener(object : TextWatcher {
+//            override fun afterTextChanged(s: Editable?) {
+//                // No action needed after text has changed
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//                // No action needed before text changes
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                // Change the background color when editing starts
+//                if (s.isNullOrEmpty()) {
+//                    // Set background to default color if the text is empty
+//                    binding.name.setBackgroundColor(Color.GREEN)
+//                } else {
+//                    // Set background to a different color when t
+//                }
+//            }
+//        }
+
+
+
 
         binding.img.setOnClickListener {
             Log.d("ImageSelection", "Choosing image source")
@@ -309,6 +340,7 @@ class RegisterFragment : Fragment(R.layout.register) {
             }
         }
     }
+
 
     // Call this method when you need to choose an image
     private fun pickImage() {

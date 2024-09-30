@@ -135,6 +135,7 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                     // Notify the adapter of changes
                     if (currentPage == 0) {
                         // First page, set adapter
+                        println(customerList.toString())
                         adapter = CustomerCardAdapter(customerList, this@UserDataFragment)
                         recyclerView.adapter = adapter
                     } else {

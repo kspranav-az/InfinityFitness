@@ -51,7 +51,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/due"
+            android:id="@+id/join"
             android:layout_width="109dp"
             android:layout_height="22dp"
             android:inputType="date"
@@ -61,6 +61,20 @@
             app:layout_constraintHorizontal_bias="0.62"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/due2"
+            android:layout_width="109dp"
+            android:layout_height="22dp"
+            android:inputType="date"
+            android:text="00.00.0000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.618"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.782"
             tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton

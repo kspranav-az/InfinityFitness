@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+
 
     <!-- Camera permission (needed for all versions) -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
@@ -34,6 +37,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InfinityFitness"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAJ95y136G--MkKU8VymzB26UjlypFl4G4" />
         <activity
             android:name=".DueCust"
             android:exported="false" />

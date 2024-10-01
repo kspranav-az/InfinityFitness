@@ -14,16 +14,18 @@
         android:layout_height="1146dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231">
 
 
         <ImageButton
             android:id="@+id/edimg"
             android:layout_width="126dp"
             android:layout_height="111dp"
-            android:scaleType="fitXY"
             android:background="@null"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.456"
@@ -99,7 +101,7 @@
 
         <EditText
             android:id="@+id/edphno"
-            android:layout_width="202dp"
+            android:layout_width="227dp"
             android:layout_height="67dp"
             android:background="@drawable/text_box"
             android:ems="10"
@@ -126,6 +128,7 @@
             android:ems="10"
             android:hint="DATE"
             android:inputType="date"
+            android:padding="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textStyle="bold"
@@ -170,10 +173,10 @@
             android:background="@drawable/text_box"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.461"
+            app:layout_constraintHorizontal_bias="0.467"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.754"
+            app:layout_constraintVertical_bias="0.743"
             tools:ignore="MissingConstraints" />
 
         <EditText
@@ -184,9 +187,9 @@
             android:layout_marginEnd="326dp"
             android:background="@drawable/text_box"
             android:ems="10"
+            android:hint="Amount"
             android:padding="10dp"
             android:textAlignment="center"
-            android:hint="Amount"
             android:textColorHint="@color/white"
             android:textSize="20dp"
             android:textStyle="bold"

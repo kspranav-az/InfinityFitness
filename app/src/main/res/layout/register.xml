@@ -60,7 +60,7 @@
         tools:ignore="MissingConstraints" />
 
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/add"
         android:layout_width="299dp"
         android:layout_height="124dp"

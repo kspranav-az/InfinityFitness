@@ -371,7 +371,7 @@ class RegisterFragment : Fragment(R.layout.register) {
     }
 
     companion object {
-        private const val AUTOCOMPLETE_REQUEST_CODE = 1
+        internal const val AUTOCOMPLETE_REQUEST_CODE = 1
         private const val REQUEST_IMAGE_CAPTURE = 123
         private  val READ_EXTERNAL_STORAGE_PERMISSION = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permission.READ_MEDIA_IMAGES

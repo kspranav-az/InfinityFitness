@@ -64,7 +64,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/due2"
+            android:id="@+id/due"
             android:layout_width="109dp"
             android:layout_height="22dp"
             android:inputType="date"

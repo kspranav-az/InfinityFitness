@@ -12,7 +12,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dueView"
         android:layout_width="798dp"
-
         android:scaleType="fitXY"
         android:layout_height="1139dp"
         android:background="@null"
@@ -28,16 +27,15 @@
         android:id="@+id/back"
         android:layout_width="77dp"
         android:layout_height="73dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="688dp"
         android:layout_marginBottom="23dp"
         android:background="@null"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/dueView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.781"
         app:srcCompat="@android:drawable/btn_dialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

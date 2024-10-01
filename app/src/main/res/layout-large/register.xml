@@ -64,7 +64,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.537"
+        app:layout_constraintVertical_bias="0.51"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -75,6 +75,7 @@
         android:ems="10"
         android:inputType="text"
         android:hint="AGE"
+        android:textAlignment="center"
         android:padding="10dp"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
@@ -95,9 +96,9 @@
         android:ems="10"
         android:hint="PHONE NUMBER"
         android:padding="10dp"
-        android:textColorHint="@color/white"
         android:textAlignment="center"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -105,7 +106,7 @@
         app:layout_constraintHorizontal_bias="0.682"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67"
+        app:layout_constraintVertical_bias="0.637"
         tools:ignore="MissingConstraints,TextSizeCheck" />
 
     <EditText
@@ -116,43 +117,45 @@
         android:layout_marginEnd="326dp"
         android:background="@drawable/text_box"
         android:ems="10"
+        android:hint="Amount"
         android:padding="10dp"
         android:textAlignment="center"
-        android:hint="Amount"
         android:textColorHint="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.823"
+        app:layout_constraintVertical_bias="0.787"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/date"
-        android:layout_width="210dp"
-        android:layout_height="54dp"
+        android:layout_width="243dp"
+        android:layout_height="73dp"
         android:background="@drawable/text_box"
         android:ems="10"
-        android:inputType="date"
         android:hint="DATE"
-        android:padding="10dp"
-        android:textColorHint="@color/white"
+        android:textAlignment="center"
+        android:inputType="date"
+        android:padding="20dp"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.327" />
+        app:layout_constraintVertical_bias="0.319" />
 
     <Spinner
         android:id="@+id/sex"
         android:layout_width="194dp"
         android:layout_height="63dp"
+        android:textAlignment="center"
         android:background="@drawable/text_box"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -167,26 +170,28 @@
         android:id="@+id/pack"
         android:layout_width="211dp"
         android:layout_height="68dp"
+        android:textAlignment="center"
         android:background="@drawable/text_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.247"
+        app:layout_constraintHorizontal_bias="0.249"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.671"
+        app:layout_constraintVertical_bias="0.637"
         tools:ignore="MissingConstraints" />
 
     <Spinner
         android:id="@+id/mop"
         android:layout_width="279dp"
         android:layout_height="57dp"
+        android:textAlignment="center"
         android:background="@drawable/text_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.447"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.749"
+        app:layout_constraintVertical_bias="0.717"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -203,16 +208,16 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/regbtn"
-        android:background="@drawable/greenbutton"
-        android:textColor="@color/white"
         android:layout_width="249dp"
         android:layout_height="80dp"
+        android:background="@drawable/greenbutton"
         android:text="REGISTER"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.462"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.911" />
+        app:layout_constraintVertical_bias="0.871" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

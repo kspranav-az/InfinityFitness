@@ -57,28 +57,9 @@
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/edstreet"
-            android:layout_width="264dp"
-            android:layout_height="52dp"
-            android:background="@drawable/text_box"
-            android:ems="10"
-            android:hint="STREET NAME"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.594"
-            tools:ignore="MissingConstraints" />
-
-        <EditText
             android:id="@+id/edadd"
-            android:layout_width="252dp"
-            android:layout_height="57dp"
+            android:layout_width="266dp"
+            android:layout_height="115dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:hint="ADDRESS"
@@ -89,9 +70,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.504"
+            app:layout_constraintVertical_bias="0.552"
             tools:ignore="MissingConstraints" />
 
         <EditText

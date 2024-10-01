@@ -43,6 +43,8 @@ import com.example.infinityfitness.database.entity.Subscription
 import com.example.infinityfitness.databinding.RegisterBinding
 import com.example.infinityfitness.enums.PaymentMethod
 import com.example.infinityfitness.enums.SEX
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -284,6 +286,9 @@ class RegisterFragment : Fragment(R.layout.register) {
         changeBackgroundOnText(binding.date)
         changeBackgroundOnText(binding.amt)
         changeBackgroundOnText(binding.phno)
+
+
+
 
 
     }

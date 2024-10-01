@@ -5,6 +5,7 @@ import android.Manifest.*
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -31,6 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -48,10 +50,14 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
+
+
 
 class RegisterFragment : Fragment(R.layout.register) {
 
@@ -161,6 +167,7 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 age = age,
                                 address = address,
                                 phoneNumber = phoneNumber,
+                                joiningDate = calendar.time,
                                 isActive = true,
                                 image = selectedImage,
                                 lastPack = selectedPack,
@@ -185,6 +192,8 @@ class RegisterFragment : Fragment(R.layout.register) {
                             Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
                             setCurrentFragement(HomeFragement())
                         }
+
+
                     } catch (e: Exception) {
                         Log.e("Register","$e")
                         withContext(Dispatchers.Main) {
@@ -280,7 +289,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         dateEditText.setOnClickListener {
             showDatePickerDialog()
         }
-        changeBackgroundOnText(view.findViewById<EditText>(R.id.add))
+        changeBackgroundOnText(binding.add)
         changeBackgroundOnText(binding.age)
         changeBackgroundOnText(binding.name)
         changeBackgroundOnText(binding.date)
@@ -449,11 +458,32 @@ class RegisterFragment : Fragment(R.layout.register) {
             commit()
         }
 
+
+
     fun sendWhatsAppMessage(phoneNumber: String, message: String) {
         val formattedMessage = Uri.encode(message)
         val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
+    }
+
+    fun shareViaWhatsApp(context: Context, file: File) {
+        val fileUri: Uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.provider",
+            file
+        )
+
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "application/pdf" // or "text/html" for HTML files
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri)
+        intent.setPackage("com.whatsapp")
+
+        // Grant URI permission to WhatsApp
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // Start WhatsApp to send the file
+        context.startActivity(Intent.createChooser(intent, "Share via"))
     }
 
 }

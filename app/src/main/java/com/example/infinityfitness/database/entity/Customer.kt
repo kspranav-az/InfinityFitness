@@ -34,6 +34,9 @@ data class Customer(
     @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB)
     var image: Bitmap? = null,
 
+    @ColumnInfo(name = "JoiningDate")
+    var joiningDate: Date = Date(),
+
     @ColumnInfo(name = "lastPack")
     var lastPack: String? = null,
 
@@ -48,7 +51,7 @@ data class Customer(
     var billNo: Long = 0
 ) {
     @Ignore
-    constructor() : this( "", SEX.MALE, 0,null, null, null,"" , Date() ,true ,100)
+    constructor() : this( "", SEX.MALE, 0,null, null, null,Date(),"" , Date() ,true ,100)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

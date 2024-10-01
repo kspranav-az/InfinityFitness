@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation("androidx.biometric:biometric:1.1.0")
+    implementation("com.itextpdf:itext7-core:7.0.5")
 
     //room dependencies
     val room_version = "2.5.2"

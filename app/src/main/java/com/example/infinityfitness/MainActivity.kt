@@ -51,6 +51,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        println("On start")
+        // Initialize the executor for biometric prompt
+        executor = ContextCompat.getMainExecutor(this)
+
+        // Check if biometric authentication is available and set the flag
+        checkBiometricSupport()
+
+        // Display biometric prompt if available
+        if (isBiometricAvailable) {
+            biometricPrompt.authenticate(promptInfo)
+
+        }
+
+    }
+
     private fun checkBiometricSupport() {
         val biometricManager = BiometricManager.from(this)
         when (biometricManager.canAuthenticate()) {

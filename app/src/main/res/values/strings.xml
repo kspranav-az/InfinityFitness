@@ -2,23 +2,23 @@
     <string name="app_name">InfinityFitness</string>
     <string name="payment_mode">Payment Mode</string>
     <string-array name="SEX">
-        <item>SEX</item>
-        <item>MALE</item>
-        <item>FEMALE</item>
+        <item><b>SEX</b></item>
+        <item><b>MALE</b></item>
+        <item><b>FEMALE</b></item>
     </string-array>
     <string-array name="PACKAGE">
-        <item>PACK</item>
-        <item>1 Day</item>
-        <item>1 Month</item>
-        <item>3 Month</item>
-        <item>4 Month</item>
-        <item>6 Month</item>
-        <item>1 Year</item>
+        <item><b>PACK</b></item>
+        <item><b>1 Day</b></item>
+        <item><b>1 Month</b></item>
+        <item><b>3 Month</b></item>
+        <item><b>4 Month</b></item>
+        <item><b>6 Month</b></item>
+        <item><b>1 Year</b></item>
     </string-array>
     <string-array name="MODE_OF_PAYMENT">
-        <item>MODE OF PAYMENT</item>
-        <item>UPI</item>
-        <item>CASH</item>
-        <item>CARD</item>
+        <item><b>MODE OF PAYMENT</b></item>
+        <item><b>UPI</b></item>
+        <item><b>CASH</b></item>
+        <item><b>CARD</b></item>
     </string-array>
 </resources>

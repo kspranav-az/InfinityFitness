@@ -31,9 +31,8 @@ interface CustomerDao {
 
     @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
             "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
-            " THEN billNo = :numericValue ELSE 0 END) OR " +
-            "phoneNumber LIKE '%' || :string || '%')) " +
-            "ORDER BY billNo , phoneNumber, name ASC LIMIT :limit OFFSET :offset")
+            " THEN billNo = :numericValue ELSE 0 END ))) " +
+            "ORDER BY billNo , name ASC LIMIT :limit OFFSET :offset")
     suspend fun getActiveCustomersPaged(
         string: String, isNumeric: Int, numericValue: Int,
         limit: Int, offset: Int): List<Customer>

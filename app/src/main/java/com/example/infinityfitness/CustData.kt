@@ -25,6 +25,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 
 class CustData : AppCompatActivity() {
@@ -146,7 +149,7 @@ class CustData : AppCompatActivity() {
         // Launch a coroutine to fetch data from the database in the background
         CoroutineScope(Dispatchers.IO).launch {
             val customer = getCustomerByBillNo(customerId) // Fetch customer data from database
-
+            val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
             withContext(Dispatchers.Main) {
                 if (customer != null) {
                     // Populate the views with customer data
@@ -154,7 +157,7 @@ class CustData : AppCompatActivity() {
                     vadd.text = customer.address
                     vage.text = customer.age.toString()
                     vphno.text = customer.phoneNumber
-                    vdate.text = customer.activeTill.toString()
+                    vdate.text = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().toString()
                     vpack.text = customer.lastPack
                     vsex.text = customer.gender.toString()
                     vimg.setImageBitmap(customer.image)

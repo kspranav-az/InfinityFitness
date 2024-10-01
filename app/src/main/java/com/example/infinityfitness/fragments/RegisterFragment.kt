@@ -278,6 +278,14 @@ class RegisterFragment : Fragment(R.layout.register) {
         dateEditText.setOnClickListener {
             showDatePickerDialog()
         }
+        changeBackgroundOnText(view.findViewById<EditText>(R.id.add))
+        changeBackgroundOnText(binding.age)
+        changeBackgroundOnText(binding.name)
+        changeBackgroundOnText(binding.date)
+        changeBackgroundOnText(binding.amt)
+        changeBackgroundOnText(binding.phno)
+
+
     }
 
 
@@ -339,6 +347,28 @@ class RegisterFragment : Fragment(R.layout.register) {
                 imgselected = true
             }
         }
+    }
+
+    private fun changeBackgroundOnText(editText: EditText) {
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s?.isNotEmpty() == true) {
+                    // Set the background when text is entered
+                    editText.setBackgroundResource(R.drawable.greenbutton)
+                } else {
+                    // Revert to the original background when no text
+                    editText.setBackgroundResource(R.drawable.text_box)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No action needed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No action needed
+            }
+        })
     }
 
 

@@ -11,6 +11,8 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -318,6 +320,33 @@ class EditData : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+        changeBackgroundOnText(findViewById<EditText>(R.id.edadd))
+        changeBackgroundOnText(binding.edage)
+        changeBackgroundOnText(binding.edname)
+        changeBackgroundOnText(binding.eddate)
+        changeBackgroundOnText(binding.edamnt)
+        changeBackgroundOnText(binding.edphno)
+    }
+    private fun changeBackgroundOnText(editText: EditText) {
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s?.isNotEmpty() == true) {
+                    // Set the background when text is entered
+                    editText.setBackgroundResource(R.drawable.greenbutton)
+                } else {
+                    // Revert to the original background when no text
+                    editText.setBackgroundResource(R.drawable.text_box)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No action needed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No action needed
+            }
+        })
     }
 
     // Function to retrieve customer by bill number from the database

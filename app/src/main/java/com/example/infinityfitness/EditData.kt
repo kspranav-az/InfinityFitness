@@ -5,6 +5,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import com.example.infinityfitness.databinding.EditDataBinding
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
@@ -24,6 +25,8 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.drawToBitmap
@@ -40,6 +43,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.nio.charset.Charset
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 
@@ -198,7 +207,7 @@ class EditData : AppCompatActivity() {
                             println(customer)
                             database.customerDao().updateCustomer(customer)
                             customer.billNo = intent.getLongExtra("customerId", 0)
-
+                            val currentDate = dateformat.format(java.util.Calendar.getInstance().time)
 
                             val subscription = Subscription(
                                 customerId = customer.billNo,
@@ -210,6 +219,19 @@ class EditData : AppCompatActivity() {
                             )
 
                             database.subscriptionDao().insertSubscription(subscription)
+
+                            val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+
+                            sendBillToUser(
+                                customer.billNo.toString(),
+                                name,
+                                address,
+                                LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().toString(),
+                                endDate,
+                                selectedPack,
+                                amount.toString(),
+                                paymentMethod
+                            )
                         }
 
                         withContext(Dispatchers.Main) {
@@ -359,5 +381,88 @@ class EditData : AppCompatActivity() {
         val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
+    }
+
+    private fun sendBillToUser(
+        billno : String,
+        userName: String,
+        userAddress: String,
+        joiningDate: String,
+        expiryDate: String,
+        packageName: String,
+        amountPaid: String,
+        paymentMode: String
+    ) {
+        try {
+            // Step 1: Load the HTML template from assets
+            val inputStream: InputStream = this?.getAssets()!!.open("Bill.html")
+            val htmlTemplate = inputStream.bufferedReader().use { it.readText() }
+
+            // Step 2: Replace placeholders with actual data
+            val modifiedHtml = htmlTemplate
+                .replace("#123456", billno)
+                .replace("John Doe", userName)
+                .replace("123 Street Name, City, State, 632006", userAddress)
+                .replace("01-Oct-2024", joiningDate)
+                .replace("01-Oct-2025", expiryDate)
+                .replace("Annual - Full Access", packageName)
+                .replace("₹ 12,000", amountPaid)
+                .replace("Credit Card", paymentMode)
+
+            // Step 3: Save the modified HTML to a file
+            val fileName = "user_bill_${System.currentTimeMillis()}.html"
+            val file = File(this.getExternalFilesDir(null), fileName)
+
+
+            val outputStream = FileOutputStream(file)
+            outputStream.write(modifiedHtml.toByteArray(Charset.defaultCharset()))
+            outputStream.close()
+
+            // Step 4: Send the file via WhatsApp
+            sendFileViaWhatsApp(file)
+            //openHtmlFile(this, file)
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.e("Bill", "Error creating bill")
+        }
+    }
+
+    private fun sendFileViaWhatsApp(file: File) {
+        // Get the URI using FileProvider
+        val fileUri: Uri = FileProvider.getUriForFile(
+            this,
+            "${this.packageName}.provider", // Use the authority defined in AndroidManifest.xml
+            file
+        )
+
+        // Create the intent to share via WhatsApp
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/html"
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri)
+        intent.setPackage("com.whatsapp")
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // Check if WhatsApp is installed
+        if (intent.resolveActivity(this.packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Log.e("WhatsApp", "WhatsApp not installed")
+        }
+    }
+
+    private fun openHtmlFile(context: Context, file: File) {
+        // Create an Intent to open the HTML file in a web browser
+        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(uri, "text/html")
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // Check if any app can handle the intent (browser, for example)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            Log.e("HTML", "No app available to open the file")
+        }
     }
 }

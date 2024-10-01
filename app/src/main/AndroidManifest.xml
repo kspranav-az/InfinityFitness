@@ -13,6 +13,8 @@
     <!-- For Android 12 and below -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
 
+
+
     <!-- For Android 13 (Tiramisu) and above -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" android:minSdkVersion="33"
         tools:ignore="SelectedPhotoAccess" />
@@ -22,6 +24,17 @@
         android:maxSdkVersion="28" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <queries>
+        <!-- Query for apps that can open/view HTML -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="text/html" />
+        </intent>
+
+        <!-- Query for WhatsApp -->
+        <package android:name="com.whatsapp" />
+    </queries>
 
 
     <application
@@ -56,6 +69,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.infinityfitness.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

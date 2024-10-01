@@ -28,6 +28,10 @@ android {
             )
         }
     }
+
+    defaultConfig {
+        applicationId = "com.example.infinityfitness" // Ensure this matches the authority in the manifest
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

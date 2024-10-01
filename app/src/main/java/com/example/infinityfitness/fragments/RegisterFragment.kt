@@ -52,6 +52,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.nio.charset.Charset
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -186,6 +189,20 @@ class RegisterFragment : Fragment(R.layout.register) {
                             )
 
                             database.subscriptionDao().insertSubscription(subscription)
+
+                            sendBillToUser(
+                                custId.toString(),
+                                name,
+                                address,
+                                currentDate,
+                                endDate,
+                                selectedPack,
+                                amount.toString(),
+                                paymentMethod.toString()
+                            )
+
+
+
                         }
 
                         withContext(Dispatchers.Main) {
@@ -194,10 +211,12 @@ class RegisterFragment : Fragment(R.layout.register) {
                         }
 
 
+
                     } catch (e: Exception) {
                         Log.e("Register","$e")
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(this@RegisterFragment.requireContext() , "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@RegisterFragment.requireContext() ,
+                                "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
                             setCurrentFragement(HomeFragement())
                         }
                     }
@@ -467,23 +486,89 @@ class RegisterFragment : Fragment(R.layout.register) {
         startActivity(intent)
     }
 
-    fun shareViaWhatsApp(context: Context, file: File) {
+    private fun sendBillToUser(
+        billno : String,
+        userName: String,
+        userAddress: String,
+        joiningDate: String,
+        expiryDate: String,
+        packageName: String,
+        amountPaid: String,
+        paymentMode: String
+    ) {
+        try {
+            // Step 1: Load the HTML template from assets
+            val inputStream: InputStream = context?.getAssets()!!.open("Bill.html")
+            val htmlTemplate = inputStream.bufferedReader().use { it.readText() }
+
+            // Step 2: Replace placeholders with actual data
+            val modifiedHtml = htmlTemplate
+                .replace("#123456", billno)
+                .replace("John Doe", userName)
+                .replace("123 Street Name, City, State, 632006", userAddress)
+                .replace("01-Oct-2024", joiningDate)
+                .replace("01-Oct-2025", expiryDate)
+                .replace("Annual - Full Access", packageName)
+                .replace("₹ 12,000", amountPaid)
+                .replace("Credit Card", paymentMode)
+
+            // Step 3: Save the modified HTML to a file
+            val fileName = "user_bill_${System.currentTimeMillis()}.html"
+            val file = File(requireContext().getExternalFilesDir(null), fileName)
+
+
+            val outputStream = FileOutputStream(file)
+            outputStream.write(modifiedHtml.toByteArray(Charset.defaultCharset()))
+            outputStream.close()
+
+            // Step 4: Send the file via WhatsApp
+            sendFileViaWhatsApp(file)
+            //openHtmlFile(requireContext(), file)
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.e("Bill", "Error creating bill")
+        }
+    }
+
+    private fun sendFileViaWhatsApp(file: File) {
+        // Get the URI using FileProvider
         val fileUri: Uri = FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.provider",
+            requireContext(),
+            "${requireActivity().packageName}.provider", // Use the authority defined in AndroidManifest.xml
             file
         )
 
+        // Create the intent to share via WhatsApp
         val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "application/pdf" // or "text/html" for HTML files
+        intent.type = "text/html"
         intent.putExtra(Intent.EXTRA_STREAM, fileUri)
         intent.setPackage("com.whatsapp")
-
-        // Grant URI permission to WhatsApp
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        // Start WhatsApp to send the file
-        context.startActivity(Intent.createChooser(intent, "Share via"))
+        // Check if WhatsApp is installed
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Log.e("WhatsApp", "WhatsApp not installed")
+        }
     }
+
+    private fun openHtmlFile(context: Context, file: File) {
+        // Create an Intent to open the HTML file in a web browser
+        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(uri, "text/html")
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // Check if any app can handle the intent (browser, for example)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            Log.e("HTML", "No app available to open the file")
+        }
+    }
+
+
 
 }

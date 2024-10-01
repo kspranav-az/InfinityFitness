@@ -80,6 +80,7 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
                         customerName = customer.name,
                         customerId = customer.billNo.toString(),
                         dueDate = customer.activeTill.date.toString(),
+                        joinDate = customer.joiningDate.toString(),
                         imageResourceId = customer.image!! // Use a default image if null
                     )
                 }

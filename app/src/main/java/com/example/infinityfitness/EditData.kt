@@ -1,6 +1,7 @@
 package com.example.infinityfitness
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import com.example.infinityfitness.databinding.EditDataBinding
@@ -25,7 +26,6 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -38,6 +38,12 @@ import com.example.infinityfitness.database.entity.Subscription
 import com.example.infinityfitness.enums.PaymentMethod
 import com.example.infinityfitness.enums.SEX
 import com.example.infinityfitness.fragments.HomeFragement
+import com.example.infinityfitness.fragments.RegisterFragment.Companion.AUTOCOMPLETE_REQUEST_CODE
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -62,8 +68,22 @@ class EditData : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.edit_data)
+        if (!Places.isInitialized()) {
+            Places.initialize(this, "AIzaSyAJ95y136G--MkKU8VymzB26UjlypFl4G4")
+        }
         database = GymDatabase.getDatabase(this@EditData)
         binding = EditDataBinding.inflate(layoutInflater)
+
+        binding.edadd.setOnClickListener {
+            // List of place fields you want to fetch
+            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS)
+
+            // Create an intent for Autocomplete activity
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this)
+
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editData)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -382,6 +402,28 @@ class EditData : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val place = Autocomplete.getPlaceFromIntent(data!!)
+                    binding.edadd.setText(place.address)  // Set the selected address to EditText
+                }
+                AutocompleteActivity.RESULT_ERROR -> {
+                    // Handle error
+                    val status = Autocomplete.getStatusFromIntent(data!!)
+                    Toast.makeText(this, "Error: ${status.statusMessage}", Toast.LENGTH_SHORT).show()
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation
+                }
+            }
+        }
+}
 
     private fun sendBillToUser(
         billno : String,

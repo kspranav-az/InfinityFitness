@@ -45,7 +45,9 @@ import com.example.infinityfitness.database.entity.Subscription
 import com.example.infinityfitness.databinding.RegisterBinding
 import com.example.infinityfitness.enums.PaymentMethod
 import com.example.infinityfitness.enums.SEX
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,6 +61,9 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 
 
@@ -82,7 +87,23 @@ class RegisterFragment : Fragment(R.layout.register) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize the Places API with the API key
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), "AIzaSyAJ95y136G--MkKU8VymzB26UjlypFl4G4")
+        }
+
         binding = RegisterBinding.bind(view)
+
+        binding.add.setOnClickListener {
+            // List of place fields you want to fetch
+            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS)
+
+            // Create an intent for Autocomplete activity
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(requireContext())
+
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+        }
 
         database = GymDatabase.getDatabase(this.requireContext())
         // Handle edge-to-edge and window insets
@@ -321,6 +342,29 @@ class RegisterFragment : Fragment(R.layout.register) {
 
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val place = Autocomplete.getPlaceFromIntent(data!!)
+                    binding.add.setText(place.address)  // Set the selected address to EditText
+                }
+                AutocompleteActivity.RESULT_ERROR -> {
+                    // Handle error
+                    val status = Autocomplete.getStatusFromIntent(data!!)
+                    Toast.makeText(requireContext(), "Error: ${status.statusMessage}", Toast.LENGTH_SHORT).show()
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation
+                }
+            }
+        }
+    }
+
+
 
     private fun showDatePickerDialog() {
         // Get the current date
@@ -346,6 +390,7 @@ class RegisterFragment : Fragment(R.layout.register) {
     }
 
     companion object {
+        internal const val AUTOCOMPLETE_REQUEST_CODE = 1
         private const val REQUEST_IMAGE_CAPTURE = 123
         private  val READ_EXTERNAL_STORAGE_PERMISSION = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permission.READ_MEDIA_IMAGES

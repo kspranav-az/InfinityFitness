@@ -27,6 +27,7 @@
     <EditText
         android:id="@+id/name"
         android:layout_width="500dp"
+        android:maxLines="1"
         android:layout_height="73dp"
         android:layout_marginStart="120dp"
         android:layout_marginEnd="180dp"
@@ -45,7 +46,7 @@
         tools:ignore="MissingConstraints" />
 
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/add"
         android:layout_width="532dp"
         android:layout_height="179dp"
@@ -75,6 +76,7 @@
         android:ems="10"
         android:inputType="text"
         android:hint="AGE"
+        android:maxLines="1"
         android:textAlignment="center"
         android:padding="10dp"
         android:textColorHint="@color/white"
@@ -96,6 +98,7 @@
         android:ems="10"
         android:hint="PHONE NUMBER"
         android:padding="10dp"
+        android:maxLines="1"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -118,6 +121,7 @@
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="Amount"
+        android:maxLines="1"
         android:padding="10dp"
         android:textAlignment="center"
         android:textColorHint="@color/white"
@@ -138,6 +142,7 @@
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="DATE"
+        android:maxLines="1"
         android:textAlignment="center"
         android:inputType="date"
         android:padding="20dp"

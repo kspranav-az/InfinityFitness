@@ -332,7 +332,7 @@ class EditData : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (s?.isNotEmpty() == true) {
                     // Set the background when text is entered
-                    editText.setBackgroundResource(R.drawable.greenbutton)
+                    editText.setBackgroundResource(R.drawable.text_box_green)
                 } else {
                     // Revert to the original background when no text
                     editText.setBackgroundResource(R.drawable.text_box)

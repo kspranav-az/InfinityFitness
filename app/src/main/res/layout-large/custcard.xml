@@ -46,25 +46,40 @@
             android:textSize="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.215"
+            app:layout_constraintHorizontal_bias="0.225"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.197"
+            app:layout_constraintVertical_bias="0.392"
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/due"
-            android:layout_width="139dp"
-            android:layout_height="39dp"
+            android:layout_width="143dp"
+            android:layout_height="22dp"
             android:inputType="date"
             android:text="00.00.0000"
-            android:textSize="10dp"
+            android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.478"
+            app:layout_constraintHorizontal_bias="0.481"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.803"
+            app:layout_constraintVertical_bias="0.846"
+            tools:ignore="TextSizeCheck,TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/join"
+            android:layout_width="143dp"
+            android:layout_height="22dp"
+            android:inputType="date"
+            android:text="00.00.0000"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.628"
             tools:ignore="TextSizeCheck,TouchTargetSizeCheck" />
 
         <ImageButton

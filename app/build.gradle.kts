@@ -44,7 +44,6 @@ android {
 //        jvmToolchain(8) // Ensure KSP and Kotlin use the same JVM version
 //    }
 }
-
 dependencies {
 // Google Places SDK
     implementation ("com.google.android.libraries.places:places:2.6.0")

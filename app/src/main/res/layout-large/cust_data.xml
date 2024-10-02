@@ -176,24 +176,7 @@
             app:layout_constraintVertical_bias="0.67"
             tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/vmop"
-            android:layout_width="279dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="23dp"
-            android:layout_marginBottom="276dp"
-            android:background="@drawable/text_box"
-            android:padding="10dp"
-            android:text="MODE OF PAYMENT"
-            android:textColor="@color/white"
-            android:textSize="27dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vphno"
-            app:layout_constraintVertical_bias="1.0"
-            tools:ignore="MissingConstraints" />
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/extend"

@@ -80,7 +80,8 @@ class CustData : AppCompatActivity() {
         vdate = findViewById(R.id.vdate)
         vpack = findViewById(R.id.vpack)
         vsex = findViewById(R.id.vsex)
-        vmop = findViewById(R.id.vmop)
+
+        //vmop = findViewById(R.id.vmop)
 
 
         vimg.setOnClickListener{

@@ -242,16 +242,19 @@ class EditData : AppCompatActivity() {
 
                             val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
 
-                            sendBillToUser(
-                                customer.billNo.toString(),
-                                name,
-                                address,
-                                LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().toString(),
-                                endDate,
-                                selectedPack,
-                                amount.toString(),
-                                paymentMethod
-                            )
+                            customer.phoneNumber?.let { it1 ->
+                                sendBillToUser(
+                                    customer.billNo.toString(),
+                                    name,
+                                    address,
+                                    LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().toString(),
+                                    LocalDateTime.parse(enddate.toString(), formatter).toLocalDate().toString(),
+                                    selectedPack,
+                                    amount.toString(),
+                                    paymentMethod,
+                                    it1
+                                )
+                            }
                         }
 
                         withContext(Dispatchers.Main) {
@@ -433,7 +436,8 @@ class EditData : AppCompatActivity() {
         expiryDate: String,
         packageName: String,
         amountPaid: String,
-        paymentMode: String
+        paymentMode: String,
+        phoneNumber: String
     ) {
         try {
             // Step 1: Load the HTML template from assets
@@ -461,7 +465,7 @@ class EditData : AppCompatActivity() {
             outputStream.close()
 
             // Step 4: Send the file via WhatsApp
-            sendFileViaWhatsApp(file)
+            sendFileViaWhatsApp(file,phoneNumber)
             //openHtmlFile(this, file)
 
         } catch (e: IOException) {
@@ -470,7 +474,7 @@ class EditData : AppCompatActivity() {
         }
     }
 
-    private fun sendFileViaWhatsApp(file: File) {
+    private fun sendFileViaWhatsApp(file: File , phoneNumber: String) {
         // Get the URI using FileProvider
         val fileUri: Uri = FileProvider.getUriForFile(
             this,
@@ -478,17 +482,22 @@ class EditData : AppCompatActivity() {
             file
         )
 
-        // Create the intent to share via WhatsApp
+
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/html"
+
         intent.putExtra(Intent.EXTRA_STREAM, fileUri)
         intent.setPackage("com.whatsapp")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")
+        intent.putExtra(Intent.EXTRA_TEXT,"Bill")
 
         // Check if WhatsApp is installed
         if (intent.resolveActivity(this.packageManager) != null) {
             startActivity(intent)
         } else {
+            startActivity(intent)
             Log.e("WhatsApp", "WhatsApp not installed")
         }
     }

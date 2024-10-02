@@ -128,7 +128,7 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                             customerId = customer.billNo.toString(),
                             dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().toString(),
                             imageResourceId = customer.image!!,
-                            joinDate = customer.joiningDate.toString()
+                            joinDate = LocalDateTime.parse(customer.joiningDate.toString() , formatter).toLocalDate().toString()
                         )
                     }
 

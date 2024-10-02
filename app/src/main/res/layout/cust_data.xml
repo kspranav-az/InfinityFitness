@@ -102,10 +102,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.714"
+            app:layout_constraintHorizontal_bias="0.761"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.738"
+            app:layout_constraintVertical_bias="0.746"
             tools:ignore="MissingConstraints,TextSizeCheck" />
 
         <TextView
@@ -195,25 +195,7 @@
             app:layout_constraintVertical_bias="0.437"
             tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/vmop"
-            android:layout_width="169dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="119dp"
-            android:layout_marginEnd="123dp"
-            android:background="@drawable/text_box"
-            android:padding="10dp"
-            android:text="MODE OF PAYMENT"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.825"
-            tools:ignore="MissingConstraints" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

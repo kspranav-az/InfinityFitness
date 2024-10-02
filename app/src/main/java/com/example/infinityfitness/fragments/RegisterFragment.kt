@@ -219,7 +219,8 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 endDate,
                                 selectedPack,
                                 amount.toString(),
-                                paymentMethod.toString()
+                                paymentMethod.toString(),
+                                phoneNumber
                             )
 
 
@@ -539,7 +540,8 @@ class RegisterFragment : Fragment(R.layout.register) {
         expiryDate: String,
         packageName: String,
         amountPaid: String,
-        paymentMode: String
+        paymentMode: String,
+        phoneNumber: String
     ) {
         try {
             // Step 1: Load the HTML template from assets
@@ -567,7 +569,7 @@ class RegisterFragment : Fragment(R.layout.register) {
             outputStream.close()
 
             // Step 4: Send the file via WhatsApp
-            sendFileViaWhatsApp(file)
+            sendFileViaWhatsApp(file,phoneNumber)
             //openHtmlFile(requireContext(), file)
 
         } catch (e: IOException) {
@@ -576,7 +578,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         }
     }
 
-    private fun sendFileViaWhatsApp(file: File) {
+    private fun sendFileViaWhatsApp(file: File, phoneNumber: String) {
         // Get the URI using FileProvider
         val fileUri: Uri = FileProvider.getUriForFile(
             requireContext(),
@@ -584,12 +586,15 @@ class RegisterFragment : Fragment(R.layout.register) {
             file
         )
 
-        // Create the intent to share via WhatsApp
+
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/html"
+
         intent.putExtra(Intent.EXTRA_STREAM, fileUri)
         intent.setPackage("com.whatsapp")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")
 
         // Check if WhatsApp is installed
         if (intent.resolveActivity(requireContext().packageManager) != null) {
@@ -598,6 +603,7 @@ class RegisterFragment : Fragment(R.layout.register) {
             Log.e("WhatsApp", "WhatsApp not installed")
         }
     }
+
 
     private fun openHtmlFile(context: Context, file: File) {
         // Create an Intent to open the HTML file in a web browser

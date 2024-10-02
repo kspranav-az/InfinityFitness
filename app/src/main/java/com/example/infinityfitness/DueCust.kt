@@ -142,6 +142,13 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
         }
     }
 
+    override fun onBackPressed() {
+
+        if (false){
+            super.onBackPressed()
+        }
+        Toast.makeText(this, "Back button is disabled in this screen.", Toast.LENGTH_SHORT).show()
+    }
 
 
 }

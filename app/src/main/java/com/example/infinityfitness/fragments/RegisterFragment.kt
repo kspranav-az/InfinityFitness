@@ -338,9 +338,6 @@ class RegisterFragment : Fragment(R.layout.register) {
         changeBackgroundOnText(binding.phno)
 
 
-
-
-
     }
 
     @Deprecated("Deprecated in Java")

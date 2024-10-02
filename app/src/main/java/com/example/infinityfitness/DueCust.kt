@@ -147,7 +147,13 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
         if (false){
             super.onBackPressed()
         }
-        Toast.makeText(this, "Back button is disabled in this screen.", Toast.LENGTH_SHORT).show()
+        startActivity(
+            Intent(
+                this,
+                home::class.java
+            )
+        )
+
     }
 
 

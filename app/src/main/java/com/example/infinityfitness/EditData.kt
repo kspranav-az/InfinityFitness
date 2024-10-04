@@ -372,6 +372,8 @@ class EditData : AppCompatActivity() {
         changeBackgroundOnText(binding.edamnt)
         changeBackgroundOnText(binding.edphno)
     }
+
+
     private fun changeBackgroundOnText(editText: EditText) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

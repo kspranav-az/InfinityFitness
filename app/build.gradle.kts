@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -78,6 +79,10 @@ dependencies {
     val viewmodelversion = "2.6.1"
     //noinspection GradleDependency
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodelversion")
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
+    implementation("com.google.firebase:firebase-analytics")
 
 
 }

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.infinityfitness" />
+                  <option name="mobileSdkAppId" value="1:313889727661:android:ef273d7360e55dc9731224" />
+                  <option name="projectId" value="infinityfitness-1b690" />
+                  <option name="projectNumber" value="313889727661" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

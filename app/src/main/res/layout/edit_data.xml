@@ -57,7 +57,7 @@
             app:layout_constraintVertical_bias="0.27"
             tools:ignore="MissingConstraints" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/edadd"
             android:layout_width="266dp"
             android:layout_height="115dp"
@@ -65,7 +65,9 @@
             android:ems="10"
             android:hint="ADDRESS"
             android:inputType="text"
-            android:padding="10dp"
+            android:gravity="start"
+            android:padding="16dp"
+            android:scrollHorizontally="false"
             android:textColor="@color/black"
             android:textColorHint="@color/white"
             android:textStyle="bold"

@@ -5,6 +5,7 @@ import android.Manifest.*
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.ContentProviderOperation
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,6 +15,7 @@ import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -64,7 +66,7 @@ import java.util.*
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-
+import java.io.ByteArrayOutputStream
 
 
 class RegisterFragment : Fragment(R.layout.register) {
@@ -210,6 +212,18 @@ class RegisterFragment : Fragment(R.layout.register) {
                             )
 
                             database.subscriptionDao().insertSubscription(subscription)
+
+                            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_CONTACTS)
+                                != PackageManager.PERMISSION_GRANTED) {
+
+                                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_CONTACTS), 1)
+                            }
+
+                            saveContact(
+                                "$custId | ${customer.name} | GYM",
+                                customer.phoneNumber.toString(), customer.image
+                            )
+
 
                             sendBillToUser(
                                 custId.toString(),
@@ -616,6 +630,75 @@ class RegisterFragment : Fragment(R.layout.register) {
             Log.e("HTML", "No app available to open the file")
         }
     }
+
+    private suspend fun saveContact(contactName: String, phoneNumber: String, contactImage: Bitmap?) {
+        val ops = ArrayList<ContentProviderOperation>()
+
+        // Add the contact's display name
+        ops.add(
+            ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build()
+        )
+
+        // Add the contact's name
+        ops.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contactName)
+                .build()
+        )
+
+        // Add the contact's phone number
+        ops.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneNumber)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                .build()
+        )
+
+        // Add the contact's photo (if provided)
+        contactImage?.let {
+            val imageBytes = bitmapToByteArray(it)
+            ops.add(
+                ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO, imageBytes)
+                    .build()
+            )
+        }
+
+        try {
+            // Execute the operations
+            requireContext().contentResolver.applyBatch(ContactsContract.AUTHORITY, ops)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    requireContext(),
+                    "Contact saved successfully with image!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            withContext(Dispatchers.Main) {
+                Toast.makeText(requireContext(), "Failed to save contact.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    // Helper function to convert a Bitmap to byte array
+    private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
 
 
 

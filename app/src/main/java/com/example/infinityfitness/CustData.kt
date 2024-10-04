@@ -151,6 +151,7 @@ class CustData : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val customer = getCustomerByBillNo(customerId) // Fetch customer data from database
             val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+            val formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
             withContext(Dispatchers.Main) {
                 if (customer != null) {
                     // Populate the views with customer data
@@ -158,7 +159,7 @@ class CustData : AppCompatActivity() {
                     vadd.text = customer.address
                     vage.text = customer.age.toString()
                     vphno.text = customer.phoneNumber
-                    vdate.text = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().toString()
+                    vdate.text = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().format(formatter2).toString()
                     vpack.text = customer.lastPack
                     vsex.text = customer.gender.toString()
                     vimg.setImageBitmap(customer.image)

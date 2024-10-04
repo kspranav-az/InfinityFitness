@@ -66,6 +66,7 @@ import java.util.*
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import kotlinx.coroutines.delay
 import java.io.ByteArrayOutputStream
 
 
@@ -223,8 +224,7 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 "$custId | ${customer.name} | GYM",
                                 customer.phoneNumber.toString(), customer.image
                             )
-
-
+                            delay(3450)
                             sendBillToUser(
                                 custId.toString(),
                                 name,
@@ -520,9 +520,9 @@ class RegisterFragment : Fragment(R.layout.register) {
 
     // Function to reduce image resolution
     private fun reduceImageResolution(originalBitmap: Bitmap): Bitmap {
-        // Define the new width and height (reduce by 50%, for example)
-        val targetWidth = 300
-        val targetHeight = 400
+
+        val targetWidth = 450
+        val targetHeight = 600
 
         // Create a new scaled bitmap with reduced resolution
         return Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true)
@@ -676,6 +676,10 @@ class RegisterFragment : Fragment(R.layout.register) {
         try {
             // Execute the operations
             requireContext().contentResolver.applyBatch(ContactsContract.AUTHORITY, ops)
+
+            // Notify system to refresh contacts
+            notifyContactChanged()
+
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     requireContext(),
@@ -691,6 +695,14 @@ class RegisterFragment : Fragment(R.layout.register) {
             }
         }
     }
+
+    private fun notifyContactChanged() {
+        // Send a broadcast intent to notify the system that contacts were changed
+        val intent = Intent(Intent.ACTION_PROVIDER_CHANGED)
+        intent.data = ContactsContract.Contacts.CONTENT_URI
+        requireContext().sendBroadcast(intent)
+    }
+
 
     // Helper function to convert a Bitmap to byte array
     private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {

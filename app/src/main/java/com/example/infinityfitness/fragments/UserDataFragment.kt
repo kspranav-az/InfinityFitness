@@ -18,6 +18,8 @@ import com.example.infinityfitness.database.entity.Customer
 import kotlinx.coroutines.launch
 import com.example.infinityfitness.Adpater.OnCustomerButtonClickListener
 import com.example.infinityfitness.CustData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -81,21 +83,26 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
 
     private fun setUpRecyclerViewScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!isLoading) {
                     super.onScrolled(recyclerView, dx, dy)
+
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val visibleItemCount = layoutManager.childCount
                     val totalItemCount = layoutManager.itemCount
                     val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-                    if (firstVisibleItemPosition + visibleItemCount >= totalItemCount && totalItemCount >= pageSize) {
-                        loadCustomers() // Only load more customers when at the end
+                    // Check if we have reached the end of the list
+                    if ((firstVisibleItemPosition + visibleItemCount) >= totalItemCount && totalItemCount >= pageSize) {
+                        println("Reached the end, loading more customers...")
+                        loadCustomers() // Load more customers when at the end
                     }
                 }
             }
         })
     }
+
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -120,15 +127,16 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                 )
 
                 val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+                val formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 // Check if newCustomers is empty, which would mean no more data to load
                 if (newCustomers.isNotEmpty()) {
                     val newCustomerCards = newCustomers.map { customer ->
                         CustomerCard(
                             customerName = customer.name,
                             customerId = customer.billNo.toString(),
-                            dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().toString(),
+                            dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().format(formatter2).toString(),
                             imageResourceId = customer.image!!,
-                            joinDate = LocalDateTime.parse(customer.joiningDate.toString() , formatter).toLocalDate().toString()
+                            joinDate = LocalDateTime.parse(customer.joiningDate.toString() , formatter).toLocalDate().format(formatter2).toString()
                         )
                     }
 
@@ -143,7 +151,9 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                         recyclerView.adapter = adapter
                     } else {
                         // Subsequent pages, just notify the adapter
-                        adapter.notifyDataSetChanged()
+                        withContext(Dispatchers.Main) {
+                            adapter.notifyDataSetChanged()
+                        }
                     }
 
                     // Increment the page number for the next fetch

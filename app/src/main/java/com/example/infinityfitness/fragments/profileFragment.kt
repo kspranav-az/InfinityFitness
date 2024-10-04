@@ -3,6 +3,7 @@ package com.example.infinityfitness.fragments
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,14 +12,23 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.infinityfitness.DueCust
 import com.example.infinityfitness.MainActivity
-import com.example.infinityfitness.Manifest
 import com.example.infinityfitness.R
+import com.example.infinityfitness.database.GymDatabase
+import com.google.firebase.iid.Metadata
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageMetadata
+import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 class profileFragment:Fragment(R.layout.profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,6 +37,7 @@ class profileFragment:Fragment(R.layout.profile) {
         val logoutBtn: ImageButton = view.findViewById(R.id.lgout)
         val dueBtn   : ImageButton = view.findViewById(R.id.due)
         val exprt : ImageButton = view.findViewById(R.id.xprt)
+        val imprt : ImageButton = view.findViewById(R.id.imprt)
 
         logoutBtn.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
@@ -46,11 +57,31 @@ class profileFragment:Fragment(R.layout.profile) {
 
             activity?.finish()
         }
+
+        exprt.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                uploadDatabaseWithBackup()
+                withContext(Dispatchers.Main){
+                    Toast.makeText(requireContext(),"Database Exported",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        imprt.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO){
+                importDatabaseWithBackup()
+                withContext(Dispatchers.Main){
+                    Toast.makeText(requireContext(),"Database Imported",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
     }
 
-    private fun getDatabasePath(): File {
-        return requireContext().getDatabasePath("gym_database")
-    }
+//    private fun getDatabasePath(): File {
+//        return requireContext().getDatabasePath("gym_database")
+//    }
 
 
     private fun exportRoomDatabaseToExternalStorage(context: Context) {
@@ -76,7 +107,160 @@ class profileFragment:Fragment(R.layout.profile) {
         }
     }
 
+    private val storageRef: StorageReference = FirebaseStorage.getInstance().reference
+    private val databaseName = "gym_database"
+    private val tempDatabaseName = "temp_gym_database"
 
+    private fun getDatabasePath(): File {
+        val db = GymDatabase.getDatabase(requireContext())
+        db.destroyInstance()
+        val dbPath = requireContext().getDatabasePath(databaseName)
+        Log.d("Database", "Database path: ${dbPath.absolutePath}")
+        return dbPath.absoluteFile
+    }
 
+    fun uploadDatabaseWithBackup() {
+        val dbRef = storageRef.child("databases/$databaseName")
+
+        // Check if the database already exists in Firebase
+        dbRef.metadata.addOnSuccessListener {
+            // If exists, rename it to temp_ prefix
+            renameFileInCloud(dbRef)
+        }.addOnFailureListener {
+            // No existing file, upload new database directly
+            uploadNewDatabase()
+        }
+    }
+
+    private fun renameFileInCloud(dbRef: StorageReference) {
+        val tempDbRef = storageRef.child("databases/$tempDatabaseName")
+
+        val metadata = StorageMetadata.Builder().setCustomMetadata("name", tempDatabaseName).build()
+        // Rename the original database in Firebase by updating its name
+        dbRef.updateMetadata(metadata)
+            .addOnSuccessListener {
+                // Renaming successful, proceed to upload new database
+                uploadNewDatabase()
+            }.addOnFailureListener { e ->
+                Log.e("Firebase", "Failed to rename file in cloud: ${e.message}")
+            }
+    }
+
+    private fun uploadNewDatabase() {
+        val databaseFile = getDatabasePath()
+        val fileUri = Uri.fromFile(databaseFile)
+        val dbRef = storageRef.child("databases/$databaseName")
+
+        val uploadTask = dbRef.putFile(fileUri)
+
+        uploadTask.addOnProgressListener {
+            val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
+            Log.d("Firebase", "Upload progress: $progress%")
+        }
+
+        uploadTask.addOnSuccessListener {
+            Log.d("Firebase", "Database uploaded successfully!")
+            //deleteTempFileInCloud() // Optional: Delete the temp file after success
+        }.addOnFailureListener { e ->
+            Log.e("Firebase", "Failed to upload database: ${e.message}")
+            // Restore the temp file if the upload fails
+            //restoreTempFileInCloud()
+        }
+    }
+
+//    private fun restoreTempFileInCloud() {
+//        val tempDbRef = storageRef.child("databases/$tempDatabaseName")
+//        val originalDbRef = storageRef.child("databases/$databaseName")
+//
+//        val metadata = StorageMetadata.Builder().setCustomMetadata("name", databaseName).build()
+//
+//        // Delete the failed upload first
+//        originalDbRef.delete().addOnSuccessListener {
+//            // Rename temp file back to original
+//            tempDbRef.updateMetadata(metadata)
+//                .addOnSuccessListener {
+//                    Log.d("Firebase", "Restored original database from temp copy.")
+//                }.addOnFailureListener { e ->
+//                    Log.e("Firebase", "Failed to rename temp file back: ${e.message}")
+//                }
+//        }.addOnFailureListener { e ->
+//            Log.e("Firebase", "Failed to delete corrupted file: ${e.message}")
+//        }
+//    }
+
+//    private fun deleteTempFileInCloud() {
+//        val tempDbRef = storageRef.child("databases/$tempDatabaseName")
+//
+//        // Delete the temp file after successful upload
+//        tempDbRef.delete().addOnSuccessListener {
+//            Log.d("Firebase", "Temporary file deleted successfully.")
+//        }.addOnFailureListener { e ->
+//            Log.e("Firebase", "Failed to delete temp file: ${e.message}")
+//        }
+//    }
+
+    private fun importDatabaseWithBackup() {
+        exportLocalDatabase()
+
+        val dbRef = storageRef.child("databases/$databaseName")
+        val localDbFile = getDatabasePath()
+
+        val tempLocalBackup = File(requireContext().getExternalFilesDir(null), "local_gym_database_backup")
+
+        val mon = dbRef.getFile(localDbFile)
+
+        mon.addOnSuccessListener {
+            Log.d("Local" , "Saved at ${localDbFile.absolutePath}")
+            Log.d("Firebase", "Database downloaded and replaced successfully!")
+            tempLocalBackup.delete() // Optionally delete local backup after success
+        }
+        mon.addOnFailureListener { e ->
+            Log.e("Firebase", "Failed to download database: ${e.message}")
+            // Restore the local backup if downloading fails
+            restoreLocalBackup(tempLocalBackup)
+        }
+        mon.addOnProgressListener {
+            val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
+            Log.d("Firebase", "Download progress: $progress%")
+        }
+    }
+
+    private fun exportLocalDatabase() {
+        val localDbFile = getDatabasePath()
+        val externalDir = requireContext().getExternalFilesDir(null)
+        val backupFile = File(externalDir, "local_gym_database_backup")
+
+        try {
+            localDbFile.inputStream().use { input ->
+                backupFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Log.d("Database", "Local database backup created at ${backupFile.path}")
+        } catch (e: IOException) {
+            Log.e("Database", "Failed to create local backup: ${e.message}")
+        }
+    }
+
+    private fun restoreLocalBackup(backupFile: File) {
+        val localDbFile = getDatabasePath()
+
+        try {
+            backupFile.inputStream().use { input ->
+                localDbFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Log.d("Database", "Local database restored from backup.")
+        } catch (e: IOException) {
+            Log.e("Database", "Failed to restore local backup: ${e.message}")
+        }
+    }
 
 }
+
+
+
+
+
+

@@ -48,10 +48,10 @@
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.896"
+            app:layout_constraintHorizontal_bias="0.88"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.976"
+            app:layout_constraintVertical_bias="0.891"
             app:srcCompat="@drawable/logoutbutton"
             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -63,10 +63,10 @@
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.159"
+            app:layout_constraintHorizontal_bias="0.109"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.969"
+            app:layout_constraintVertical_bias="0.885"
             app:srcCompat="@drawable/blue_button"
             tools:ignore="SpeakableTextPresentCheck" />
 

@@ -60,6 +60,7 @@ abstract class GymDatabase : RoomDatabase() {
             }
         }
 
+
         // Function to populate the database with predefined data
         suspend fun populateDatabase(userDao: UserDao, packDao: PackDao) {
             // Add one User
@@ -84,5 +85,10 @@ abstract class GymDatabase : RoomDatabase() {
                 packDao.insertPack(pack)
             }
         }
+    }
+
+    fun destroyInstance() {
+        if (INSTANCE!!.isOpen) INSTANCE!!.close()
+        INSTANCE = null
     }
 }

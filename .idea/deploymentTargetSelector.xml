@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-10-03T11:55:23.204040200Z">
+        <DropdownSelection timestamp="2024-10-04T19:47:24.572697200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=RZ8N8047SFP" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\kspra\.android\avd\SamsumgM31s_API_34.avd" />
             </handle>
           </Target>
         </DropdownSelection>

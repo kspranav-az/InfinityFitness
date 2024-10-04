@@ -76,13 +76,15 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
 
                 println(dueCustomers.orEmpty().toString())
 
+                val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+                val formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 // Map due customers to customer cards
                 val dueCustomerCards = dueCustomers?.map { customer ->
                     CustomerCard(
                         customerName = customer.name,
                         customerId = customer.billNo.toString(),
-                        dueDate = customer.activeTill.date.toString(),
-                        joinDate = customer.joiningDate.toString(),
+                        dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().format(formatter2).toString(),
+                        joinDate = LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().format(formatter2).toString(),
                         imageResourceId = customer.image!! // Use a default image if null
                     )
                 }

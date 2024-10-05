@@ -521,8 +521,8 @@ class RegisterFragment : Fragment(R.layout.register) {
     // Function to reduce image resolution
     private fun reduceImageResolution(originalBitmap: Bitmap): Bitmap {
 
-        val targetWidth = 450
-        val targetHeight = 600
+        val targetWidth = 300
+        val targetHeight = 400
 
         // Create a new scaled bitmap with reduced resolution
         return Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true)

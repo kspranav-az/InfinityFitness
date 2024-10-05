@@ -70,4 +70,19 @@
             app:srcCompat="@drawable/blue_button"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <FrameLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+        </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

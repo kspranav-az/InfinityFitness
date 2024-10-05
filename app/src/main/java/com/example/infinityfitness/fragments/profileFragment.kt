@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,6 +32,10 @@ import kotlinx.coroutines.withContext
 
 
 class profileFragment:Fragment(R.layout.profile) {
+
+    private lateinit var progressLayout: View
+    private lateinit var progressBar: ProgressBar
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,6 +43,8 @@ class profileFragment:Fragment(R.layout.profile) {
         val dueBtn   : ImageButton = view.findViewById(R.id.due)
         val exprt : ImageButton = view.findViewById(R.id.xprt)
         val imprt : ImageButton = view.findViewById(R.id.imprt)
+        progressLayout = view.findViewById(R.id.progress_layout)
+        progressBar = view.findViewById(R.id.progress_bar)
 
         logoutBtn.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
@@ -60,7 +67,9 @@ class profileFragment:Fragment(R.layout.profile) {
 
         exprt.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
+                showProgressBar()
                 uploadDatabaseWithBackup()
+                hideProgressBar()
                 withContext(Dispatchers.Main){
                     Toast.makeText(requireContext(),"Database Exported",Toast.LENGTH_SHORT).show()
                 }
@@ -69,7 +78,9 @@ class profileFragment:Fragment(R.layout.profile) {
 
         imprt.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO){
+                showProgressBar()
                 importDatabaseWithBackup()
+                hideProgressBar()
                 withContext(Dispatchers.Main){
                     Toast.makeText(requireContext(),"Database Imported",Toast.LENGTH_SHORT).show()
                 }
@@ -145,6 +156,19 @@ class profileFragment:Fragment(R.layout.profile) {
                 Log.e("Firebase", "Failed to rename file in cloud: ${e.message}")
             }
     }
+
+    private fun showProgressBar() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            progressLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideProgressBar() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            progressLayout.visibility = View.GONE
+        }
+    }
+
 
     private fun uploadNewDatabase() {
         val databaseFile = getDatabasePath()

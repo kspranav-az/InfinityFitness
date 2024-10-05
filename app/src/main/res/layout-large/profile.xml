@@ -41,22 +41,22 @@
 
     <ImageButton
         android:id="@+id/xprt"
-        android:layout_width="206dp"
-        android:layout_height="100dp"
+        android:layout_width="234dp"
+        android:layout_height="112dp"
         android:background="@null"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.845"
+        app:layout_constraintHorizontal_bias="0.832"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.877"
+        app:layout_constraintVertical_bias="0.897"
         app:srcCompat="@drawable/logoutbutton"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/imprt"
-        android:layout_width="223dp"
+        android:layout_width="230dp"
         android:layout_height="100dp"
         android:background="@null"
         android:scaleType="fitXY"
@@ -68,4 +68,19 @@
         app:layout_constraintVertical_bias="0.888"
         app:srcCompat="@drawable/blue_button"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <FrameLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

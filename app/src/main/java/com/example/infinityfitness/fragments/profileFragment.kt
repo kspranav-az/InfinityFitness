@@ -78,9 +78,7 @@ class profileFragment:Fragment(R.layout.profile) {
 
         imprt.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO){
-                showProgressBar()
                 importDatabaseWithBackup()
-                hideProgressBar()
                 withContext(Dispatchers.Main){
                     Toast.makeText(requireContext(),"Database Imported",Toast.LENGTH_SHORT).show()
                 }
@@ -177,6 +175,8 @@ class profileFragment:Fragment(R.layout.profile) {
 
         val uploadTask = dbRef.putFile(fileUri)
 
+        showProgressBar()
+
         uploadTask.addOnProgressListener {
             val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
             Log.d("Firebase", "Upload progress: $progress%")
@@ -189,6 +189,9 @@ class profileFragment:Fragment(R.layout.profile) {
             Log.e("Firebase", "Failed to upload database: ${e.message}")
             // Restore the temp file if the upload fails
             //restoreTempFileInCloud()
+        }
+        uploadTask.addOnCompleteListener{
+            hideProgressBar()
         }
     }
 
@@ -233,6 +236,8 @@ class profileFragment:Fragment(R.layout.profile) {
 
         val mon = dbRef.getFile(localDbFile)
 
+        showProgressBar()
+
         mon.addOnSuccessListener {
             Log.d("Local" , "Saved at ${localDbFile.absolutePath}")
             Log.d("Firebase", "Database downloaded and replaced successfully!")
@@ -246,6 +251,9 @@ class profileFragment:Fragment(R.layout.profile) {
         mon.addOnProgressListener {
             val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
             Log.d("Firebase", "Download progress: $progress%")
+        }
+        mon.addOnCompleteListener{
+            hideProgressBar()
         }
     }
 

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:background="@drawable/text_box"
         android:id="@+id/enlargedImageView"
         android:layout_width="300dp"
         android:layout_height="300dp"

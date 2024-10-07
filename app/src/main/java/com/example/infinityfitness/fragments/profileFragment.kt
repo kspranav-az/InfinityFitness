@@ -68,8 +68,9 @@ class profileFragment:Fragment(R.layout.profile) {
         exprt.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 uploadDatabaseWithBackup()
-                withContext(Dispatchers.Main){
-                    Toast.makeText(requireContext(),"Database Exported",Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "upload is in progress", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -77,8 +78,9 @@ class profileFragment:Fragment(R.layout.profile) {
         imprt.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO){
                 importDatabaseWithBackup()
-                withContext(Dispatchers.Main){
-                    Toast.makeText(requireContext(),"Database Imported",Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Download in progress", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -183,10 +185,11 @@ class profileFragment:Fragment(R.layout.profile) {
 
         showProgressBar()
 
+
         uploadTask.addOnProgressListener {
             val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
             updateProgressBar(progress.toInt())
-            Toast.makeText(requireContext(), "upload is in progress", Toast.LENGTH_SHORT).show()
+
             Log.d("Firebase", "Upload progress: $progress%")
         }
 
@@ -253,7 +256,9 @@ class profileFragment:Fragment(R.layout.profile) {
             Toast.makeText(requireContext(), "Database is successfully downloaded", Toast.LENGTH_SHORT).show()
             tempLocalBackup.delete() // Optionally delete local backup after success
             hideProgressBar()
+
         }
+
         mon.addOnFailureListener { e ->
             Log.e("Firebase", "Failed to download database: ${e.message}")
             // Restore the local backup if downloading fails
@@ -264,7 +269,7 @@ class profileFragment:Fragment(R.layout.profile) {
         mon.addOnProgressListener {
             val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
             updateProgressBar(progress.toInt())
-            Toast.makeText(requireContext(), "Download in progress", Toast.LENGTH_SHORT).show()
+
             Log.d("Firebase", "Download progress: $progress%")
         }
     }

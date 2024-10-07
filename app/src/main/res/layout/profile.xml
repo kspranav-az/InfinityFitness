@@ -52,7 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.891"
-            app:srcCompat="@drawable/logoutbutton"
+            app:srcCompat="@drawable/exportbutton"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.885"
-            app:srcCompat="@drawable/blue_button"
+            app:srcCompat="@drawable/importbutton"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <FrameLayout

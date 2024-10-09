@@ -224,7 +224,10 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 "$custId | ${customer.name} | GYM",
                                 customer.phoneNumber.toString(), customer.image
                             )
-                            delay(3450)
+
+                            delay(4200)
+
+
                             sendBillToUser(
                                 custId.toString(),
                                 name,

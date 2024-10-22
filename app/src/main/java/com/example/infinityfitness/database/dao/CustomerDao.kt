@@ -26,8 +26,12 @@ interface CustomerDao {
     @Query("SELECT * FROM Customer")
     suspend fun getAllCustomers(): List<Customer>
 
-    @Query("SELECT * FROM Customer WHERE isActive = 1 ORDER BY activeTill ASC")
-    suspend fun getActiveCustomers(): List<Customer>
+    @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
+            "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
+            " THEN billNo = :numericValue ELSE 0 END ))) " +
+            "ORDER BY billNo , name ASC ")
+    suspend fun getActiveCustomers(
+        string: String, isNumeric: Int, numericValue: Int ): List<Customer>
 
     @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
             "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +

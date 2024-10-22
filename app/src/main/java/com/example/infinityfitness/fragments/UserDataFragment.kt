@@ -118,12 +118,11 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                 val numericValue = searchQuery.toIntOrNull() ?: 0
 
                 // Fetch paginated and filtered customers
-                val newCustomers = customerDao.getActiveCustomersPaged(
+                val newCustomers = customerDao.getActiveCustomers(
                     searchQuery,
                     if (isNumeric) 1 else 0,
                     numericValue,
-                    pageSize,
-                    currentPage * pageSize
+
                 )
 
                 val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
@@ -142,19 +141,27 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
 
                     // Append new customers to the list (do not clear the list)
                     customerList.addAll(newCustomerCards)
-
-                    // Notify the adapter of changes
-                    if (currentPage == 0) {
-                        // First page, set adapter
-                        println(customerList.toString())
-                        adapter = CustomerCardAdapter(customerList, this@UserDataFragment)
-                        recyclerView.adapter = adapter
-                    } else {
-                        // Subsequent pages, just notify the adapter
-                        withContext(Dispatchers.Main) {
-                            adapter.notifyDataSetChanged()
-                        }
+                    // First page, set adapter
+                    println(customerList.toString())
+                    adapter = CustomerCardAdapter(customerList, this@UserDataFragment)
+                    recyclerView.adapter = adapter
+                    withContext(Dispatchers.Main) {
+                        adapter.notifyDataSetChanged()
                     }
+
+
+//                    // Notify the adapter of changes
+//                    if (currentPage == 0) {
+//                        // First page, set adapter
+//                        println(customerList.toString())
+//                        adapter = CustomerCardAdapter(customerList, this@UserDataFragment)
+//                        recyclerView.adapter = adapter
+//                    } else {
+//                        // Subsequent pages, just notify the adapter
+//                        withContext(Dispatchers.Main) {
+//                            adapter.notifyDataSetChanged()
+//                        }
+//                    }
 
                     // Increment the page number for the next fetch
                     currentPage++

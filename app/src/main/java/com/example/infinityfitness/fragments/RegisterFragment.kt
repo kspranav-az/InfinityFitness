@@ -28,6 +28,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -78,6 +79,8 @@ class RegisterFragment : Fragment(R.layout.register) {
     private lateinit var database: GymDatabase
     private lateinit var selectedImage : Bitmap
     private var imgselected : Boolean = false
+    private lateinit var progressLayout: View
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,12 +93,16 @@ class RegisterFragment : Fragment(R.layout.register) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // Initialize the Places API with the API key
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), "AIzaSyAJ95y136G--MkKU8VymzB26UjlypFl4G4")
         }
 
         binding = RegisterBinding.bind(view)
+
+        progressLayout = view.findViewById(R.id.progress_layout_r)
+        progressBar = view.findViewById(R.id.progress_bar_r)
 
         binding.add.setOnClickListener {
             // List of place fields you want to fetch
@@ -225,7 +232,19 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 customer.phoneNumber.toString(), customer.image
                             )
 
-                            delay(4200)
+                            withContext(Dispatchers.Main) {
+
+                                showProgressBar()
+
+                            }
+
+                            delay(10000)
+
+                            withContext(Dispatchers.Main) {
+
+                                hideProgressBar()
+
+                            }
 
 
                             sendBillToUser(
@@ -605,7 +624,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         intent.type = "text/html"
 
         intent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        intent.setPackage("com.whatsapp")
+        intent.setPackage("com.whatsapp.w4b")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")
@@ -712,6 +731,18 @@ class RegisterFragment : Fragment(R.layout.register) {
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
         return stream.toByteArray()
+    }
+
+    private fun showProgressBar() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            progressLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideProgressBar() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            progressLayout.visibility = View.GONE
+        }
     }
 
 

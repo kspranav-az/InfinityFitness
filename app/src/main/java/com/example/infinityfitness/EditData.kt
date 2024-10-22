@@ -489,7 +489,7 @@ class EditData : AppCompatActivity() {
         intent.type = "text/html"
 
         intent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        intent.setPackage("com.whatsapp")
+        intent.setPackage("com.whatsapp.w4b")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")

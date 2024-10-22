@@ -5,39 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rectangle"
     android:scaleType="fitXY"
+    android:background="@drawable/homeback"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="819dp"
-        android:layout_height="453dp"
+        android:layout_width="797dp"
+        android:layout_height="492dp"
         android:background="@null"
         android:backgroundTint="@null"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="389dp"
-            android:layout_height="320dp"
-            android:layout_marginStart="88dp"
-            android:layout_marginTop="95dp"
-            android:layout_marginEnd="101dp"
-            android:layout_marginBottom="54dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.585"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:srcCompat="@drawable/profile" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -64,6 +47,7 @@
             android:inputType="text"
             android:padding="10dp"
             android:hint="USERNAME"
+            android:textColor="@color/white"
             android:textColorHint ="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -82,7 +66,7 @@
             android:layout_marginEnd="99dp"
             android:background="@drawable/text_box"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="number"
             android:padding="10dp"
             android:hint="PASSWORD"
             android:textColorHint ="@color/white"

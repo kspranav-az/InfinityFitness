@@ -20,31 +20,32 @@
         app:layout_constraintHorizontal_bias="0.456"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.113"
+        app:layout_constraintVertical_bias="0.076"
         app:srcCompat="@drawable/uploadimage"
         tools:ignore="SpeakableTextPresentCheck" />
+
 
     <EditText
         android:id="@+id/name"
         android:layout_width="500dp"
-        android:maxLines="1"
         android:layout_height="73dp"
         android:layout_marginStart="120dp"
         android:layout_marginEnd="180dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="NAME"
+        android:maxLines="1"
         android:padding="10dp"
-        android:textColorHint="@color/white"
         android:textColor="@color/black"
+        android:textColorHint="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.233"
+        app:layout_constraintVertical_bias="0.203"
         tools:ignore="MissingConstraints" />
-
 
     <AutoCompleteTextView
         android:id="@+id/add"
@@ -54,9 +55,12 @@
         android:layout_marginEnd="170dp"
         android:background="@drawable/text_box"
         android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
+        android:gravity="start"
         android:hint="ADDRESS"
         android:inputType="text"
-        android:gravity="start"
         android:padding="16dp"
         android:scrollHorizontally="false"
         android:textColor="@color/black"
@@ -67,41 +71,41 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.51"
+        app:layout_constraintVertical_bias="0.518"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/age"
-        android:layout_width="139dp"
+        android:layout_width="182dp"
         android:layout_height="63dp"
         android:background="@drawable/text_box"
         android:ems="10"
-        android:inputType="number"
         android:hint="AGE"
+        android:inputType="number"
         android:maxLines="1"
-        android:textAlignment="center"
         android:padding="10dp"
-        android:textColorHint="@color/white"
+        android:textAlignment="center"
         android:textColor="@color/black"
+        android:textColorHint="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.201"
+        app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.397"
+        app:layout_constraintVertical_bias="0.381"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/phno"
-        android:layout_width="202dp"
-        android:layout_height="67dp"
+        android:layout_width="227dp"
+        android:layout_height="68dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="PHONE NUMBER"
         android:inputType="number"
-        android:padding="10dp"
         android:maxLines="1"
+        android:padding="10dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textColorHint="@color/white"
@@ -112,7 +116,7 @@
         app:layout_constraintHorizontal_bias="0.682"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.637"
+        app:layout_constraintVertical_bias="0.653"
         tools:ignore="MissingConstraints,TextSizeCheck" />
 
     <EditText
@@ -128,16 +132,16 @@
         android:maxLines="1"
         android:padding="10dp"
         android:textAlignment="center"
-        android:textColorHint="@color/white"
         android:textColor="@color/black"
+        android:textColorHint="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.787"
+        app:layout_constraintVertical_bias="0.838"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -147,61 +151,64 @@
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="DATE"
+        android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
         android:maxLines="1"
-        android:textAlignment="center"
-        android:inputType="date"
         android:padding="20dp"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.433"
+        app:layout_constraintHorizontal_bias="0.427"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.319" />
+        app:layout_constraintVertical_bias="0.293" />
 
     <Spinner
         android:id="@+id/sex"
         android:layout_width="194dp"
         android:layout_height="63dp"
-        android:textAlignment="center"
         android:background="@drawable/text_box"
         android:spinnerMode="dropdown"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.686"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.398"
+        app:layout_constraintVertical_bias="0.381"
         tools:ignore="MissingConstraints" />
 
     <Spinner
         android:id="@+id/pack"
         android:layout_width="211dp"
         android:layout_height="68dp"
-        android:textAlignment="center"
         android:background="@drawable/text_box"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.249"
+        app:layout_constraintHorizontal_bias="0.203"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.637"
+        app:layout_constraintVertical_bias="0.654"
         tools:ignore="MissingConstraints" />
 
     <Spinner
         android:id="@+id/mop"
         android:layout_width="279dp"
-        android:layout_height="57dp"
-        android:textAlignment="center"
+        android:layout_height="63dp"
         android:background="@drawable/text_box"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintHorizontal_bias="0.439"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.717"
+        app:layout_constraintVertical_bias="0.751"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -213,7 +220,7 @@
         app:layout_constraintHorizontal_bias="0.942"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.06"
+        app:layout_constraintVertical_bias="0.047"
         app:srcCompat="@drawable/profile" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -225,10 +232,10 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.871" />
+        app:layout_constraintVertical_bias="0.96" />
 
     <FrameLayout
         android:id="@+id/progress_layout_r"

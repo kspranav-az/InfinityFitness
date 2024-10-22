@@ -37,12 +37,13 @@
 
         <TextView
             android:id="@+id/vname"
-            android:layout_width="445dp"
-            android:layout_height="50dp"
+            android:layout_width="430dp"
+            android:layout_height="87dp"
             android:layout_marginStart="120dp"
             android:layout_marginEnd="180dp"
             android:background="@drawable/text_box"
             android:inputType="text"
+            android:padding="10dp"
             android:text="NAME"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -50,16 +51,16 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.983"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.22"
+            app:layout_constraintVertical_bias="0.212"
             tools:ignore="MissingConstraints" />
 
         <EditText
             android:id="@+id/vadd"
-            android:layout_width="526dp"
-            android:layout_height="171dp"
+            android:layout_width="586dp"
+            android:layout_height="249dp"
             android:layout_marginStart="120dp"
             android:layout_marginEnd="170dp"
             android:background="@drawable/text_box"
@@ -73,57 +74,58 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.238"
+            app:layout_constraintHorizontal_bias="0.197"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.518"
+            app:layout_constraintVertical_bias="0.644"
             tools:ignore="MissingConstraints" />
+
 
         <TextView
             android:id="@+id/vage"
-            android:layout_width="139dp"
-            android:layout_height="63dp"
+            android:layout_width="163dp"
+            android:layout_height="74dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="text"
             android:padding="10dp"
             android:text="AGE"
-            android:textColor="@color/white"
-            android:textSize="32dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.175"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.384"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/vphno"
-            android:layout_width="202dp"
-            android:layout_height="67dp"
-            android:background="@drawable/text_box"
-            android:padding="10dp"
-            android:text="PHONE NUMBER"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="32dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.74"
+            app:layout_constraintHorizontal_bias="0.188"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.67"
-            tools:ignore="MissingConstraints,TextSizeCheck" />
+            app:layout_constraintVertical_bias="0.422"
+            tools:ignore="MissingConstraints" />
 
+        <TextView
+            android:id="@+id/vphno"
+            android:layout_width="307dp"
+            android:layout_height="85dp"
+            android:background="@drawable/text_box"
+            android:padding="10dp"
+            android:text="PHONE NUMBER"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.807"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.829"
+            tools:ignore="MissingConstraints,TextSizeCheck" />
 
 
         <EditText
             android:id="@+id/vdate"
-            android:layout_width="210dp"
-            android:layout_height="54dp"
+            android:layout_width="214dp"
+            android:layout_height="66dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:inputType="date"
@@ -135,48 +137,48 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.499"
+            app:layout_constraintHorizontal_bias="0.464"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.326" />
 
         <TextView
             android:id="@+id/vsex"
-            android:layout_width="194dp"
-            android:layout_height="63dp"
+            android:layout_width="198dp"
+            android:layout_height="68dp"
             android:background="@drawable/text_box"
             android:padding="10dp"
             android:text="SEX"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="32dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.765"
+            app:layout_constraintHorizontal_bias="0.77"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.384"
+            app:layout_constraintVertical_bias="0.42"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/vpack"
-            android:layout_width="211dp"
-            android:layout_height="68dp"
+            android:layout_width="268dp"
+            android:layout_height="83dp"
             android:background="@drawable/text_box"
             android:padding="10dp"
             android:text="PACKAGE"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="32dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.21"
+            app:layout_constraintHorizontal_bias="0.157"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.67"
+            app:layout_constraintVertical_bias="0.83"
             tools:ignore="MissingConstraints" />
-
-
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/extend"
@@ -187,10 +189,10 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.188"
+            app:layout_constraintHorizontal_bias="0.184"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.965" />
+            app:layout_constraintVertical_bias="0.993" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel"
@@ -204,7 +206,7 @@
             app:layout_constraintHorizontal_bias="0.787"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.965" />
+            app:layout_constraintVertical_bias="0.993" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,22 +12,24 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="286dp"
-        android:layout_height="36dp"
+        android:layout_width="461dp"
+        android:layout_height="83dp"
         android:background="@drawable/text_box"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="VisualLintBounds" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="755dp"
-        android:layout_height="1129dp"
+        android:layout_width="702dp"
+        android:layout_height="926dp"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView"
         tools:listitem="@layout/custcard" />

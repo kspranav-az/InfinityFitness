@@ -7,6 +7,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.ContentProviderOperation
 import android.content.Context
+import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -26,8 +27,10 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
@@ -35,6 +38,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -245,19 +249,42 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 hideProgressBar()
 
                             }
+                            val inflater: LayoutInflater = layoutInflater
+                            val popupView: View = inflater.inflate(R.layout.popup, null)
 
-
-                            sendBillToUser(
-                                custId.toString(),
-                                name,
-                                address,
-                                currentDate,
-                                endDate,
-                                selectedPack,
-                                amount.toString(),
-                                paymentMethod.toString(),
-                                phoneNumber
+                            // Create the PopupWindow
+                            val popupWindow = PopupWindow(
+                                popupView,
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                true
                             )
+                            popupWindow.setBackgroundDrawable(
+                                ContextCompat.getDrawable(requireContext(), android.R.color.transparent)
+                            )
+
+                            // Show the popup window
+                            popupWindow.showAtLocation(view, android.view.Gravity.CENTER, 0, 0)
+
+                            val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
+                            val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
+                            yesb.setOnClickListener {
+                                sendBillToUser(
+                                    custId.toString(),
+                                    name,
+                                    address,
+                                    currentDate,
+                                    endDate,
+                                    selectedPack,
+                                    amount.toString(),
+                                    paymentMethod.toString(),
+                                    phoneNumber
+                                )
+                                popupWindow.dismiss()
+                            }
+                            nob.setOnClickListener{
+                                popupWindow.dismiss()
+                            }
 
 
 

@@ -48,4 +48,7 @@ interface CustomerDao {
             " BY phoneNumber , name ")
     suspend fun queryCustomers(string: String) : List<Customer>
 
+    @Query("SELECT MAX(billNo) FROM Customer")
+    fun getLastPrimaryKey(): Long?
+
 }

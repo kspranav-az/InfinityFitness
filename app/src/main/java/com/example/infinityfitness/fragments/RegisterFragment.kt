@@ -120,6 +120,17 @@ class RegisterFragment : Fragment(R.layout.register) {
         }
 
         database = GymDatabase.getDatabase(this.requireContext())
+
+        lifecycleScope.launch (Dispatchers.IO) {
+            var bill = database.customerDao().getLastPrimaryKey()?.plus(1)
+
+            if (bill != null) {
+                updateBill(bill)
+            } else {
+                updateBill(1)
+            }
+        }
+
         // Handle edge-to-edge and window insets
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -180,6 +191,7 @@ class RegisterFragment : Fragment(R.layout.register) {
                 Toast.makeText(this@RegisterFragment.requireContext(), "Select an image", Toast.LENGTH_SHORT).show()
             }
             else {
+                val bill  = binding.billno.text.toString().toLongOrNull() ?: 0
                 val name = binding.name.text.toString()
                 val address = binding.add?.text.toString()
                 val age = binding.age.text.toString().toIntOrNull() ?: 0
@@ -195,11 +207,12 @@ class RegisterFragment : Fragment(R.layout.register) {
                         val calendar = Calendar.getInstance()
                         val dateformat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                         val currentDate = dateformat.format(calendar.time)
-
+                        var customer = Customer()
                         database.withTransaction {
                             val getPack = database.packDao().getPackByType(selectedPack)
                             val enddate = dateformat.parse(endDate)
-                            val customer = Customer(
+                            customer = Customer(
+                                billNo = bill,
                                 name = name,
                                 gender = gender,
                                 age = age,
@@ -225,14 +238,25 @@ class RegisterFragment : Fragment(R.layout.register) {
 
                             database.subscriptionDao().insertSubscription(subscription)
 
-                            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_CONTACTS)
-                                != PackageManager.PERMISSION_GRANTED) {
+                            if (ContextCompat.checkSelfPermission(
+                                    requireContext(),
+                                    Manifest.permission.WRITE_CONTACTS
+                                )
+                                != PackageManager.PERMISSION_GRANTED
+                            ) {
 
-                                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_CONTACTS), 1)
+                                ActivityCompat.requestPermissions(
+                                    requireActivity(),
+                                    arrayOf(Manifest.permission.WRITE_CONTACTS),
+                                    1
+                                )
                             }
-
+                        }
+                        lifecycleScope.launch(Dispatchers.Main){
+                        Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
+                        }
                             saveContact(
-                                "$custId | ${customer.name} | GYM",
+                                "${customer.billNo} | ${customer.name} | GYM",
                                 customer.phoneNumber.toString(), customer.image
                             )
 
@@ -241,8 +265,16 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 showProgressBar()
 
                             }
+                            delay(4000)
 
-                            delay(18000)
+                            sendWhatsAppMessage(
+                                customer.phoneNumber.toString(),
+                                "Thank you, ${customer.name}, for registering with InfinityFitness!"
+                            )
+
+
+
+                            delay(5000)
 
                             withContext(Dispatchers.Main) {
 
@@ -264,13 +296,14 @@ class RegisterFragment : Fragment(R.layout.register) {
                             )
 
                             // Show the popup window
+                        lifecycleScope.launch(Dispatchers.Main) {
                             popupWindow.showAtLocation(view, android.view.Gravity.CENTER, 0, 0)
-
+                        }
                             val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
                             val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
                             yesb.setOnClickListener {
                                 sendBillToUser(
-                                    custId.toString(),
+                                    customer.billNo.toString(),
                                     name,
                                     address,
                                     currentDate,
@@ -281,6 +314,9 @@ class RegisterFragment : Fragment(R.layout.register) {
                                     phoneNumber
                                 )
                                 popupWindow.dismiss()
+                                lifecycleScope.launch(Dispatchers.Main) {
+                                    setCurrentFragement(HomeFragement())
+                                }
                             }
                             nob.setOnClickListener{
                                 popupWindow.dismiss()
@@ -288,18 +324,10 @@ class RegisterFragment : Fragment(R.layout.register) {
 
 
 
-                        }
-
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
-                            setCurrentFragement(HomeFragement())
-                        }
-
-
 
                     } catch (e: Exception) {
                         Log.e("Register","$e")
-                        withContext(Dispatchers.Main) {
+                        lifecycleScope.launch(Dispatchers.Main) {
                             Toast.makeText(this@RegisterFragment.requireContext() ,
                                 "$e There was an Error while adding" , Toast.LENGTH_SHORT).show()
                             setCurrentFragement(HomeFragement())
@@ -425,8 +453,10 @@ class RegisterFragment : Fragment(R.layout.register) {
         }
     }
 
-    private fun updateBill(number: Number){
-        binding.billno.setText(number.toString())
+    private fun updateBill(number: Long){
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.billno.setText(number.toString())
+        }
     }
 
 

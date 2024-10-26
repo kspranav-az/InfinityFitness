@@ -16,16 +16,20 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -243,17 +247,43 @@ class EditData : AppCompatActivity() {
                             val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
 
                             customer.phoneNumber?.let { it1 ->
-                                sendBillToUser(
-                                    customer.billNo.toString(),
-                                    name,
-                                    address,
-                                    LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().toString(),
-                                    LocalDateTime.parse(enddate.toString(), formatter).toLocalDate().toString(),
-                                    selectedPack,
-                                    amount.toString(),
-                                    paymentMethod,
-                                    it1
+                                val inflater: LayoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                                val popupView: View = inflater.inflate(R.layout.popup, null)
+
+                                // Create the PopupWindow
+                                val popupWindow = PopupWindow(
+                                    popupView,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    true
                                 )
+
+                                // Set the background for the popup
+                                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this@EditData, android.R.color.transparent))
+
+                                // Show the popup window
+                                popupWindow.showAtLocation(save, android.view.Gravity.CENTER, 0, 0)
+
+                                val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
+                                val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
+                                yesb.setOnClickListener {
+                                    sendBillToUser(
+                                        customer.billNo.toString(),
+                                        name,
+                                        address,
+                                        LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().toString(),
+                                        LocalDateTime.parse(enddate.toString(), formatter).toLocalDate().toString(),
+                                        selectedPack,
+                                        amount.toString(),
+                                        paymentMethod,
+                                        it1
+                                    )
+                                    popupWindow.dismiss()
+                                }
+                                nob.setOnClickListener{
+                                    popupWindow.dismiss()
+                                }
+
                             }
                         }
 

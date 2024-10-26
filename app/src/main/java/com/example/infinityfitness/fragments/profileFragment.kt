@@ -6,9 +6,15 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.PopupWindow
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -67,23 +73,94 @@ class profileFragment:Fragment(R.layout.profile) {
 
         exprt.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                uploadDatabaseWithBackup()
+                val inflater: LayoutInflater = layoutInflater
+                val popupView: View = inflater.inflate(R.layout.popup, null)
+
+                // Create the PopupWindow
+                val popupWindow = PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    true
+                )
+                popupWindow.setBackgroundDrawable(
+                    ContextCompat.getDrawable(requireContext(), android.R.color.transparent)
+                )
+                val ed: TextView = popupView.findViewById<TextView>(R.id.Text)
+                ed.setText("do you want to export the data?")
+
+                // Show the popup window
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "upload is in progress", Toast.LENGTH_SHORT)
-                        .show()
+                    // Show the popup window
+                    popupWindow.showAtLocation(view, android.view.Gravity.CENTER, 0, 0)
+                }
+
+                val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
+                val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
+                yesb.setOnClickListener {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        uploadDatabaseWithBackup()
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                requireContext(),
+                                "upload is in progress",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+
+                            popupWindow.dismiss()
+                        }
+                    }
+                }
+                nob.setOnClickListener{
+                    popupWindow.dismiss()
                 }
             }
         }
 
         imprt.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO){
-                importDatabaseWithBackup()
+            lifecycleScope.launch(Dispatchers.IO) {
+                val inflater: LayoutInflater = layoutInflater
+                val popupView: View = inflater.inflate(R.layout.popup, null)
+
+                // Create the PopupWindow
+                val popupWindow = PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    true
+                )
+                popupWindow.setBackgroundDrawable(
+                    ContextCompat.getDrawable(requireContext(), android.R.color.transparent)
+                )
+                val ed: TextView = popupView.findViewById<TextView>(R.id.Text)
+                ed.text = "Do you want to import the data?"
+
+                // Switch to the main thread to show the popup
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "Download in progress", Toast.LENGTH_SHORT)
-                        .show()
+                    // Show the popup window
+                    popupWindow.showAtLocation(view, android.view.Gravity.CENTER, 0, 0)
+                }
+
+                val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
+                val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
+                yesb.setOnClickListener {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        importDatabaseWithBackup()
+                        // Switch back to the main thread to show the toast
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Download in progress", Toast.LENGTH_SHORT)
+                                .show()
+                            popupWindow.dismiss()
+                        }
+                    }
+                }
+                nob.setOnClickListener {
+                    popupWindow.dismiss()
                 }
             }
         }
+
 
 
     }

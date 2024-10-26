@@ -104,7 +104,7 @@
             tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/edage2"
+            android:id="@+id/edage"
             android:layout_width="94dp"
             android:layout_height="40dp"
             android:background="@drawable/text_box"

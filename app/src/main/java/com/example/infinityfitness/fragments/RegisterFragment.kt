@@ -398,6 +398,9 @@ class RegisterFragment : Fragment(R.layout.register) {
         }
     }
 
+    private fun updateBill(number: Number){
+        binding.billno.setText(number.toString())
+    }
 
 
     private fun showDatePickerDialog() {

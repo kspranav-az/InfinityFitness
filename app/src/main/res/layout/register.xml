@@ -107,6 +107,29 @@
         tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <EditText
+        android:id="@+id/billno"
+        android:layout_width="107dp"
+        android:layout_height="48dp"
+        android:background="@drawable/text_box"
+        android:ems="10"
+        android:hint="Bill No"
+        android:inputType="number"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:scaleType="fitXY"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textColorHint="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.103"
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+
+    <EditText
         android:id="@+id/phno"
         android:layout_width="185dp"
         android:layout_height="47dp"

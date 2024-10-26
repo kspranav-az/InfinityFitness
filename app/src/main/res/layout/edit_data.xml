@@ -83,14 +83,35 @@
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/edage"
+            android:id="@+id/edbillno"
+            android:layout_width="94dp"
+            android:layout_height="40dp"
+            android:background="@drawable/text_box"
+            android:ems="10"
+            android:hint="Bill No"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.072"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.036"
+            tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+
+        <EditText
+            android:id="@+id/edage2"
             android:layout_width="94dp"
             android:layout_height="40dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:hint="AGE"
-            android:maxLines="1"
             android:inputType="text"
+            android:maxLines="1"
             android:padding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/white"

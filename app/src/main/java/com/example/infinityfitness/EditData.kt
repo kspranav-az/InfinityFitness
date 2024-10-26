@@ -408,6 +408,12 @@ class EditData : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun updateBill(number: Number){
+        binding.edbillno.setText(number.toString())
+    }
+
+
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

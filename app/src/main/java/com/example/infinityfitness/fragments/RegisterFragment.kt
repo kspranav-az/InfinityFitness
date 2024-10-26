@@ -238,7 +238,7 @@ class RegisterFragment : Fragment(R.layout.register) {
 
                             }
 
-                            delay(10000)
+                            delay(18000)
 
                             withContext(Dispatchers.Main) {
 

@@ -76,9 +76,9 @@ abstract class GymDatabase : RoomDatabase() {
             val packs = listOf(
                 Pack(packId = 1, duration = 30, cost = 1000.0, type = "1 Month"),
                 Pack(packId = 2, duration = 90, cost = 2000.0 , type = "3 Month"),
-                Pack(packId = 3, duration = 180, cost = 4000.0 , type = "6 Months" ),
+                Pack(packId = 3, duration = 180, cost = 4000.0 , type = "6 Month" ),
                 Pack(packId = 4, duration = 365, cost = 8000.0 , type = "1 Year"),
-                Pack(packId = 5, duration = 7, cost = 3000.0 , type = "4 Months"),
+                Pack(packId = 5, duration = 7, cost = 3000.0 , type = "4 Month"),
                 Pack(packId = 6, duration = 15, cost = 200.0, type = "1 Day")
             )
             packs.forEach { pack ->

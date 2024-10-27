@@ -128,6 +128,7 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                 val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
                 val formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 // Check if newCustomers is empty, which would mean no more data to load
+
                 if (newCustomers.isNotEmpty()) {
                     val newCustomerCards = newCustomers.map { customer ->
                         CustomerCard(
@@ -138,6 +139,8 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                             joinDate = LocalDateTime.parse(customer.joiningDate.toString() , formatter).toLocalDate().format(formatter2).toString()
                         )
                     }
+
+                    customerList.clear()
 
                     // Append new customers to the list (do not clear the list)
                     customerList.addAll(newCustomerCards)

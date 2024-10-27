@@ -620,7 +620,7 @@ class RegisterFragment : Fragment(R.layout.register) {
 
     fun sendWhatsAppMessage(phoneNumber: String, message: String) {
         val formattedMessage = Uri.encode(message)
-        val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$formattedMessage")
+        val uri = Uri.parse("https://api.whatsapp.com/send?phone=91$phoneNumber&text=$formattedMessage")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
@@ -684,7 +684,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         intent.type = "text/html"
 
         intent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        intent.setPackage("com.whatsapp.w4b")
+        intent.setPackage("com.whatsapp")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")

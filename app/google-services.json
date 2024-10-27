@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "341678868075",
-    "project_id": "infinityfitness-81e66",
-    "storage_bucket": "infinityfitness-81e66.appspot.com"
+    "project_number": "313889727661",
+    "project_id": "infinityfitness-1b690",
+    "storage_bucket": "infinityfitness-1b690.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:341678868075:android:b86d5a390725ccd983132e",
+        "mobilesdk_app_id": "1:313889727661:android:ef273d7360e55dc9731224",
         "android_client_info": {
           "package_name": "com.example.infinityfitness"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCL4ouWr-nogCVFo2hs8l5o_g4s2cVTZV0"
+          "current_key": "AIzaSyCDvKuJpz2oqlyoPVSZ94ZWTvKjkTfPnwE"
         }
       ],
       "services": {

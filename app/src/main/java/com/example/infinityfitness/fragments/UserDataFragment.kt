@@ -57,12 +57,7 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
         loadCustomers()
 
 
-        // Set up search and infinite scrolling
-        setUpSearchView()
-        setUpRecyclerViewScrollListener()
 
-        // Initially load the first page
-        loadCustomers()
     }
 
     private fun setUpSearchView() {

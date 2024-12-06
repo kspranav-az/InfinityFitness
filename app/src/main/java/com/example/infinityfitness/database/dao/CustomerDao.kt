@@ -10,7 +10,7 @@ interface CustomerDao {
     @Query("SELECT * FROM Customer WHERE billNo = :billNo")
     suspend fun getCustomerByBillNo(billNo: Long): Customer?
 
-    @Query("SELECT * FROM Customer WHERE activeTill <= :dueDate")
+    @Query("SELECT * FROM Customer WHERE activeTill <= :dueDate ORDER BY billNo DESC")
     suspend fun getDueCustomers(dueDate: Date):List<Customer>?
 
 
@@ -23,20 +23,20 @@ interface CustomerDao {
     @Delete
     suspend fun deleteCustomer(customer: Customer)
 
-    @Query("SELECT * FROM Customer")
+    @Query("SELECT * FROM Customer ORDER BY billNo DESC")
     suspend fun getAllCustomers(): List<Customer>
 
     @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
             "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
             " THEN billNo = :numericValue ELSE 0 END ))) " +
-            "ORDER BY billNo , name ASC ")
+            "ORDER BY billNo DESC , name ")
     suspend fun getActiveCustomers(
         string: String, isNumeric: Int, numericValue: Int ): List<Customer>
 
     @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
             "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
             " THEN billNo = :numericValue ELSE 0 END ))) " +
-            "ORDER BY billNo , name ASC LIMIT :limit OFFSET :offset")
+            "ORDER BY billNo DESC , name  LIMIT :limit OFFSET :offset")
     suspend fun getActiveCustomersPaged(
         string: String, isNumeric: Int, numericValue: Int,
         limit: Int, offset: Int): List<Customer>

@@ -246,7 +246,7 @@ class EditData : AppCompatActivity() {
 
                             val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
 
-                            customer.phoneNumber?.let { it1 ->
+
                                 val inflater: LayoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
                                 val popupView: View = inflater.inflate(R.layout.popup, null)
 
@@ -257,34 +257,62 @@ class EditData : AppCompatActivity() {
                                     ViewGroup.LayoutParams.WRAP_CONTENT,
                                     true
                                 )
+                                withContext(Dispatchers.Main) {
 
-                                // Set the background for the popup
-                                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this@EditData, android.R.color.transparent))
+                                    // Set the background for the popup
+                                    popupWindow.setBackgroundDrawable(
+                                        ContextCompat.getDrawable(
+                                            this@EditData,
+                                            android.R.color.transparent
+                                        )
+                                    )
 
-                                // Show the popup window
-                                popupWindow.showAtLocation(save, android.view.Gravity.CENTER, 0, 0)
-
+                                    // Show the popup window
+                                    popupWindow.showAtLocation(
+                                        save,
+                                        android.view.Gravity.CENTER,
+                                        0,
+                                        0
+                                    )
+                                }
                                 val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
                                 val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
+
                                 yesb.setOnClickListener {
-                                    sendBillToUser(
-                                        customer.billNo.toString(),
-                                        name,
-                                        address,
-                                        LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().toString(),
-                                        LocalDateTime.parse(enddate.toString(), formatter).toLocalDate().toString(),
-                                        selectedPack,
-                                        amount.toString(),
-                                        paymentMethod,
-                                        it1
-                                    )
-                                    popupWindow.dismiss()
+                                    customer.phoneNumber?.let { it1 ->
+                                        sendBillToUser(
+                                            customer.billNo.toString(),
+                                            name,
+                                            address,
+                                            LocalDateTime.parse(
+                                                customer.joiningDate.toString(),
+                                                formatter
+                                            ).toLocalDate().toString(),
+                                            LocalDateTime.parse(enddate.toString(), formatter)
+                                                .toLocalDate().toString(),
+                                            selectedPack,
+                                            amount.toString(),
+                                            paymentMethod,
+                                            it1
+                                        )
+                                    }
+                                    lifecycleScope.launch(Dispatchers.Main) {
+                                        popupWindow.dismiss()
+                                        startActivity(
+                                            Intent(
+                                                this@EditData,
+                                                home::class.java
+                                            )
+                                        )
+                                    }
                                 }
                                 nob.setOnClickListener{
-                                    popupWindow.dismiss()
+                                    lifecycleScope.launch(Dispatchers.Main) {
+                                        popupWindow.dismiss()
+                                    }
                                 }
 
-                            }
+
                         }
 
                         withContext(Dispatchers.Main) {
@@ -304,12 +332,7 @@ class EditData : AppCompatActivity() {
 //                    }
                     }
                 }
-                startActivity(
-                    Intent(
-                        this,
-                        home::class.java
-                    )
-                )
+
             }
         }
 

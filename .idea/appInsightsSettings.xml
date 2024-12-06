@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.infinityfitness" />
-                  <option name="mobileSdkAppId" value="1:313889727661:android:ef273d7360e55dc9731224" />
-                  <option name="projectId" value="infinityfitness-1b690" />
-                  <option name="projectNumber" value="313889727661" />
+                  <option name="mobileSdkAppId" value="1:341678868075:android:b86d5a390725ccd983132e" />
+                  <option name="projectId" value="infinityfitness-81e66" />
+                  <option name="projectNumber" value="341678868075" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

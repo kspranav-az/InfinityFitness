@@ -10,7 +10,7 @@ interface CustomerDao {
     @Query("SELECT * FROM Customer WHERE billNo = :billNo")
     suspend fun getCustomerByBillNo(billNo: Long): Customer?
 
-    @Query("SELECT * FROM Customer WHERE activeTill <= :dueDate ORDER BY billNo DESC")
+    @Query("SELECT * FROM Customer WHERE activeTill <= :dueDate ORDER BY activeTill ASC")
     suspend fun getDueCustomers(dueDate: Date):List<Customer>?
 
 

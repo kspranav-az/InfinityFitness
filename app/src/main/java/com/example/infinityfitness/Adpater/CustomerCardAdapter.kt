@@ -17,7 +17,8 @@ data class CustomerCard(
     val customerId: String,
     val dueDate: String,
     val imageResourceId: Bitmap,
-    val joinDate: String
+    val joinDate: String,
+    //val payType: String
 )
 
 // Define a click listener interface for the button
@@ -46,6 +47,7 @@ class CustomerCardAdapter(
         holder.dueTextView.text = customer.dueDate
         holder.joinTextView.text = customer.joinDate
         holder.imageView.setImageBitmap(customer.imageResourceId)
+        //holder.payType.text = customer.payType
 
 
         // Set the click listener for the button
@@ -64,6 +66,7 @@ class CustomerCardAdapter(
             val dueTextView: TextView = itemView.findViewById(R.id.due)
             val joinTextView: TextView = itemView.findViewById(R.id.join)
             val openButton: ImageButton = itemView.findViewById(R.id.Open)
+            //val payType : TextView  = itemView.findViewById(R.id.payType)
         }
 
         override fun getFilter(): Filter {

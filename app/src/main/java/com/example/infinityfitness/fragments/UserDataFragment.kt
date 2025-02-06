@@ -35,7 +35,7 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
 
     private var customerList = mutableListOf<CustomerCard>()
     private var isLoading = false
-    private var currentPage = 0
+    private var currentPage = 1
     private val pageSize = 8
     private var searchQuery: String = ""
 
@@ -117,7 +117,6 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                     searchQuery,
                     if (isNumeric) 1 else 0,
                     numericValue,
-
                 )
 
                 val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
@@ -131,7 +130,8 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                             customerId = customer.billNo.toString(),
                             dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().format(formatter2).toString(),
                             imageResourceId = customer.image!!,
-                            joinDate = LocalDateTime.parse(customer.joiningDate.toString() , formatter).toLocalDate().format(formatter2).toString()
+                            joinDate = LocalDateTime.parse(customer.joiningDate.toString() , formatter).toLocalDate().format(formatter2).toString(),
+                            payType = database.subscriptionDao().getSubscriptionById(customer.billNo)?.paymentMethod.toString()
                         )
                     }
 

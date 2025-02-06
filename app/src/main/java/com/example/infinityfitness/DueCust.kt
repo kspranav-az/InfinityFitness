@@ -85,7 +85,8 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
                         customerId = customer.billNo.toString(),
                         dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().format(formatter2).toString(),
                         joinDate = LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().format(formatter2).toString(),
-                        imageResourceId = customer.image!! // Use a default image if null
+                        imageResourceId = customer.image!!, // Use a default image if null
+                        payType = database.subscriptionDao().getSubscriptionById(customer.billNo)?.paymentMethod.toString()
                     )
                 }
 

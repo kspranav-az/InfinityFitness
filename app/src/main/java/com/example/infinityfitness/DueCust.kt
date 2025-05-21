@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.infinityfitness.Adpater.CustomerCard
@@ -19,6 +23,8 @@ import com.example.infinityfitness.Adpater.OnCustomerButtonClickListener
 import com.example.infinityfitness.R
 import com.example.infinityfitness.database.GymDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -46,7 +52,7 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
         recyclerView.layoutManager = LinearLayoutManager(this@DueCust)
 
         // Create an adapter with an empty listener as no click handling is needed
-        adapter = CustomerCardAdapter(customerList, this@DueCust )
+        adapter = CustomerCardAdapter( this@DueCust )
 
         var btn : ImageButton = findViewById(R.id.back)
 
@@ -57,8 +63,50 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
         recyclerView.adapter = adapter
         database = GymDatabase.getDatabase(this)
 
-        loadDueCustomers()
+        fetchPagedDueCustomers()
     }
+
+    private fun fetchPagedDueCustomers() {
+        isLoading = true
+        val dueDate = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, 3)
+        }.time
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            Pager(
+                config = PagingConfig(
+                    pageSize = 10,
+                    enablePlaceholders = false
+                ),
+                pagingSourceFactory = {
+                    database.customerDao().getDueCustomersPaged(dueDate)!!
+                }
+            ).flow
+                .map { pagingData ->
+                    pagingData.map { customer ->
+                        val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+                        val formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+
+                        CustomerCard(
+                            customerName = customer.name,
+                            customerId = customer.billNo.toString(),
+                            dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter)
+                                .toLocalDate().format(formatter2).toString(),
+                            joinDate = LocalDateTime.parse(customer.joiningDate.toString(), formatter)
+                                .toLocalDate().format(formatter2).toString(),
+                            imageResourceId = customer.image!!,
+                            payType = database.subscriptionDao().getSubscriptionById(customer.billNo)?.paymentMethod!!.toString()
+                        )
+                    }
+                }
+                .cachedIn(lifecycleScope)
+                .collectLatest { pagingData ->
+                    adapter.submitData(pagingData)
+                    isLoading = false
+                }
+        }
+    }
+
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadDueCustomers() {
@@ -103,7 +151,7 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
 
 
                 withContext(Dispatchers.Main) {
-                    adapter = CustomerCardAdapter(customerList, this@DueCust )
+                    adapter = CustomerCardAdapter( this@DueCust )
                     recyclerView.adapter = adapter
                     // Notify the adapter of changes
                     adapter.notifyDataSetChanged()

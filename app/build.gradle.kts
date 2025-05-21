@@ -66,6 +66,10 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
+    implementation("androidx.paging:paging-runtime:3.2.1")
+    implementation("androidx.paging:paging-common-ktx:3.2.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("com.itextpdf:itext7-core:7.1.14")
 
@@ -74,6 +78,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-paging:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     ksp("com.github.bumptech.glide:compiler:4.12.0")

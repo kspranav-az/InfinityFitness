@@ -1,5 +1,6 @@
 package com.example.infinityfitness
 
+import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity
 import java.time.LocalDate
@@ -8,11 +9,14 @@ import com.example.infinityfitness.databinding.EditDataBinding
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -28,7 +32,9 @@ import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
@@ -43,6 +49,8 @@ import com.example.infinityfitness.enums.PaymentMethod
 import com.example.infinityfitness.enums.SEX
 import com.example.infinityfitness.fragments.HomeFragement
 import com.example.infinityfitness.fragments.RegisterFragment.Companion.AUTOCOMPLETE_REQUEST_CODE
+import com.example.infinityfitness.fragments.RegisterFragment.Companion.CAMERA_PERMISSION
+import com.example.infinityfitness.fragments.RegisterFragment.Companion.REQUEST_IMAGE_CAPTURE
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -66,17 +74,27 @@ class EditData : AppCompatActivity() {
     private lateinit var database: GymDatabase
     private lateinit var binding: EditDataBinding
     private  var customer: Customer? = null
+    private var imgChanged = false ;
+    private lateinit var selectedImage : Bitmap
 
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.edit_data)
+
+
         if (!Places.isInitialized()) {
             Places.initialize(this, "AIzaSyAJ95y136G--MkKU8VymzB26UjlypFl4G4")
         }
         database = GymDatabase.getDatabase(this@EditData)
         binding = EditDataBinding.inflate(layoutInflater)
+
+        findViewById<ImageButton>(R.id.edimg).setOnClickListener {
+            Log.d("ImageSelection", "Choosing image source")
+            pickImage()
+        }
+
 
         binding.edadd.setOnClickListener {
             // List of place fields you want to fetch
@@ -142,15 +160,20 @@ class EditData : AppCompatActivity() {
 
 
         lifecycleScope.launch(Dispatchers.IO) {
+
             job.join()
+
             // Populate views with data
             withContext(Dispatchers.Main) {
+
                 // Set initial data in the EditText and Spinners
+                findViewById<EditText>(R.id.edbillno).setText(customer!!.billNo.toString())
                 findViewById<EditText>(R.id.edname).setText(customer!!.name)
                 findViewById<EditText>(R.id.edadd).setText(customer!!.address)
                 findViewById<EditText>(R.id.edage).setText(customer?.age.toString())
                 findViewById<EditText>(R.id.edphno).setText(customer!!.phoneNumber)
-                findViewById<ImageButton>(R.id.edimg).setImageBitmap(customer!!.image)
+                selectedImage = customer!!.image!!
+                findViewById<ImageButton>(R.id.edimg).setImageBitmap(selectedImage)
 
                 // Set initial selection for Package Spinner based on the intent data
                 val packageIndex = resources.getStringArray(R.array.PACKAGE).indexOf(customer!!.lastPack)
@@ -168,6 +191,8 @@ class EditData : AppCompatActivity() {
 
             }
         }
+
+
 
         // Save and Cancel buttons
         val save: Button = findViewById(R.id.save)
@@ -222,7 +247,7 @@ class EditData : AppCompatActivity() {
                                 address = address,
                                 phoneNumber = phoneNumber,
                                 isActive = true,
-                                image = customer!!.image,
+                                image = selectedImage,
                                 lastPack = selectedPack,
                                 activeTill = enddate,
                                 billNo = customerId
@@ -246,7 +271,7 @@ class EditData : AppCompatActivity() {
 
                             val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
 
-                            customer.phoneNumber?.let { it1 ->
+
                                 val inflater: LayoutInflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
                                 val popupView: View = inflater.inflate(R.layout.popup, null)
 
@@ -257,34 +282,62 @@ class EditData : AppCompatActivity() {
                                     ViewGroup.LayoutParams.WRAP_CONTENT,
                                     true
                                 )
+                                withContext(Dispatchers.Main) {
 
-                                // Set the background for the popup
-                                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this@EditData, android.R.color.transparent))
+                                    // Set the background for the popup
+                                    popupWindow.setBackgroundDrawable(
+                                        ContextCompat.getDrawable(
+                                            this@EditData,
+                                            android.R.color.transparent
+                                        )
+                                    )
 
-                                // Show the popup window
-                                popupWindow.showAtLocation(save, android.view.Gravity.CENTER, 0, 0)
-
+                                    // Show the popup window
+                                    popupWindow.showAtLocation(
+                                        save,
+                                        android.view.Gravity.CENTER,
+                                        0,
+                                        0
+                                    )
+                                }
                                 val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
                                 val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
+
                                 yesb.setOnClickListener {
-                                    sendBillToUser(
-                                        customer.billNo.toString(),
-                                        name,
-                                        address,
-                                        LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().toString(),
-                                        LocalDateTime.parse(enddate.toString(), formatter).toLocalDate().toString(),
-                                        selectedPack,
-                                        amount.toString(),
-                                        paymentMethod,
-                                        it1
-                                    )
-                                    popupWindow.dismiss()
+                                    customer.phoneNumber?.let { it1 ->
+                                        sendBillToUser(
+                                            customer.billNo.toString(),
+                                            name,
+                                            address,
+                                            LocalDateTime.parse(
+                                                customer.joiningDate.toString(),
+                                                formatter
+                                            ).toLocalDate().toString(),
+                                            LocalDateTime.parse(enddate.toString(), formatter)
+                                                .toLocalDate().toString(),
+                                            selectedPack,
+                                            amount.toString(),
+                                            paymentMethod,
+                                            it1
+                                        )
+                                    }
+                                    lifecycleScope.launch(Dispatchers.Main) {
+                                        popupWindow.dismiss()
+                                        startActivity(
+                                            Intent(
+                                                this@EditData,
+                                                home::class.java
+                                            )
+                                        )
+                                    }
                                 }
                                 nob.setOnClickListener{
-                                    popupWindow.dismiss()
+                                    lifecycleScope.launch(Dispatchers.Main) {
+                                        popupWindow.dismiss()
+                                    }
                                 }
 
-                            }
+
                         }
 
                         withContext(Dispatchers.Main) {
@@ -304,12 +357,7 @@ class EditData : AppCompatActivity() {
 //                    }
                     }
                 }
-                startActivity(
-                    Intent(
-                        this,
-                        home::class.java
-                    )
-                )
+
             }
         }
 
@@ -553,5 +601,92 @@ class EditData : AppCompatActivity() {
         } else {
             Log.e("HTML", "No app available to open the file")
         }
+    }
+
+    companion object {
+        internal const val AUTOCOMPLETE_REQUEST_CODE = 1
+        private const val REQUEST_IMAGE_CAPTURE = 123
+        private  val READ_EXTERNAL_STORAGE_PERMISSION = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission.READ_MEDIA_IMAGES
+        } else {
+            permission.READ_EXTERNAL_STORAGE
+        }
+        private const val CAMERA_PERMISSION = permission.CAMERA
+    }
+
+    private val getImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if (data != null) {
+                if (data.data != null) { // Image from gallery
+                    val imageUri = data.data!!
+                    binding.edimg.setImageURI(imageUri)
+                    selectedImage = MediaStore.Images.Media
+                        .getBitmap(
+                            this.contentResolver,
+                            imageUri
+                        )
+                    selectedImage = reduceImageResolution(selectedImage)
+                } else { // Image from camera
+                    val imageBitmap = data.extras?.get("data") as Bitmap?
+                    if (imageBitmap != null) {
+                        binding.edimg.setImageBitmap(imageBitmap)
+                        selectedImage = imageBitmap
+                    }
+
+                    selectedImage = reduceImageResolution(selectedImage)
+                }
+
+                imgChanged = true
+            }
+        }
+    }
+
+    // Function to reduce image resolution
+    private fun reduceImageResolution(originalBitmap: Bitmap): Bitmap {
+
+        val targetWidth = 300
+        val targetHeight = 400
+
+        // Create a new scaled bitmap with reduced resolution
+        return Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true)
+    }
+
+    // Call this method when you need to choose an image
+    private fun pickImage() {
+        // Check for permissions (READ and CAMERA)
+        val permissions = mutableListOf(CAMERA_PERMISSION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(permission.READ_MEDIA_IMAGES)
+        } else {
+            permissions.add(permission.READ_EXTERNAL_STORAGE)
+        }
+
+        val missingPermissions = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        if (missingPermissions.isNotEmpty()) {
+            Log.d("ImageSelection", "Started activity for permission")
+            ActivityCompat.requestPermissions(this, missingPermissions.toTypedArray(), REQUEST_IMAGE_CAPTURE)
+        } else {
+            Log.d("ImageSelection", "Started activity for result")
+            chooseImageSource()
+        }
+    }
+
+    private fun chooseImageSource() {
+        val galleryIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+        }
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        val chooser = Intent.createChooser(galleryIntent, "Select Image").apply {
+            putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+        }
+
+        getImage.launch(chooser)
     }
 }

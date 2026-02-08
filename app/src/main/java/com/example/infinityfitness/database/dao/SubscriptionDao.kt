@@ -7,8 +7,8 @@ import com.example.infinityfitness.database.entity.Subscription
 @Dao
 interface SubscriptionDao {
 
-    @Query("SELECT * FROM Subscription WHERE subscriptionId = :subscriptionId")
-    suspend fun getSubscriptionById(subscriptionId: Int): Subscription?
+    @Query("SELECT * FROM Subscription WHERE customerId = :customerId ORDER BY startDate DESC LIMIT 1")
+    suspend fun getSubscriptionById(customerId: Long): Subscription?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSubscription(subscription: Subscription)

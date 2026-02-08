@@ -485,13 +485,13 @@ class RegisterFragment : Fragment(R.layout.register) {
 
     companion object {
         internal const val AUTOCOMPLETE_REQUEST_CODE = 1
-        private const val REQUEST_IMAGE_CAPTURE = 123
+        const val REQUEST_IMAGE_CAPTURE = 123
         private  val READ_EXTERNAL_STORAGE_PERMISSION = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permission.READ_MEDIA_IMAGES
         } else {
             permission.READ_EXTERNAL_STORAGE
         }
-        private const val CAMERA_PERMISSION = permission.CAMERA
+        const val CAMERA_PERMISSION = permission.CAMERA
     }
 
     private val getImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -684,7 +684,7 @@ class RegisterFragment : Fragment(R.layout.register) {
         intent.type = "text/html"
 
         intent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        intent.setPackage("com.whatsapp")
+        intent.setPackage("com.whatsapp.w4b")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")

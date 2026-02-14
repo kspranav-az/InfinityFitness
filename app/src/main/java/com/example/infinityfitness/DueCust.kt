@@ -168,30 +168,42 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
     }
 
     private fun sendWhatsAppMessage(phoneNumber: String, message: String) {
-        val formattedMessage = Uri.encode(message)
-        val uri = Uri.parse("https://api.whatsapp.com/send?phone=91$phoneNumber&text=$formattedMessage")
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        startActivity(intent)
+       // NOTE: Initialize with context. Credentials should ideally come from a secure source.
+       val reportService = com.example.infinityfitness.services.WhatsAppReportService(this)
+       
+       lifecycleScope.launch {
+           try {
+               Toast.makeText(this@DueCust, "Sending Message...", Toast.LENGTH_SHORT).show()
+               reportService.sendText("91$phoneNumber", message)
+               Toast.makeText(this@DueCust, "Message sent!", Toast.LENGTH_SHORT).show()
+           } catch (e: Exception) {
+               Toast.makeText(this@DueCust, "Failed: ${e.message}", Toast.LENGTH_LONG).show()
+               e.printStackTrace()
+           }
+       }
     }
 
     override fun onButtonClick(customer: CustomerCard) {
         val customerDao = database.customerDao()
         lifecycleScope.launch {
             val cus = customerDao.getCustomerByBillNo(customer.customerId.toLong())
-            val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-            val message = "Dear ${cus!!.name},\n" +
-                    "\n" +
-                    "We hope this message finds you well!\n" +
-                    "\n" +
-                    "We wanted to take a moment to remind you that your gym membership is set to expire on ${LocalDateTime.parse(cus.activeTill.toString(), formatter).toLocalDate().toString()}. We value your commitment to your fitness journey and would like to encourage you to renew your membership before the expiration date to continue enjoying all the facilities and benefits we offer.\n" +
-                    "\n" +
-                    "If you have any questions about the renewal process or need assistance, please don’t hesitate to reach out. We’re here to help!\n" +
-                    "\n" +
-                    "Thank you for being a part of our Infinity Fitness family. We look forward to seeing you continue your journey with us!"
-            cus.phoneNumber?.let { sendWhatsAppMessage(it,message) }
-
+             if (cus != null) {
+                val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+                val message = "Dear ${cus.name},\n" +
+                        "\n" +
+                        "We hope this message finds you well!\n" +
+                        "\n" +
+                        "We wanted to take a moment to remind you that your gym membership is set to expire on ${LocalDateTime.parse(cus.activeTill.toString(), formatter).toLocalDate().toString()}. We value your commitment to your fitness journey and would like to encourage you to renew your membership before the expiration date to continue enjoying all the facilities and benefits we offer.\n" +
+                        "\n" +
+                        "If you have any questions about the renewal process or need assistance, please don’t hesitate to reach out. We’re here to help!\n" +
+                        "\n" +
+                        "Thank you for being a part of our Infinity Fitness family. We look forward to seeing you continue your journey with us!"
+                
+                cus.phoneNumber?.let { sendWhatsAppMessage(it, message) }
+            }
         }
     }
+
 
     override fun onBackPressed() {
 

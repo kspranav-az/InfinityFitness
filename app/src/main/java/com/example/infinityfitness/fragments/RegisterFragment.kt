@@ -302,7 +302,11 @@ class RegisterFragment : Fragment(R.layout.register) {
                             val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
                             val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
                             yesb.setOnClickListener {
-                                sendBillToUser(
+                                // Close popup immediately
+                                popupWindow.dismiss()
+                                
+                                // Start the bill preview process
+                                showBillPreviewDialog(
                                     customer.billNo.toString(),
                                     name,
                                     address,
@@ -313,13 +317,21 @@ class RegisterFragment : Fragment(R.layout.register) {
                                     paymentMethod.toString(),
                                     phoneNumber
                                 )
+                                
+                                // Do NOT navigate away immediately. 
+                                // The user will see Toasts for progress.
+                                // You might want to delay navigation or let the user navigate manually.
+                                
+                                // OPTION: Navigate only after success? 
+                                // For now, let's just NOT navigate so the coroutine scope doesn't die.
+                                // If you NEED to navigate, you must use a scope tied to the Application or ViewModel, 
+                                // not the Fragment's lifecycleScope which gets cancelled on navigation.
+                            }
+                            nob.setOnClickListener{
                                 popupWindow.dismiss()
                                 lifecycleScope.launch(Dispatchers.Main) {
                                     setCurrentFragement(HomeFragement())
                                 }
-                            }
-                            nob.setOnClickListener{
-                                popupWindow.dismiss()
                             }
 
 
@@ -619,13 +631,23 @@ class RegisterFragment : Fragment(R.layout.register) {
 
 
     fun sendWhatsAppMessage(phoneNumber: String, message: String) {
-        val formattedMessage = Uri.encode(message)
-        val uri = Uri.parse("https://api.whatsapp.com/send?phone=91$phoneNumber&text=$formattedMessage")
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        startActivity(intent)
+       // NOTE: Initialize with context. Credentials should ideally come from a secure source.
+       // Ideally initialized in onViewCreated or via DI
+       val reportService = com.example.infinityfitness.services.WhatsAppReportService(requireContext())
+       
+       lifecycleScope.launch {
+           try {
+               // Toast.makeText(requireContext(), "Sending Message...", Toast.LENGTH_SHORT).show()
+               reportService.sendText("91$phoneNumber", message)
+               // Toast.makeText(requireContext(), "Message sent!", Toast.LENGTH_SHORT).show()
+           } catch (e: Exception) {
+               Log.e("WhatsApp", "Failed to send message: ${e.message}")
+               e.printStackTrace()
+           }
+       }
     }
 
-    private fun sendBillToUser(
+    private fun showBillPreviewDialog(
         billno : String,
         userName: String,
         userAddress: String,
@@ -637,11 +659,9 @@ class RegisterFragment : Fragment(R.layout.register) {
         phoneNumber: String
     ) {
         try {
-            // Step 1: Load the HTML template from assets
+            // Step 1: Load and Prepare HTML
             val inputStream: InputStream = context?.getAssets()!!.open("Bill.html")
             val htmlTemplate = inputStream.bufferedReader().use { it.readText() }
-
-            // Step 2: Replace placeholders with actual data
             val modifiedHtml = htmlTemplate
                 .replace("#123456", billno)
                 .replace("John Doe", userName)
@@ -652,50 +672,74 @@ class RegisterFragment : Fragment(R.layout.register) {
                 .replace("₹ 12,000", amountPaid)
                 .replace("Credit Card", paymentMode)
 
-            // Step 3: Save the modified HTML to a file
-            val fileName = "user_bill_${System.currentTimeMillis()}.html"
-            val file = File(requireContext().getExternalFilesDir(null), fileName)
+            // Step 2: Show Dialog with WebView
+            val dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.bill_preview_dialog) // We need to create this layout
+            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            
+            val webView = dialog.findViewById<android.webkit.WebView>(R.id.previewWebView)
+            val btnSend = dialog.findViewById<Button>(R.id.btnSendBill)
+            val btnCancel = dialog.findViewById<Button>(R.id.btnCancelBill)
+            
+            webView.settings.javaScriptEnabled = false
+            webView.loadDataWithBaseURL("file:///android_asset/", modifiedHtml, "text/html", "UTF-8", null)
 
+            btnCancel.setOnClickListener { dialog.dismiss() }
 
-            val outputStream = FileOutputStream(file)
-            outputStream.write(modifiedHtml.toByteArray(Charset.defaultCharset()))
-            outputStream.close()
+            btnSend.setOnClickListener {
+                Toast.makeText(requireContext(), "Generating PDF...", Toast.LENGTH_SHORT).show()
+                
+                val fileName = "Invoice_$billno.pdf"
+                val pdfFile = File(requireContext().getExternalFilesDir(null), fileName)
+                val pdfService = com.example.infinityfitness.services.PdfService(requireContext())
+                
+                // capture the ALREADY RENDERING WebView
+                pdfService.createPdfFromWebView(webView, pdfFile, 
+                    onComplete = { file ->
+                        dialog.dismiss()
+                        sendPdfToWhatsApp(phoneNumber, file, fileName, billno)
+                    },
+                    onError = { e ->
+                        Toast.makeText(requireContext(), "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+            
+            dialog.show()
 
-            // Step 4: Send the file via WhatsApp
-            sendFileViaWhatsApp(file,phoneNumber)
-            //openHtmlFile(requireContext(), file)
-
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
-            Log.e("Bill", "Error creating bill")
+            Log.e("Bill", "Error showing preview: ${e.message}")
         }
     }
-
-    private fun sendFileViaWhatsApp(file: File, phoneNumber: String) {
-        // Get the URI using FileProvider
-        val fileUri: Uri = FileProvider.getUriForFile(
-            requireContext(),
-            "${requireActivity().packageName}.provider", // Use the authority defined in AndroidManifest.xml
-            file
-        )
-
-
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/html"
-
-        intent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        intent.setPackage("com.whatsapp.w4b")
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")
-
-        // Check if WhatsApp is installed
-        if (intent.resolveActivity(requireContext().packageManager) != null) {
-            startActivity(intent)
-        } else {
-            Log.e("WhatsApp", "WhatsApp not installed")
-        }
+    
+    private fun sendPdfToWhatsApp(phoneNumber: String, file: File, fileName: String, billNo: String) {
+         val reportService = com.example.infinityfitness.services.WhatsAppReportService(requireContext())
+         Toast.makeText(requireContext(), "Sending Bill...", Toast.LENGTH_SHORT).show()
+         
+         lifecycleScope.launch {
+            reportService.sendPdf(
+                phoneNumber = "91$phoneNumber", 
+                pdfFile = file,
+                billFileName = fileName,
+                caption = "Here is your invoice #$billNo",
+                onProgress = { status -> Log.d("WhatsApp", status) },
+                onError = { error -> 
+                    Log.e("WhatsApp", error)
+                    Toast.makeText(requireContext(), "Failed: $error", Toast.LENGTH_LONG).show()
+                },
+                onSuccess = {
+                    Toast.makeText(requireContext(), "Bill sent successfully!", Toast.LENGTH_SHORT).show()
+                    // Navigate Home
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        setCurrentFragement(HomeFragement())
+                    }
+                }
+            )
+         }
     }
+
 
 
     private fun openHtmlFile(context: Context, file: File) {

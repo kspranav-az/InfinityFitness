@@ -64,22 +64,28 @@
             android:value="AIzaSyAJ95y136G--MkKU8VymzB26UjlypFl4G4" />
         <activity
             android:name=".DueCust"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".RenewalLogActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".EditData"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CustData"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".home"
             android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

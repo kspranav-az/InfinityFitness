@@ -7,62 +7,73 @@
     android:scaleType="fitXY"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+
     android:background="@drawable/homeback"
     tools:context=".MainActivity">
 
+
     <EditText
         android:id="@+id/username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
+        android:layout_width="271dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="26dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:fontFamily="arial"
         android:hint="USERNAME"
         android:inputType="text"
-        android:padding="12dp"
+        android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.58" />
+        app:layout_constraintVertical_bias="0.621" />
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
+        android:layout_width="275dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="74dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="99dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="PASSWORD"
         android:inputType="textPassword"
-        android:padding="12dp"
-        android:textColorHint="@color/white"
+        android:padding="10dp"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/username" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.678" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="137dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="195dp"
         android:background="@drawable/greenbutton"
         android:backgroundTint="@null"
         android:text="LOGIN"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="25dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.134"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.796" />
 </androidx.constraintlayout.widget.ConstraintLayout>

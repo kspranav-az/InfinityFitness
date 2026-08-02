@@ -303,32 +303,27 @@ class EditData : AppCompatActivity() {
                                 val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
                                 val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
 
-                                yesb.setOnClickListener {
-                                    customer.phoneNumber?.let { it1 ->
-                                        sendBillToUser(
-                                            customer.billNo.toString(),
-                                            name,
-                                            address,
-                                            LocalDateTime.parse(
-                                                customer.joiningDate.toString(),
-                                                formatter
-                                            ).toLocalDate().toString(),
-                                            LocalDateTime.parse(enddate.toString(), formatter)
-                                                .toLocalDate().toString(),
-                                            selectedPack,
-                                            amount.toString(),
-                                            paymentMethod,
-                                            it1
-                                        )
-                                    }
+                                    yesb.setOnClickListener {
+                                        customer.phoneNumber?.let { it1 ->
+                                            showBillPreviewDialog(
+                                                customer.billNo.toString(),
+                                                name,
+                                                address,
+                                                LocalDateTime.parse(
+                                                    customer.joiningDate.toString(),
+                                                    formatter
+                                                ).toLocalDate().toString(),
+                                                LocalDateTime.parse(enddate.toString(), formatter)
+                                                    .toLocalDate().toString(),
+                                                selectedPack,
+                                                amount.toString(),
+                                                paymentMethod,
+                                                it1
+                                            )
+                                        }
                                     lifecycleScope.launch(Dispatchers.Main) {
                                         popupWindow.dismiss()
-                                        startActivity(
-                                            Intent(
-                                                this@EditData,
-                                                home::class.java
-                                            )
-                                        )
+                                        // Navigation will happen after bill is sent
                                     }
                                 }
                                 nob.setOnClickListener{
@@ -514,7 +509,7 @@ class EditData : AppCompatActivity() {
         }
 }
 
-    private fun sendBillToUser(
+    private fun showBillPreviewDialog(
         billno : String,
         userName: String,
         userAddress: String,
@@ -526,11 +521,9 @@ class EditData : AppCompatActivity() {
         phoneNumber: String
     ) {
         try {
-            // Step 1: Load the HTML template from assets
-            val inputStream: InputStream = this?.getAssets()!!.open("Bill.html")
+            // Step 1: Load and Prepare HTML
+            val inputStream: InputStream = this.assets.open("Bill.html")
             val htmlTemplate = inputStream.bufferedReader().use { it.readText() }
-
-            // Step 2: Replace placeholders with actual data
             val modifiedHtml = htmlTemplate
                 .replace("#123456", billno)
                 .replace("John Doe", userName)
@@ -541,67 +534,79 @@ class EditData : AppCompatActivity() {
                 .replace("₹ 12,000", amountPaid)
                 .replace("Credit Card", paymentMode)
 
-            // Step 3: Save the modified HTML to a file
-            val fileName = "user_bill_${System.currentTimeMillis()}.html"
-            val file = File(this.getExternalFilesDir(null), fileName)
+            // Step 2: Show Dialog with WebView
+            val dialog = android.app.Dialog(this)
+            dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.bill_preview_dialog) 
+            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            
+            val webView = dialog.findViewById<android.webkit.WebView>(R.id.previewWebView)
+            val btnSend = dialog.findViewById<Button>(R.id.btnSendBill)
+            val btnCancel = dialog.findViewById<Button>(R.id.btnCancelBill)
+            
+            webView.settings.javaScriptEnabled = false
+            webView.loadDataWithBaseURL("file:///android_asset/", modifiedHtml, "text/html", "UTF-8", null)
 
+            btnCancel.setOnClickListener { dialog.dismiss() }
 
-            val outputStream = FileOutputStream(file)
-            outputStream.write(modifiedHtml.toByteArray(Charset.defaultCharset()))
-            outputStream.close()
+            btnSend.setOnClickListener {
+                Toast.makeText(this, "Generating PDF...", Toast.LENGTH_SHORT).show()
+                
+                val fileName = "Invoice_$billno.pdf"
+                val pdfFile = File(this.getExternalFilesDir(null), fileName)
+                val pdfService = com.example.infinityfitness.services.PdfService(this)
+                
+                // capture the ALREADY RENDERING WebView
+                pdfService.createPdfFromWebView(webView, pdfFile, 
+                    onComplete = { file ->
+                        dialog.dismiss()
+                        sendPdfToWhatsApp(phoneNumber, file, fileName, billno)
+                    },
+                    onError = { e ->
+                        Toast.makeText(this, "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+            
+            dialog.show()
 
-            // Step 4: Send the file via WhatsApp
-            sendFileViaWhatsApp(file,phoneNumber)
-            //openHtmlFile(this, file)
-
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
-            Log.e("Bill", "Error creating bill")
+            Log.e("Bill", "Error showing preview: ${e.message}")
         }
     }
-
-    private fun sendFileViaWhatsApp(file: File , phoneNumber: String) {
-        // Get the URI using FileProvider
-        val fileUri: Uri = FileProvider.getUriForFile(
-            this,
-            "${this.packageName}.provider", // Use the authority defined in AndroidManifest.xml
-            file
-        )
-
-
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/html"
-
-        intent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        intent.setPackage("com.whatsapp.w4b")
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        intent.putExtra("jid", "91$phoneNumber@s.whatsapp.net")
-        intent.putExtra(Intent.EXTRA_TEXT,"Bill")
-
-        // Check if WhatsApp is installed
-        if (intent.resolveActivity(this.packageManager) != null) {
-            startActivity(intent)
-        } else {
-            startActivity(intent)
-            Log.e("WhatsApp", "WhatsApp not installed")
-        }
+    
+    private fun sendPdfToWhatsApp(phoneNumber: String, file: File, fileName: String, billNo: String) {
+         val reportService = com.example.infinityfitness.services.WhatsAppReportService(this)
+         Toast.makeText(this, "Sending Bill...", Toast.LENGTH_SHORT).show()
+         
+         lifecycleScope.launch {
+            reportService.sendPdf(
+                phoneNumber = "91$phoneNumber", 
+                pdfFile = file,
+                billFileName = fileName,
+                caption = "Here is your invoice #$billNo",
+                onProgress = { status -> Log.d("WhatsApp", status) },
+                onError = { error -> 
+                    Log.e("WhatsApp", error)
+                    Toast.makeText(this@EditData, "Failed: $error", Toast.LENGTH_LONG).show()
+                },
+                onSuccess = {
+                    Toast.makeText(this@EditData, "Bill sent successfully!", Toast.LENGTH_SHORT).show()
+                    // Navigate Home
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        startActivity(
+                            Intent(
+                                this@EditData,
+                                home::class.java
+                            )
+                        )
+                    }
+                }
+            )
+         }
     }
 
-    private fun openHtmlFile(context: Context, file: File) {
-        // Create an Intent to open the HTML file in a web browser
-        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(uri, "text/html")
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        // Check if any app can handle the intent (browser, for example)
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
-        } else {
-            Log.e("HTML", "No app available to open the file")
-        }
-    }
 
     companion object {
         internal const val AUTOCOMPLETE_REQUEST_CODE = 1

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +7,17 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { stream ->
+        localProperties.load(stream)
+    }
+}
+
+val whatsappToken = localProperties.getProperty("WHATSAPP_TOKEN") ?: ""
+val phoneNumberId = localProperties.getProperty("PHONE_NUMBER_ID") ?: ""
 
 android {
     namespace = "com.example.infinityfitness"
@@ -18,6 +31,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "WHATSAPP_TOKEN", "\"$whatsappToken\"")
+        buildConfigField("String", "PHONE_NUMBER_ID", "\"$phoneNumberId\"")
     }
 
     buildTypes {
@@ -40,7 +55,9 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -93,4 +110,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
 
+
+    // OkHttp & Jackson for Meta API
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
 }

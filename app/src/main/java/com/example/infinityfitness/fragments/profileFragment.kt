@@ -16,6 +16,7 @@ import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import com.example.infinityfitness.RenewalLogActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -47,10 +48,18 @@ class profileFragment:Fragment(R.layout.profile) {
 
         val logoutBtn: ImageButton = view.findViewById(R.id.lgout)
         val dueBtn   : ImageButton = view.findViewById(R.id.due)
+        val renewalLogBtn: Button = view.findViewById(R.id.renewalLog)
         val exprt : ImageButton = view.findViewById(R.id.xprt)
         val imprt : ImageButton = view.findViewById(R.id.imprt)
         progressLayout = view.findViewById(R.id.progress_layout)
         progressBar = view.findViewById(R.id.progress_bar)
+
+        renewalLogBtn.setOnClickListener {
+            val intent = Intent(activity, RenewalLogActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            activity?.finish()
+        }
 
         logoutBtn.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)

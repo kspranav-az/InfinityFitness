@@ -66,6 +66,9 @@
             android:name=".DueCust"
             android:exported="false" />
         <activity
+            android:name=".RenewalLogActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditData"
             android:exported="false" />
         <activity

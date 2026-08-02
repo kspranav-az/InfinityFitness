@@ -39,6 +39,22 @@
         app:srcCompat="@drawable/blue_button"
         tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
 
+    <Button
+        android:id="@+id/renewalLog"
+        android:layout_width="345dp"
+        android:layout_height="111dp"
+        android:background="@drawable/greenbutton"
+        android:text="Renewal Log"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.37" />
+
     <ImageButton
         android:id="@+id/xprt"
         android:layout_width="234dp"

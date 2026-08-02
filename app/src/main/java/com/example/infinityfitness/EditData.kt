@@ -303,30 +303,30 @@ class EditData : AppCompatActivity() {
                                 val yesb: Button = popupView.findViewById<Button>(R.id.yesbtn)
                                 val nob: Button = popupView.findViewById<Button>(R.id.nobtn)
 
-                                    yesb.setOnClickListener {
-                                        customer.phoneNumber?.let { it1 ->
-                                            showBillPreviewDialog(
-                                                customer.billNo.toString(),
-                                                name,
-                                                address,
-                                                LocalDateTime.parse(
-                                                    customer.joiningDate.toString(),
-                                                    formatter
-                                                ).toLocalDate().toString(),
-                                                LocalDateTime.parse(enddate.toString(), formatter)
-                                                    .toLocalDate().toString(),
-                                                selectedPack,
-                                                amount.toString(),
-                                                paymentMethod,
-                                                it1
-                                            )
-                                        }
+                                yesb.setOnClickListener {
+                                    customer.phoneNumber?.let { it1 ->
+                                        showBillPreviewDialog(
+                                            customer.billNo.toString(),
+                                            name,
+                                            address,
+                                            LocalDateTime.parse(
+                                                customer.joiningDate.toString(),
+                                                formatter
+                                            ).toLocalDate().toString(),
+                                            LocalDateTime.parse(enddate.toString(), formatter)
+                                                .toLocalDate().toString(),
+                                            selectedPack,
+                                            amount.toString(),
+                                            paymentMethod,
+                                            it1
+                                        )
+                                    }
                                     lifecycleScope.launch(Dispatchers.Main) {
                                         popupWindow.dismiss()
                                         // Navigation will happen after bill is sent
                                     }
                                 }
-                                nob.setOnClickListener{
+                                nob.setOnClickListener {
                                     lifecycleScope.launch(Dispatchers.Main) {
                                         popupWindow.dismiss()
                                     }

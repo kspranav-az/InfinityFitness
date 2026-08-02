@@ -4,7 +4,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
-    id("kotlin-kapt")
     id("com.google.gms.google-services")
 }
 
@@ -45,9 +44,6 @@ android {
         }
     }
 
-    defaultConfig {
-        applicationId = "com.example.infinityfitness" // Ensure this matches the authority in the manifest
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -77,7 +73,6 @@ dependencies {
     implementation("androidx.activity:activity:1.9.2")
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
     implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
-    implementation("com.google.firebase:firebase-storage-ktx:21.0.1")
     implementation("com.google.firebase:firebase-iid:21.1.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
@@ -96,7 +91,6 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-paging:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     ksp("com.github.bumptech.glide:compiler:4.12.0")
 

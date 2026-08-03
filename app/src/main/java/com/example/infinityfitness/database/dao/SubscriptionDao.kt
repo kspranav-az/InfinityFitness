@@ -1,13 +1,24 @@
 package com.example.infinityfitness.database.dao
 
 
+import android.graphics.Bitmap
 import androidx.room.*
 import com.example.infinityfitness.database.entity.Subscription
+import com.example.infinityfitness.enums.PaymentMethod
+import java.util.Date
 
-data class RenewalSummary(
-    val date: String,
-    val count: Int,
-    val totalAmount: Double
+data class RenewalDetail(
+    val subscriptionId: Long,
+    val customerId: Long,
+    val customerName: String,
+    val billNo: Long,
+    val phoneNumber: String?,
+    val customerImage: Bitmap?,
+    val startDate: Date,
+    val endDate: Date,
+    val finalPrice: Double,
+    val paymentMethod: PaymentMethod,
+    val packType: String?
 )
 
 @Dao
@@ -29,9 +40,45 @@ interface SubscriptionDao {
     suspend fun getSubscriptionsByCustomerId(customerId: Int): List<Subscription>
 
     @Query(
-        "SELECT date(startDate / 1000, 'unixepoch', 'localtime') as date, " +
-                "COUNT(*) as count, SUM(finalPrice) as totalAmount " +
-                "FROM Subscription GROUP BY date ORDER BY date DESC"
+        "SELECT s.subscriptionId, s.customerId, c.name as customerName, c.billNo, c.phoneNumber, " +
+                "c.image as customerImage, s.startDate, s.endDate, s.finalPrice, s.paymentMethod, p.type as packType " +
+                "FROM Subscription s " +
+                "LEFT JOIN Customer c ON s.customerId = c.billNo " +
+                "LEFT JOIN Pack p ON s.packId = p.packId " +
+                "WHERE ( :searchQuery = '' OR " +
+                "c.name LIKE '%' || :searchQuery || '%' OR " +
+                "c.phoneNumber LIKE '%' || :searchQuery || '%' OR " +
+                "( :numericSearch >= 0 AND c.billNo = :numericSearch ) ) " +
+                "ORDER BY s.startDate DESC " +
+                "LIMIT :limit OFFSET :offset"
     )
-    suspend fun getRenewalSummary(): List<RenewalSummary>
+    suspend fun getAllRenewalDetailsPaged(
+        searchQuery: String,
+        numericSearch: Long,
+        limit: Int,
+        offset: Int
+    ): List<RenewalDetail>
+
+    @Query(
+        "SELECT s.subscriptionId, s.customerId, c.name as customerName, c.billNo, c.phoneNumber, " +
+                "c.image as customerImage, s.startDate, s.endDate, s.finalPrice, s.paymentMethod, p.type as packType " +
+                "FROM Subscription s " +
+                "LEFT JOIN Customer c ON s.customerId = c.billNo " +
+                "LEFT JOIN Pack p ON s.packId = p.packId " +
+                "WHERE date(s.startDate / 1000, 'unixepoch', 'localtime') BETWEEN :startDate AND :endDate " +
+                "AND ( :searchQuery = '' OR " +
+                "c.name LIKE '%' || :searchQuery || '%' OR " +
+                "c.phoneNumber LIKE '%' || :searchQuery || '%' OR " +
+                "( :numericSearch >= 0 AND c.billNo = :numericSearch ) ) " +
+                "ORDER BY s.startDate DESC " +
+                "LIMIT :limit OFFSET :offset"
+    )
+    suspend fun getRenewalDetailsByDateRangePaged(
+        startDate: String,
+        endDate: String,
+        searchQuery: String,
+        numericSearch: Long,
+        limit: Int,
+        offset: Int
+    ): List<RenewalDetail>
 }

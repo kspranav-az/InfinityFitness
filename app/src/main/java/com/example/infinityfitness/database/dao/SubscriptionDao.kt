@@ -12,6 +12,7 @@ data class RenewalDetail(
     val customerId: Long,
     val customerName: String,
     val billNo: Long,
+    val displayBillNo: String,
     val phoneNumber: String?,
     val customerImage: Bitmap?,
     val startDate: Date,
@@ -40,13 +41,14 @@ interface SubscriptionDao {
     suspend fun getSubscriptionsByCustomerId(customerId: Int): List<Subscription>
 
     @Query(
-        "SELECT s.subscriptionId, s.customerId, c.name as customerName, c.billNo, c.phoneNumber, " +
+        "SELECT s.subscriptionId, s.customerId, c.name as customerName, c.billNo, c.displayBillNo, c.phoneNumber, " +
                 "c.image as customerImage, s.startDate, s.endDate, s.finalPrice, s.paymentMethod, p.type as packType " +
                 "FROM Subscription s " +
                 "LEFT JOIN Customer c ON s.customerId = c.billNo " +
                 "LEFT JOIN Pack p ON s.packId = p.packId " +
                 "WHERE ( :searchQuery = '' OR " +
                 "c.name LIKE '%' || :searchQuery || '%' OR " +
+                "c.displayBillNo LIKE '%' || :searchQuery || '%' OR " +
                 "c.phoneNumber LIKE '%' || :searchQuery || '%' OR " +
                 "( :numericSearch >= 0 AND c.billNo = :numericSearch ) ) " +
                 "ORDER BY s.startDate DESC " +
@@ -60,7 +62,7 @@ interface SubscriptionDao {
     ): List<RenewalDetail>
 
     @Query(
-        "SELECT s.subscriptionId, s.customerId, c.name as customerName, c.billNo, c.phoneNumber, " +
+        "SELECT s.subscriptionId, s.customerId, c.name as customerName, c.billNo, c.displayBillNo, c.phoneNumber, " +
                 "c.image as customerImage, s.startDate, s.endDate, s.finalPrice, s.paymentMethod, p.type as packType " +
                 "FROM Subscription s " +
                 "LEFT JOIN Customer c ON s.customerId = c.billNo " +
@@ -68,6 +70,7 @@ interface SubscriptionDao {
                 "WHERE date(s.startDate / 1000, 'unixepoch', 'localtime') BETWEEN :startDate AND :endDate " +
                 "AND ( :searchQuery = '' OR " +
                 "c.name LIKE '%' || :searchQuery || '%' OR " +
+                "c.displayBillNo LIKE '%' || :searchQuery || '%' OR " +
                 "c.phoneNumber LIKE '%' || :searchQuery || '%' OR " +
                 "( :numericSearch >= 0 AND c.billNo = :numericSearch ) ) " +
                 "ORDER BY s.startDate DESC " +

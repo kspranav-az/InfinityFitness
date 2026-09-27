@@ -108,12 +108,14 @@
 
     <EditText
         android:id="@+id/billno"
-        android:layout_width="107dp"
+        android:layout_width="140dp"
         android:layout_height="48dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="Bill No"
-        android:inputType="number"
+        android:inputType="none"
+        android:focusable="false"
+        android:clickable="false"
         android:maxLines="1"
         android:padding="10dp"
         android:scaleType="fitXY"

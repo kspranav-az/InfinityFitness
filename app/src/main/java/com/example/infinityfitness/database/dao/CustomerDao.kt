@@ -11,6 +11,12 @@ interface CustomerDao {
     @Query("SELECT * FROM Customer WHERE billNo = :billNo")
     suspend fun getCustomerByBillNo(billNo: Long): Customer?
 
+    @Query("SELECT * FROM Customer WHERE displayBillNo = :displayBillNo LIMIT 1")
+    suspend fun getCustomerByDisplayBillNo(displayBillNo: String): Customer?
+
+    @Query("SELECT displayBillNo FROM Customer WHERE displayBillNo LIKE :prefix || '%' ORDER BY displayBillNo DESC LIMIT 1")
+    suspend fun getMaxDisplayBillNoForPrefix(prefix: String): String?
+
     @Query("SELECT * FROM Customer WHERE activeTill <= :dueDate ORDER BY activeTill DESC")
     suspend fun getDueCustomers(dueDate: Date):List<Customer>?
 
@@ -31,24 +37,29 @@ interface CustomerDao {
     suspend fun getAllCustomers(): List<Customer>
 
     @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
-            "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
-            " THEN billNo = :numericValue ELSE 0 END ))) " +
+            "name LIKE '%' || :string || '%' OR " +
+            "displayBillNo LIKE '%' || :string || '%' OR " +
+            "phoneNumber LIKE '%' || :string || '%' OR " +
+            "(CASE WHEN :isNumeric = 1 THEN billNo = :numericValue ELSE 0 END) ) " +
             "ORDER BY billNo DESC , name ")
     suspend fun getActiveCustomers(
         string: String, isNumeric: Int, numericValue: Int ): List<Customer>
 
     @Query("SELECT * FROM Customer WHERE isActive = 1 AND ( " +
-            "(name LIKE '%' || :string || '%' OR (CASE WHEN :isNumeric = 1" +
-            " THEN billNo = :numericValue ELSE 0 END ))) " +
+            "name LIKE '%' || :string || '%' OR " +
+            "displayBillNo LIKE '%' || :string || '%' OR " +
+            "phoneNumber LIKE '%' || :string || '%' OR " +
+            "(CASE WHEN :isNumeric = 1 THEN billNo = :numericValue ELSE 0 END) ) " +
             "ORDER BY billNo DESC , name ")
     fun getActiveCustomersPaged(
         string: String, isNumeric: Int, numericValue: Int): PagingSource<Int, Customer>
 
 
     @Query(
-        "SELECT * FROM Customer WHERE isActive = 1 AND name LIKE  '%'|| :string || '%' or" +
-            " billNo = '%'|| :string || '%' OR phoneNumber LIKE '%'|| :string || '%' ORDER" +
-            " BY phoneNumber , name ")
+        "SELECT * FROM Customer WHERE isActive = 1 AND ( " +
+            "name LIKE '%'|| :string || '%' OR " +
+            "displayBillNo LIKE '%'|| :string || '%' OR " +
+            "phoneNumber LIKE '%'|| :string || '%' ) ORDER BY phoneNumber , name ")
     suspend fun queryCustomers(string: String) : List<Customer>
 
     @Query("SELECT MAX(billNo) FROM Customer")

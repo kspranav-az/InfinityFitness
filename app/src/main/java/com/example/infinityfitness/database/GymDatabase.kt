@@ -6,6 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.infinityfitness.database.dao.CustomerDao
 import com.example.infinityfitness.database.dao.PackDao
@@ -18,10 +19,13 @@ import com.example.infinityfitness.database.entity.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Database(
     entities = [Customer::class, Pack::class, Subscription::class, User::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -33,6 +37,44 @@ abstract class GymDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
+
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Customer ADD COLUMN displayBillNo TEXT NOT NULL DEFAULT ''")
+
+                val cursor = database.query(
+                    "SELECT billNo, JoiningDate FROM Customer ORDER BY JoiningDate ASC, billNo ASC"
+                )
+                val dateFormat = SimpleDateFormat("yyMM", Locale.getDefault())
+                val counters = mutableMapOf<String, Int>()
+                val updates = mutableListOf<Pair<Long, String>>()
+
+                while (cursor.moveToNext()) {
+                    val billNo = cursor.getLong(cursor.getColumnIndexOrThrow("billNo"))
+                    val joiningDateMillis = cursor.getLong(cursor.getColumnIndexOrThrow("JoiningDate"))
+                    val prefix = "INF-${dateFormat.format(Date(joiningDateMillis))}-"
+                    val nextSerial = counters.getOrDefault(prefix, 0) + 1
+                    counters[prefix] = nextSerial
+                    val displayBillNo = String.format(Locale.getDefault(), "%s%04d", prefix, nextSerial)
+                    updates.add(billNo to displayBillNo)
+                }
+                cursor.close()
+
+                if (updates.isNotEmpty()) {
+                    val statement = database.compileStatement(
+                        "UPDATE Customer SET displayBillNo = ? WHERE billNo = ?"
+                    )
+                    updates.forEach { (billNo, displayBillNo) ->
+                        statement.bindString(1, displayBillNo)
+                        statement.bindLong(2, billNo)
+                        statement.executeUpdateDelete()
+                    }
+                }
+
+                database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_Customer_displayBillNo ON Customer(displayBillNo)")
+            }
+        }
+
         @Volatile
         private var INSTANCE: GymDatabase? = null
 
@@ -43,6 +85,7 @@ abstract class GymDatabase : RoomDatabase() {
                     GymDatabase::class.java,
                     "gym_database"
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)

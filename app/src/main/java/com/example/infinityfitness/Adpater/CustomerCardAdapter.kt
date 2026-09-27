@@ -14,11 +14,12 @@ import android.widget.Filterable
 
 data class CustomerCard(
     val customerName: String,
-    val customerId: String,
+    val customerId: Long,
+    val displayBillNo: String,
     val dueDate: String,
     val imageResourceId: Bitmap,
     val joinDate: String,
-    //val payType: String
+    val payType: String
 )
 
 // Define a click listener interface for the button
@@ -43,11 +44,11 @@ class CustomerCardAdapter(
         val customer = filteredCustomerList[position]
 
         holder.customerNameTextView.text = customer.customerName
-        holder.customerIdTextView.text = customer.customerId
+        holder.customerIdTextView.text = customer.displayBillNo
         holder.dueTextView.text = customer.dueDate
         holder.joinTextView.text = customer.joinDate
         holder.imageView.setImageBitmap(customer.imageResourceId)
-        //holder.payType.text = customer.payType
+        holder.payType.text = customer.payType
 
 
         // Set the click listener for the button
@@ -66,7 +67,7 @@ class CustomerCardAdapter(
             val dueTextView: TextView = itemView.findViewById(R.id.due)
             val joinTextView: TextView = itemView.findViewById(R.id.join)
             val openButton: ImageButton = itemView.findViewById(R.id.Open)
-            //val payType : TextView  = itemView.findViewById(R.id.payType)
+            val payType: TextView = itemView.findViewById(R.id.payType)
         }
 
         override fun getFilter(): Filter {
@@ -78,9 +79,9 @@ class CustomerCardAdapter(
                         customerList
                     } else {
                         customerList.filter {
-                            it.customerName.lowercase().contains(query) || it.customerId.contains(
-                                query
-                            )
+                            it.customerName.lowercase().contains(query) ||
+                                    it.displayBillNo.lowercase().contains(query) ||
+                                    it.customerId.toString().contains(query)
                         }
                     }
 

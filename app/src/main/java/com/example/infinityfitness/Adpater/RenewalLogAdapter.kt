@@ -30,7 +30,7 @@ class RenewalLogAdapter(
         val item = renewalList[position]
         holder.nameTextView.text = item.customerName
         holder.amountTextView.text = "₹ ${String.format("%.2f", item.finalPrice)}"
-        holder.billNoTextView.text = "Bill #${item.billNo}"
+        holder.billNoTextView.text = "Bill #${item.displayBillNo}"
         holder.phoneTextView.text = item.phoneNumber ?: "-"
         holder.dateTextView.text = "Renewed: ${dateFormatter.format(item.startDate)}"
         holder.packTextView.text = item.packType ?: "-"

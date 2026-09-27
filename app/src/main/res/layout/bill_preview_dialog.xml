@@ -30,13 +30,20 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="10dp">
-        
+
         <Button
             android:id="@+id/btnCancelBill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="10dp"/>
+
+        <Button
+            android:id="@+id/btnShareBill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share"
+            android:layout_marginEnd="10dp"/>
 
         <Button
             android:id="@+id/btnSendBill"
@@ -45,7 +52,7 @@
             android:text="Send via WhatsApp"
             android:backgroundTint="#25D366"
             android:textColor="#FFFFFF"/>
-            
+
     </LinearLayout>
 
 </LinearLayout>

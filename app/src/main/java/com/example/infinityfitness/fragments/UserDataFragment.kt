@@ -55,14 +55,6 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
 
         // Initially load the first page
         loadCustomers()
-
-
-        // Set up search and infinite scrolling
-        setUpSearchView()
-        setUpRecyclerViewScrollListener()
-
-        // Initially load the first page
-        loadCustomers()
     }
 
     private fun setUpSearchView() {
@@ -130,14 +122,17 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
                 // Check if newCustomers is empty, which would mean no more data to load
 
                 if (newCustomers.isNotEmpty()) {
+                    val subscriptionDao = database.subscriptionDao()
                     val newCustomerCards = newCustomers.map { customer ->
+                        val latestSubscription = subscriptionDao.getSubscriptionById(customer.billNo)
                         CustomerCard(
                             customerName = customer.name,
-                            customerId = customer.billNo.toString(),
+                            customerId = customer.billNo,
+                            displayBillNo = customer.displayBillNo,
                             dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().format(formatter2).toString(),
                             imageResourceId = customer.image!!,
                             joinDate = LocalDateTime.parse(customer.joiningDate.toString() , formatter).toLocalDate().format(formatter2).toString(),
-                            //payType = customer.
+                            payType = latestSubscription?.paymentMethod?.name ?: "-"
                         )
                     }
 
@@ -184,7 +179,7 @@ class UserDataFragment : Fragment(R.layout.userdata), OnCustomerButtonClickListe
     override fun onButtonClick(customer: CustomerCard) {
         // Start CustDataActivity with the clicked customer data
         val intent = Intent(requireContext(), CustData::class.java).apply {
-            putExtra("customerId", customer.customerId.toLongOrNull())
+            putExtra("customerId", customer.customerId)
         }
         startActivity(intent)
     }

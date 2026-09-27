@@ -32,21 +32,35 @@
             app:srcCompat="@drawable/uploadimage" />
 
         <TextView
+            android:id="@+id/vbillno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/text_box"
+            android:padding="8dp"
+            android:text="BILL NO"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vimg" />
+
+        <TextView
             android:id="@+id/vname"
             android:layout_width="251dp"
             android:layout_height="50dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/text_box"
             android:ems="10"
             android:padding="10dp"
             android:text="NAME"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.534"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.291"
+            app:layout_constraintTop_toBottomOf="@id/vbillno"
             tools:ignore="MissingConstraints" />
 
 

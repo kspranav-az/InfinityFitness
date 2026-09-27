@@ -79,14 +79,17 @@ class DueCust : AppCompatActivity() , OnCustomerButtonClickListener{
                 val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
                 val formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 // Map due customers to customer cards
+                val subscriptionDao = database.subscriptionDao()
                 val dueCustomerCards = dueCustomers?.map { customer ->
+                    val latestSubscription = subscriptionDao.getSubscriptionById(customer.billNo)
                     CustomerCard(
                         customerName = customer.name,
-                        customerId = customer.billNo.toString(),
+                        customerId = customer.billNo,
+                        displayBillNo = customer.displayBillNo,
                         dueDate = LocalDateTime.parse(customer.activeTill.toString(), formatter).toLocalDate().format(formatter2).toString(),
                         joinDate = LocalDateTime.parse(customer.joiningDate.toString(), formatter).toLocalDate().format(formatter2).toString(),
                         imageResourceId = customer.image!!, // Use a default image if null
-                        //payType = customer.
+                        payType = latestSubscription?.paymentMethod?.name ?: "-"
                     )
                 }
 

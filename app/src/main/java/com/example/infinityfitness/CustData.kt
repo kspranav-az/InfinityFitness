@@ -35,6 +35,7 @@ class CustData : AppCompatActivity() {
     private lateinit var extendButton: Button
     private lateinit var cancelButton: Button
     private lateinit var vimg: ImageView
+    private lateinit var vbillno: TextView
     private lateinit var vname: TextView
     private lateinit var vadd: TextView
     private lateinit var vage: TextView
@@ -73,6 +74,7 @@ class CustData : AppCompatActivity() {
         extendButton = findViewById(R.id.extend)
         cancelButton = findViewById(R.id.cancel)
         vimg = findViewById(R.id.vimg)
+        vbillno = findViewById(R.id.vbillno)
         vname = findViewById(R.id.vname)
         vadd = findViewById(R.id.vadd)
         vage = findViewById(R.id.vage)
@@ -155,6 +157,7 @@ class CustData : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 if (customer != null) {
                     // Populate the views with customer data
+                    vbillno.text = customer.displayBillNo
                     vname.text = customer.name
                     vadd.text = customer.address
                     vage.text = customer.age.toString()

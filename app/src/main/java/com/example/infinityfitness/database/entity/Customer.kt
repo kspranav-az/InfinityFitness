@@ -11,7 +11,8 @@ import java.util.Date
 
 @Entity(
     indices = [
-        Index(value = ["billNo"])
+        Index(value = ["billNo"]),
+        Index(value = ["displayBillNo"], unique = true)
     ]
 )
 data class Customer(
@@ -46,12 +47,15 @@ data class Customer(
     @ColumnInfo(name = "isActive")
     var isActive: Boolean = true,
 
+    @ColumnInfo(name = "displayBillNo")
+    var displayBillNo: String = "",
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "billNo")
     var billNo: Long = 0
 ) {
     @Ignore
-    constructor() : this( "", SEX.MALE, 0,null, null, null,Date(),"" , Date() ,true ,100)
+    constructor() : this("", SEX.MALE, 0, null, null, null, Date(), "", Date(), true, "", 100)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -69,18 +73,20 @@ data class Customer(
             if (image != other.image) return false
         } else if (other.image != null) return false
         if (isActive != other.isActive) return false
+        if (displayBillNo != other.displayBillNo) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result =  billNo.toInt()
+        var result = billNo.toInt()
         result = 31 * result + name.hashCode()
         result = 31 * result + gender.hashCode()
         result = 31 * result + (address?.hashCode() ?: 0)
         result = 31 * result + (phoneNumber?.hashCode() ?: 0)
         result = 31 * result + (image?.hashCode() ?: 0)
         result = 31 * result + isActive.hashCode()
+        result = 31 * result + displayBillNo.hashCode()
         return result
     }
 }

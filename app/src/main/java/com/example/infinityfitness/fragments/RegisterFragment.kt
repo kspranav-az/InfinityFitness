@@ -122,12 +122,9 @@ class RegisterFragment : Fragment(R.layout.register) {
         database = GymDatabase.getDatabase(this.requireContext())
 
         lifecycleScope.launch (Dispatchers.IO) {
-            var bill = database.customerDao().getLastPrimaryKey()?.plus(1)
-
-            if (bill != null) {
-                updateBill(bill)
-            } else {
-                updateBill(1)
+            val nextBill = generateNextDisplayBillNo()
+            withContext(Dispatchers.Main) {
+                updateBill(nextBill)
             }
         }
 
@@ -191,7 +188,6 @@ class RegisterFragment : Fragment(R.layout.register) {
                 Toast.makeText(this@RegisterFragment.requireContext(), "Select an image", Toast.LENGTH_SHORT).show()
             }
             else {
-                val bill  = binding.billno.text.toString().toLongOrNull() ?: 0
                 val name = binding.name.text.toString()
                 val address = binding.add?.text.toString()
                 val age = binding.age.text.toString().toIntOrNull() ?: 0
@@ -211,8 +207,8 @@ class RegisterFragment : Fragment(R.layout.register) {
                         database.withTransaction {
                             val getPack = database.packDao().getPackByType(selectedPack)
                             val enddate = dateformat.parse(endDate)
+                            val displayBillNo = generateNextDisplayBillNo()
                             customer = Customer(
-                                billNo = bill,
                                 name = name,
                                 gender = gender,
                                 age = age,
@@ -223,9 +219,11 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 image = selectedImage,
                                 lastPack = selectedPack,
                                 activeTill = enddate,
+                                displayBillNo = displayBillNo
                             )
 
                             val custId = database.customerDao().insertCustomer(customer)
+                            customer.billNo = custId
 
                             val subscription = Subscription(
                                 customerId = custId,
@@ -253,10 +251,11 @@ class RegisterFragment : Fragment(R.layout.register) {
                             }
                         }
                         lifecycleScope.launch(Dispatchers.Main){
-                        Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
+                            binding.billno.setText(customer.displayBillNo)
+                            Toast.makeText(this@RegisterFragment.requireContext(), "Customer added successfully", Toast.LENGTH_SHORT).show()
                         }
                             saveContact(
-                                "${customer.billNo} | ${customer.name} | GYM",
+                                "${customer.displayBillNo} | ${customer.name} | GYM",
                                 customer.phoneNumber.toString(), customer.image
                             )
 
@@ -307,7 +306,7 @@ class RegisterFragment : Fragment(R.layout.register) {
                                 
                                 // Start the bill preview process
                                 showBillPreviewDialog(
-                                    customer.billNo.toString(),
+                                    customer.displayBillNo,
                                     name,
                                     address,
                                     currentDate,
@@ -465,10 +464,22 @@ class RegisterFragment : Fragment(R.layout.register) {
         }
     }
 
-    private fun updateBill(number: Long){
+    private fun updateBill(displayBillNo: String){
         lifecycleScope.launch(Dispatchers.Main) {
-            binding.billno.setText(number.toString())
+            binding.billno.setText(displayBillNo)
         }
+    }
+
+    private suspend fun generateNextDisplayBillNo(): String {
+        val dateFormat = java.text.SimpleDateFormat("yyMM", Locale.getDefault())
+        val prefix = "INF-${dateFormat.format(Date())}-"
+        val maxBillNo = database.customerDao().getMaxDisplayBillNoForPrefix(prefix)
+        val nextSerial = if (maxBillNo != null && maxBillNo.length >= prefix.length + 4) {
+            maxBillNo.substring(prefix.length).toIntOrNull()?.plus(1) ?: 1
+        } else {
+            1
+        }
+        return String.format(Locale.getDefault(), "%s%04d", prefix, nextSerial)
     }
 
 
@@ -680,30 +691,41 @@ class RegisterFragment : Fragment(R.layout.register) {
             
             val webView = dialog.findViewById<android.webkit.WebView>(R.id.previewWebView)
             val btnSend = dialog.findViewById<Button>(R.id.btnSendBill)
+            val btnShare = dialog.findViewById<Button>(R.id.btnShareBill)
             val btnCancel = dialog.findViewById<Button>(R.id.btnCancelBill)
-            
+
             webView.settings.javaScriptEnabled = false
             webView.loadDataWithBaseURL("file:///android_asset/", modifiedHtml, "text/html", "UTF-8", null)
 
             btnCancel.setOnClickListener { dialog.dismiss() }
 
-            btnSend.setOnClickListener {
-                Toast.makeText(requireContext(), "Generating PDF...", Toast.LENGTH_SHORT).show()
-                
+            val generatePdf: ((File) -> Unit, (Exception) -> Unit) -> Unit = { onComplete, onError ->
                 val fileName = "Invoice_$billno.pdf"
                 val pdfFile = File(requireContext().getExternalFilesDir(null), fileName)
                 val pdfService = com.example.infinityfitness.services.PdfService(requireContext())
-                
-                // capture the ALREADY RENDERING WebView
-                pdfService.createPdfFromWebView(webView, pdfFile, 
-                    onComplete = { file ->
-                        dialog.dismiss()
-                        sendPdfToWhatsApp(phoneNumber, file, fileName, billno)
-                    },
-                    onError = { e ->
-                        Toast.makeText(requireContext(), "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                pdfService.createPdfFromWebView(webView, pdfFile,
+                    onComplete = { file -> onComplete(file) },
+                    onError = { e -> onError(e) }
                 )
+            }
+
+            btnSend.setOnClickListener {
+                Toast.makeText(requireContext(), "Generating PDF...", Toast.LENGTH_SHORT).show()
+                generatePdf({ file ->
+                    dialog.dismiss()
+                    sendPdfToWhatsApp(phoneNumber, file, "Invoice_$billno.pdf", billno)
+                }, { e ->
+                    Toast.makeText(requireContext(), "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                })
+            }
+
+            btnShare.setOnClickListener {
+                Toast.makeText(requireContext(), "Generating PDF...", Toast.LENGTH_SHORT).show()
+                generatePdf({ file ->
+                    sharePdf(file, "Invoice_$billno.pdf", billno)
+                }, { e ->
+                    Toast.makeText(requireContext(), "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                })
             }
             
             dialog.show()
@@ -717,15 +739,15 @@ class RegisterFragment : Fragment(R.layout.register) {
     private fun sendPdfToWhatsApp(phoneNumber: String, file: File, fileName: String, billNo: String) {
          val reportService = com.example.infinityfitness.services.WhatsAppReportService(requireContext())
          Toast.makeText(requireContext(), "Sending Bill...", Toast.LENGTH_SHORT).show()
-         
+
          lifecycleScope.launch {
             reportService.sendPdf(
-                phoneNumber = "91$phoneNumber", 
+                phoneNumber = "91$phoneNumber",
                 pdfFile = file,
                 billFileName = fileName,
                 caption = "Here is your invoice #$billNo",
                 onProgress = { status -> Log.d("WhatsApp", status) },
-                onError = { error -> 
+                onError = { error ->
                     Log.e("WhatsApp", error)
                     Toast.makeText(requireContext(), "Failed: $error", Toast.LENGTH_LONG).show()
                 },
@@ -738,6 +760,22 @@ class RegisterFragment : Fragment(R.layout.register) {
                 }
             )
          }
+    }
+
+    private fun sharePdf(file: File, fileName: String, billNo: String) {
+        val uri = androidx.core.content.FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.provider",
+            file
+        )
+        val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(android.content.Intent.EXTRA_STREAM, uri)
+            putExtra(android.content.Intent.EXTRA_SUBJECT, "Invoice #$billNo")
+            putExtra(android.content.Intent.EXTRA_TEXT, "Here is your invoice #$billNo")
+            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(android.content.Intent.createChooser(shareIntent, "Share invoice via"))
     }
 
 

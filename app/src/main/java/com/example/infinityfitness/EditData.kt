@@ -167,7 +167,7 @@ class EditData : AppCompatActivity() {
             withContext(Dispatchers.Main) {
 
                 // Set initial data in the EditText and Spinners
-                findViewById<EditText>(R.id.edbillno).setText(customer!!.billNo.toString())
+                findViewById<EditText>(R.id.edbillno).setText(customer!!.displayBillNo)
                 findViewById<EditText>(R.id.edname).setText(customer!!.name)
                 findViewById<EditText>(R.id.edadd).setText(customer!!.address)
                 findViewById<EditText>(R.id.edage).setText(customer?.age.toString())
@@ -250,6 +250,7 @@ class EditData : AppCompatActivity() {
                                 image = selectedImage,
                                 lastPack = selectedPack,
                                 activeTill = enddate,
+                                displayBillNo = this@EditData.customer?.displayBillNo ?: "",
                                 billNo = customerId
                             )
 
@@ -306,7 +307,7 @@ class EditData : AppCompatActivity() {
                                 yesb.setOnClickListener {
                                     customer.phoneNumber?.let { it1 ->
                                         showBillPreviewDialog(
-                                            customer.billNo.toString(),
+                                            customer.displayBillNo,
                                             name,
                                             address,
                                             LocalDateTime.parse(
@@ -542,30 +543,41 @@ class EditData : AppCompatActivity() {
             
             val webView = dialog.findViewById<android.webkit.WebView>(R.id.previewWebView)
             val btnSend = dialog.findViewById<Button>(R.id.btnSendBill)
+            val btnShare = dialog.findViewById<Button>(R.id.btnShareBill)
             val btnCancel = dialog.findViewById<Button>(R.id.btnCancelBill)
-            
+
             webView.settings.javaScriptEnabled = false
             webView.loadDataWithBaseURL("file:///android_asset/", modifiedHtml, "text/html", "UTF-8", null)
 
             btnCancel.setOnClickListener { dialog.dismiss() }
 
-            btnSend.setOnClickListener {
-                Toast.makeText(this, "Generating PDF...", Toast.LENGTH_SHORT).show()
-                
+            val generatePdf: ((File) -> Unit, (Exception) -> Unit) -> Unit = { onComplete, onError ->
                 val fileName = "Invoice_$billno.pdf"
                 val pdfFile = File(this.getExternalFilesDir(null), fileName)
                 val pdfService = com.example.infinityfitness.services.PdfService(this)
-                
-                // capture the ALREADY RENDERING WebView
-                pdfService.createPdfFromWebView(webView, pdfFile, 
-                    onComplete = { file ->
-                        dialog.dismiss()
-                        sendPdfToWhatsApp(phoneNumber, file, fileName, billno)
-                    },
-                    onError = { e ->
-                        Toast.makeText(this, "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                pdfService.createPdfFromWebView(webView, pdfFile,
+                    onComplete = { file -> onComplete(file) },
+                    onError = { e -> onError(e) }
                 )
+            }
+
+            btnSend.setOnClickListener {
+                Toast.makeText(this, "Generating PDF...", Toast.LENGTH_SHORT).show()
+                generatePdf({ file ->
+                    dialog.dismiss()
+                    sendPdfToWhatsApp(phoneNumber, file, "Invoice_$billno.pdf", billno)
+                }, { e ->
+                    Toast.makeText(this, "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                })
+            }
+
+            btnShare.setOnClickListener {
+                Toast.makeText(this, "Generating PDF...", Toast.LENGTH_SHORT).show()
+                generatePdf({ file ->
+                    sharePdf(file, "Invoice_$billno.pdf", billno)
+                }, { e ->
+                    Toast.makeText(this, "PDF Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                })
             }
             
             dialog.show()
@@ -579,15 +591,15 @@ class EditData : AppCompatActivity() {
     private fun sendPdfToWhatsApp(phoneNumber: String, file: File, fileName: String, billNo: String) {
          val reportService = com.example.infinityfitness.services.WhatsAppReportService(this)
          Toast.makeText(this, "Sending Bill...", Toast.LENGTH_SHORT).show()
-         
+
          lifecycleScope.launch {
             reportService.sendPdf(
-                phoneNumber = "91$phoneNumber", 
+                phoneNumber = "91$phoneNumber",
                 pdfFile = file,
                 billFileName = fileName,
                 caption = "Here is your invoice #$billNo",
                 onProgress = { status -> Log.d("WhatsApp", status) },
-                onError = { error -> 
+                onError = { error ->
                     Log.e("WhatsApp", error)
                     Toast.makeText(this@EditData, "Failed: $error", Toast.LENGTH_LONG).show()
                 },
@@ -605,6 +617,22 @@ class EditData : AppCompatActivity() {
                 }
             )
          }
+    }
+
+    private fun sharePdf(file: File, fileName: String, billNo: String) {
+        val uri = androidx.core.content.FileProvider.getUriForFile(
+            this,
+            "${packageName}.provider",
+            file
+        )
+        val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(android.content.Intent.EXTRA_STREAM, uri)
+            putExtra(android.content.Intent.EXTRA_SUBJECT, "Invoice #$billNo")
+            putExtra(android.content.Intent.EXTRA_TEXT, "Here is your invoice #$billNo")
+            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(android.content.Intent.createChooser(shareIntent, "Share invoice via"))
     }
 
 

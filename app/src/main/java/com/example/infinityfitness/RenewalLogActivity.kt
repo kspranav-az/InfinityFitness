@@ -100,6 +100,11 @@ class RenewalLogActivity : AppCompatActivity() {
 
         etSearch.addTextChangedListener(searchTextWatcher)
         setUpRecyclerViewScrollListener()
+
+        // Default to today
+        val today = displayDateFormat.format(Calendar.getInstance().time)
+        etFromDate.setText(today)
+        etToDate.setText(today)
         loadInitial()
     }
 

@@ -67,6 +67,10 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name=".AnalyticsActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".RenewalLogActivity"
             android:screenOrientation="portrait"
             android:exported="false" />

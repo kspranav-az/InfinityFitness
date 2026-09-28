@@ -65,4 +65,16 @@ interface CustomerDao {
     @Query("SELECT MAX(billNo) FROM Customer")
     fun getLastPrimaryKey(): Long?
 
+    @Query("SELECT COUNT(*) FROM Customer WHERE isActive = 1 AND activeTill >= :today AND gender = 'MALE'")
+    suspend fun getActiveMaleCount(today: Date): Int
+
+    @Query("SELECT COUNT(*) FROM Customer WHERE isActive = 1 AND activeTill >= :today AND gender = 'FEMALE'")
+    suspend fun getActiveFemaleCount(today: Date): Int
+
+    @Query("SELECT COUNT(*) FROM Customer WHERE isActive = 1 AND activeTill >= :today")
+    suspend fun getTotalActiveCount(today: Date): Int
+
+    @Query("SELECT COUNT(*) FROM Customer")
+    suspend fun getTotalCustomerCount(): Int
+
 }
